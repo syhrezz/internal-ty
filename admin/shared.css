@@ -124,7 +124,24 @@
 
 /* ── Collapsible Sidebar Rules ── */
 aside {
-    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 767.98px) {
+    aside {
+        position: fixed !important;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 50;
+        width: 260px !important;
+        transform: translateX(-100%);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
+        background-color: #fff;
+    }
+    aside.mobile-open {
+        transform: translateX(0) !important;
+    }
 }
 
 .sidebar-text {
@@ -132,45 +149,47 @@ aside {
     white-space: nowrap;
 }
 
-/* Collapsed State Styles */
-.sidebar-collapsed {
-    width: 70px !important;
-}
+/* Collapsed State Styles (Desktop only) */
+@media (min-width: 768px) {
+    .sidebar-collapsed {
+        width: 70px !important;
+    }
 
-.sidebar-collapsed .sidebar-text {
-    display: none !important;
-}
+    .sidebar-collapsed .sidebar-text {
+        display: none !important;
+    }
 
-.sidebar-collapsed nav p {
-    font-size: 0;
-    padding: 0 !important;
-    margin: 12px 0 !important;
-    height: 1px;
-    background: #F0EDE8;
-}
+    .sidebar-collapsed nav p {
+        font-size: 0;
+        padding: 0 !important;
+        margin: 12px 0 !important;
+        height: 1px;
+        background: #F0EDE8;
+    }
 
-.sidebar-collapsed .nav-item {
-    justify-content: center;
-    padding: 9px 0;
-    width: 44px;
-    margin-left: auto;
-    margin-right: auto;
-}
+    .sidebar-collapsed .nav-item {
+        justify-content: center;
+        padding: 9px 0;
+        width: 44px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-.sidebar-collapsed .nav-item:hover {
-    transform: none;
-}
+    .sidebar-collapsed .nav-item:hover {
+        transform: none;
+    }
 
-.sidebar-collapsed .nav-item.active::before {
-    left: 0;
-}
+    .sidebar-collapsed .nav-item.active::before {
+        left: 0;
+    }
 
-.sidebar-collapsed .chevron {
-    display: none !important;
-}
+    .sidebar-collapsed .chevron {
+        display: none !important;
+    }
 
-.sidebar-collapsed .submenu {
-    display: none !important;
+    .sidebar-collapsed .submenu {
+        display: none !important;
+    }
 }
 
 /* ── Floating Tooltips (CSS only) ── */
