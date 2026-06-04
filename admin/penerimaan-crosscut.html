@@ -700,6 +700,7 @@
                                 <th
                                     class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">
                                     Volume</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Supplier</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No.
                                     Surat Jalan</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
@@ -795,17 +796,23 @@
                     class="premium-input font-bold text-zinc-800">
             </div>
 
-            <!-- No Surat Jalan & Catatan -->
+            <!-- Supplier & No Surat Jalan & Catatan -->
             <div class="space-y-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">No. Surat Jalan</label>
-                    <input type="text" id="input-surat" placeholder="Contoh: SJ-2026/CC/012" class="premium-input">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
+                        <input type="text" id="input-supplier" placeholder="Contoh: CV. Kayu Mas" class="premium-input">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
+                        <input type="text" id="input-surat" placeholder="Contoh: SJ-2026/CC/012" class="premium-input">
+                    </div>
                 </div>
                 <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Catatan Tambahan</label>
-                    <textarea id="input-catatan" rows="3"
+                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                    <textarea id="input-catatan" rows="2"
                         placeholder="Tambahkan catatan khusus supplier, jenis olahan sisa, dll..."
-                        class="premium-input resize-none"></textarea>
+                        class="premium-input resize-none h-[64px]"></textarea>
                 </div>
             </div>
 
@@ -824,6 +831,10 @@
                     <div class="col-span-2">
                         <span class="text-zinc-400 block text-[10px]">Sumber / Keterangan</span>
                         <span id="preview-sumber" class="font-bold text-zinc-800">-</span>
+                    </div>
+                    <div>
+                        <span class="text-zinc-400 block text-[10px]">Supplier</span>
+                        <span id="preview-supplier" class="font-bold text-zinc-800">-</span>
                     </div>
                     <div>
                         <span class="text-zinc-400 block text-[10px]">No. Surat</span>
@@ -866,16 +877,16 @@
                 logEntries = JSON.parse(saved);
             } else {
                 logEntries = [
-                    { id: 1, tanggal: '2026-06-01', sumber: 'Sisa pembelahan log Jati', volume: 4.80, surat: 'SJ-2601/CC/01', catatan: 'Kayu jati sisa belahan dari log besar' },
-                    { id: 2, tanggal: '2026-06-02', sumber: 'Kupasan Sengon Supplier Adi', volume: 8.50, surat: 'SJ-2602/CC/03', catatan: 'Untuk bahan core veneer lapis' },
-                    { id: 3, tanggal: '2026-06-03', sumber: 'Sisa potongan Meranti merah', volume: 3.25, surat: 'SJ-2603/CC/08', catatan: 'Kualitas sedang' },
-                    { id: 4, tanggal: '2026-06-04', sumber: 'Sisa kupasan Mahoni', volume: 5.12, surat: 'SJ-2604/CC/11', catatan: 'Penerimaan rutin harian' }
+                    { id: 1, tanggal: '2026-06-01', sumber: 'Sisa pembelahan log Jati', volume: 4.80, surat: 'SJ-2601/CC/01', supplier: 'CV. Kayu Mas', catatan: 'Kayu jati sisa belahan dari log besar' },
+                    { id: 2, tanggal: '2026-06-02', sumber: 'Kupasan Sengon Supplier Adi', volume: 8.50, surat: 'SJ-2602/CC/03', supplier: 'UD. Jaya Abadi', catatan: 'Untuk bahan core veneer lapis' },
+                    { id: 3, tanggal: '2026-06-03', sumber: 'Sisa potongan Meranti merah', volume: 3.25, surat: 'SJ-2603/CC/08', supplier: 'CV. Lestari Kayu', catatan: 'Kualitas sedang' },
+                    { id: 4, tanggal: '2026-06-04', sumber: 'Sisa kupasan Mahoni', volume: 5.12, surat: 'SJ-2604/CC/11', supplier: 'UD. Jaya Abadi', catatan: 'Penerimaan rutin harian' }
                 ];
                 saveToLocalStorage();
             }
 
             // Bind live preview listeners
-            const inputs = ['input-tanggal', 'input-sumber', 'input-volume', 'input-surat'];
+            const inputs = ['input-tanggal', 'input-sumber', 'input-volume', 'input-surat', 'input-supplier'];
             inputs.forEach(id => {
                 document.getElementById(id).addEventListener('input', updateLivePreview);
             });
@@ -901,6 +912,7 @@
             document.getElementById('input-sumber').value = '';
             document.getElementById('input-volume').value = '';
             document.getElementById('input-surat').value = '';
+            document.getElementById('input-supplier').value = '';
             document.getElementById('input-catatan').value = '';
 
             // Set default date to today
@@ -921,11 +933,13 @@
             const smb = document.getElementById('input-sumber').value || '-';
             const vol = parseFloat(document.getElementById('input-volume').value) || 0;
             const srt = document.getElementById('input-surat').value || '-';
+            const spl = document.getElementById('input-supplier').value || '-';
 
             document.getElementById('preview-tanggal').innerText = tgl;
             document.getElementById('preview-sumber').innerText = smb;
             document.getElementById('preview-volume').innerText = vol > 0 ? vol.toFixed(2) + ' m³' : '0.00 m³';
             document.getElementById('preview-surat').innerText = srt;
+            document.getElementById('preview-supplier').innerText = spl;
         }
 
         // LocalStorage save
@@ -962,11 +976,12 @@
             const tanggal = document.getElementById('input-tanggal').value;
             const sumber = document.getElementById('input-sumber').value;
             const volume = parseFloat(document.getElementById('input-volume').value);
-            const surat = document.getElementById('input-surat').value;
+            const surat = document.getElementById('input-surat').value.trim();
+            const supplier = document.getElementById('input-supplier').value.trim();
             const catatan = document.getElementById('input-catatan').value;
 
-            if (!tanggal || !sumber || isNaN(volume) || volume <= 0 || !surat) {
-                showToast('Lengkapi semua data bertanda bintang/penting!', 'error');
+            if (!tanggal || !sumber || isNaN(volume) || volume <= 0) {
+                showToast('Lengkapi semua data bertanda penting!', 'error');
                 return;
             }
 
@@ -975,7 +990,8 @@
                 tanggal,
                 sumber,
                 volume,
-                surat,
+                supplier: supplier || '-',
+                surat: surat || '-',
                 catatan
             };
 
@@ -1032,6 +1048,7 @@
                 return searchQuery === '' ||
                     entry.sumber.toLowerCase().includes(searchQuery) ||
                     entry.surat.toLowerCase().includes(searchQuery) ||
+                    (entry.supplier && entry.supplier.toLowerCase().includes(searchQuery)) ||
                     entry.catatan.toLowerCase().includes(searchQuery);
             });
 
@@ -1080,6 +1097,7 @@
                     <td class="py-3.5 px-4 font-bold text-zinc-800">${formatDate(entry.tanggal)}</td>
                     <td class="py-3.5 px-4 font-bold text-zinc-800">${entry.sumber}</td>
                     <td class="py-3.5 px-4 text-right font-extrabold text-violet-700">${entry.volume.toFixed(2)} m³</td>
+                    <td class="py-3.5 px-4 font-bold text-zinc-800">${entry.supplier || '-'}</td>
                     <td class="py-3.5 px-4 font-mono text-[11.5px] text-zinc-500">${entry.surat}</td>
                     <td class="py-3.5 px-4 text-zinc-500 truncate max-w-[200px]" title="${entry.catatan || ''}">${entry.catatan || '-'}</td>
                     <td class="py-3.5 px-4 text-center">

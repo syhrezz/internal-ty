@@ -285,41 +285,7 @@
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
 
-        /* ── Grade Select Cards ── */
-        .grade-card {
-            border: 2px solid #E4E4E7;
-            border-radius: 12px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-            position: relative;
-            overflow: hidden;
-        }
 
-        .grade-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .grade-card.active[data-grade="A"] {
-            border-color: #10B981;
-            background: #ECFDF5;
-        }
-
-        .grade-card.active[data-grade="B"] {
-            border-color: #3B82F6;
-            background: #EFF6FF;
-        }
-
-        .grade-card.active[data-grade="C"] {
-            border-color: #6366F1;
-            background: #EEF2FF;
-        }
-
-        .grade-card.active[data-grade="D"] {
-            border-color: #EF4444;
-            background: #FEF2F2;
-        }
 
         /* ── Size Selector Chips ── */
         .size-chip {
@@ -763,6 +729,7 @@
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran (TxLxP)</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Volume</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Supplier</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-16">Aksi</th>
@@ -845,31 +812,27 @@
                 </div>
             </div>
 
-            <!-- Grade Selection Card Row -->
+            <!-- Grade Selection Chips Row -->
             <div class="space-y-1.5">
                 <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Quality Grade</label>
                 <div class="grid grid-cols-4 gap-2.5">
                     <!-- Grade A -->
-                    <div onclick="selectGrade('A')" id="grade-card-A" data-grade="A" class="grade-card border-emerald-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
+                    <div onclick="selectGrade('A')" id="grade-card-A" class="size-chip">
                         <p class="font-extrabold text-[15px] text-zinc-800">A</p>
                         <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Ekspor/Super</p>
                     </div>
                     <!-- Grade B -->
-                    <div onclick="selectGrade('B')" id="grade-card-B" data-grade="B" class="grade-card border-blue-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
+                    <div onclick="selectGrade('B')" id="grade-card-B" class="size-chip">
                         <p class="font-extrabold text-[15px] text-zinc-800">B</p>
                         <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 1</p>
                     </div>
                     <!-- Grade C -->
-                    <div onclick="selectGrade('C')" id="grade-card-C" data-grade="C" class="grade-card border-indigo-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-indigo-500"></div>
+                    <div onclick="selectGrade('C')" id="grade-card-C" class="size-chip">
                         <p class="font-extrabold text-[15px] text-zinc-800">C</p>
                         <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 2</p>
                     </div>
                     <!-- Grade D -->
-                    <div onclick="selectGrade('D')" id="grade-card-D" data-grade="D" class="grade-card border-red-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-red-500"></div>
+                    <div onclick="selectGrade('D')" id="grade-card-D" class="size-chip">
                         <p class="font-extrabold text-[15px] text-zinc-800">D</p>
                         <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Reject/Palet</p>
                     </div>
@@ -899,15 +862,21 @@
                 </div>
             </div>
 
-            <!-- No Surat Jalan & Catatan -->
+            <!-- Supplier & No Surat Jalan & Catatan -->
             <div class="space-y-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">No. Surat Jalan</label>
-                    <input type="text" id="input-surat" placeholder="Contoh: SJ-2026/06/009" class="premium-input">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
+                        <input type="text" id="input-supplier" placeholder="Contoh: CV. Kayu Abadi" class="premium-input">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
+                        <input type="text" id="input-surat" placeholder="Contoh: SJ-2026/06/009" class="premium-input">
+                    </div>
                 </div>
                 <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Catatan Tambahan</label>
-                    <textarea id="input-catatan" rows="2" placeholder="Catatan supplier, lokasi tumpukan gudang, dll..." class="premium-input resize-none"></textarea>
+                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                    <textarea id="input-catatan" rows="2" placeholder="Catatan supplier, lokasi tumpukan gudang, dll..." class="premium-input resize-none h-[64px]"></textarea>
                 </div>
             </div>
 
@@ -936,6 +905,10 @@
                         <span id="preview-volume" class="font-bold text-emerald-700 font-extrabold">-</span>
                     </div>
                     <div>
+                        <span class="text-zinc-400 block text-[10px]">Supplier</span>
+                        <span id="preview-supplier" class="font-bold text-zinc-800">-</span>
+                    </div>
+                    <div class="col-span-3">
                         <span class="text-zinc-400 block text-[10px]">No. Surat</span>
                         <span id="preview-surat" class="font-bold text-zinc-800">-</span>
                     </div>
@@ -1032,11 +1005,11 @@
                 logEntries = JSON.parse(savedEntries);
             } else {
                 logEntries = [
-                    { id: 1, tanggal: '2026-06-01', jenis: 'Sengon', grade: 'A', size: '5×15×200', jumlah: 200, volume: 3.0000, surat: 'SJ-2601/SNG/12', catatan: 'Sawtimber super mulus' },
-                    { id: 2, tanggal: '2026-06-01', jenis: 'Jati', grade: 'A', size: '7×15×400', jumlah: 50, volume: 2.1000, surat: 'SJ-2601/JAT/06', catatan: 'Papan jati tebal lurus' },
-                    { id: 3, tanggal: '2026-06-02', jenis: 'Meranti', grade: 'B', size: '4×10×400', jumlah: 150, volume: 2.4000, surat: 'SJ-2602/MER/19', catatan: 'Meranti merah lurus' },
-                    { id: 4, tanggal: '2026-06-03', jenis: 'Mahoni', grade: 'C', size: '3×7×300', jumlah: 300, volume: 1.8900, surat: 'SJ-2603/MAH/15', catatan: 'Untuk rangka mebel' },
-                    { id: 5, tanggal: '2026-06-04', jenis: 'Pinus', grade: 'D', size: '5×10×200', jumlah: 400, volume: 4.0000, surat: 'SJ-2604/PIN/09', catatan: 'Reject untuk palet kemasan' }
+                    { id: 1, tanggal: '2026-06-01', jenis: 'Sengon', grade: 'A', size: '5×15×200', jumlah: 200, volume: 3.0000, surat: 'SJ-2601/SNG/12', supplier: 'CV. Lestari Kayu', catatan: 'Sawtimber super mulus' },
+                    { id: 2, tanggal: '2026-06-01', jenis: 'Jati', grade: 'A', size: '7×15×400', jumlah: 50, volume: 2.1000, surat: 'SJ-2601/JAT/06', supplier: 'PT. Hutan Makmur', catatan: 'Papan jati tebal lurus' },
+                    { id: 3, tanggal: '2026-06-02', jenis: 'Meranti', grade: 'B', size: '4×10×400', jumlah: 150, volume: 2.4000, surat: 'SJ-2602/MER/19', supplier: 'CV. Lestari Kayu', catatan: 'Meranti merah lurus' },
+                    { id: 4, tanggal: '2026-06-03', jenis: 'Mahoni', grade: 'C', size: '3×7×300', jumlah: 300, volume: 1.8900, surat: 'SJ-2603/MAH/15', supplier: 'UD. Prima Wood', catatan: 'Untuk rangka mebel' },
+                    { id: 5, tanggal: '2026-06-04', jenis: 'Pinus', grade: 'D', size: '5×10×200', jumlah: 400, volume: 4.0000, surat: 'SJ-2604/PIN/09', supplier: 'PT. Rimba Raya', catatan: 'Reject untuk palet kemasan' }
                 ];
                 saveToLocalStorage();
             }
@@ -1045,7 +1018,7 @@
             renderSizesSelector();
 
             // Bind live preview listeners
-            const inputs = ['input-tanggal', 'input-jenis', 'input-jumlah', 'input-surat'];
+            const inputs = ['input-tanggal', 'input-jenis', 'input-jumlah', 'input-surat', 'input-supplier'];
             inputs.forEach(id => {
                 document.getElementById(id).addEventListener('input', updateLivePreview);
             });
@@ -1090,6 +1063,7 @@
             document.getElementById('input-jumlah').value = '';
             document.getElementById('input-volume').value = '';
             document.getElementById('input-surat').value = '';
+            document.getElementById('input-supplier').value = '';
             document.getElementById('input-catatan').value = '';
             document.getElementById('input-jenis').value = '';
             
@@ -1208,6 +1182,7 @@
             const qty = document.getElementById('input-jumlah').value || '0';
             const vol = document.getElementById('input-volume').value || '0.0000';
             const srt = document.getElementById('input-surat').value || '-';
+            const spl = document.getElementById('input-supplier').value || '-';
 
             document.getElementById('preview-tanggal').innerText = tgl;
             document.getElementById('preview-jenis').innerText = jns;
@@ -1215,6 +1190,7 @@
             document.getElementById('preview-jumlah').innerText = qty + ' lbr';
             document.getElementById('preview-volume').innerText = vol + ' m³';
             document.getElementById('preview-surat').innerText = srt;
+            document.getElementById('preview-supplier').innerText = spl;
         }
 
         // LocalStorage save
@@ -1252,11 +1228,12 @@
             const jenis = document.getElementById('input-jenis').value;
             const jumlah = parseInt(document.getElementById('input-jumlah').value);
             const volume = parseFloat(document.getElementById('input-volume').value);
-            const surat = document.getElementById('input-surat').value;
+            const surat = document.getElementById('input-surat').value.trim();
+            const supplier = document.getElementById('input-supplier').value.trim();
             const catatan = document.getElementById('input-catatan').value;
 
-            if (!tanggal || !jenis || !formGrade || !formSize || isNaN(jumlah) || jumlah <= 0 || !surat) {
-                showToast('Lengkapi semua data bertanda bintang/penting!', 'error');
+            if (!tanggal || !jenis || !formGrade || !formSize || isNaN(jumlah) || jumlah <= 0) {
+                showToast('Lengkapi semua data bertanda penting!', 'error');
                 return;
             }
 
@@ -1268,7 +1245,8 @@
                 size: formSize,
                 jumlah,
                 volume,
-                surat,
+                supplier: supplier || '-',
+                surat: surat || '-',
                 catatan
             };
 
@@ -1344,6 +1322,7 @@
                 const matchesSearch = searchQuery === '' || 
                     entry.jenis.toLowerCase().includes(searchQuery) ||
                     entry.surat.toLowerCase().includes(searchQuery) ||
+                    (entry.supplier && entry.supplier.toLowerCase().includes(searchQuery)) ||
                     entry.catatan.toLowerCase().includes(searchQuery) ||
                     entry.size.toLowerCase().includes(searchQuery);
                 return matchesGrade && matchesSearch;
@@ -1403,6 +1382,7 @@
                     <td class="py-3.5 px-4 text-center"><span class="px-2 py-0.5 font-bold text-xs bg-zinc-100 text-zinc-700 rounded">${entry.size}</span></td>
                     <td class="py-3.5 px-4 text-right font-bold text-zinc-800">${entry.jumlah} lbr</td>
                     <td class="py-3.5 px-4 text-right font-extrabold text-emerald-700">${entry.volume.toFixed(4)} m³</td>
+                    <td class="py-3.5 px-4 font-bold text-zinc-800">${entry.supplier || '-'}</td>
                     <td class="py-3.5 px-4 font-mono text-[11.5px] text-zinc-500">${entry.surat}</td>
                     <td class="py-3.5 px-4 text-zinc-500 truncate max-w-[180px]" title="${entry.catatan || ''}">${entry.catatan || '-'}</td>
                     <td class="py-3.5 px-4 text-center">
