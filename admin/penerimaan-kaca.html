@@ -137,85 +137,7 @@
         .d4 { animation-delay: 0.2s; }
         .d5 { animation-delay: 0.25s; }
 
-        /* ── Sidebar ── */
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 12px;
-            border-radius: 10px;
-            font-size: 13.5px;
-            font-weight: 500;
-            color: #52525B;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            position: relative;
-        }
-
-        .nav-item:hover {
-            background: #FDF3EB;
-            color: #B85D1E;
-            transform: translateX(2px);
-        }
-
-        .nav-item.active {
-            background: linear-gradient(135deg, #FDF3EB 0%, #FEF0E0 100%);
-            color: #B85D1E;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(184, 93, 30, 0.08);
-        }
-
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            left: -12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 20px;
-            background: linear-gradient(180deg, #D97706, #B45309);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .submenu-item {
-            display: block;
-            padding: 7px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #71717A;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.15s ease;
-        }
-
-        .submenu-item:hover {
-            background: #F9F9F8;
-            color: #3F3F46;
-            padding-left: 15px;
-        }
-
-        .submenu-item.active {
-            background: #FDF3EB;
-            color: #B85D1E;
-            font-weight: 700;
-        }
-
-        .submenu {
-            display: none;
-        }
-
-        .submenu.open {
-            display: block;
-        }
-
-        .chevron {
-            transition: transform 0.2s;
-        }
-
-        .chevron.open {
-            transform: rotate(180deg);
-        }
+        /* Core sidebar classes replaced by shared.css */
 
         /* ── Card Styles ── */
         .glass-card {
@@ -437,6 +359,7 @@
             border-color: #18181B;
         }
     </style>
+    <link rel="stylesheet" href="shared.css">
 </head>
 
 <body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
@@ -448,138 +371,159 @@
             <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0" style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="14" width="4" height="6" rx="1" />
-                        <rect x="10" y="10" width="4" height="10" rx="1" />
-                        <rect x="17" y="12" width="4" height="8" rx="1" />
-                        <path d="M5 14V8M12 10V4M19 12V6" />
-                        <path d="M3 4h18" />
+                        <rect x="3" y="14" width="4" height="6" rx="1" /><rect x="10" y="10" width="4" height="10" rx="1" />
+                        <rect x="17" y="12" width="4" height="8" rx="1" /><path d="M5 14V8M12 10V4M19 12V6" /><path d="M3 4h18" />
                     </svg>
                 </div>
-                <div>
+                <div class="sidebar-text">
                     <p class="font-extrabold text-zinc-900 text-sm leading-tight tracking-tight">WoodTrack</p>
                     <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.14em]">Pro Edition</p>
                 </div>
             </a>
         </div>
-
         <!-- Nav -->
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
-            <a href="index.html" id="nav-dashboard" class="nav-item">
+
+            <a href="index.html" class="nav-item ${index_active}" data-title="Dashboard">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" />
                     <rect x="14" y="3" width="7" height="7" rx="1.5" />
                     <rect x="14" y="14" width="7" height="7" rx="1.5" />
                     <rect x="3" y="14" width="7" height="7" rx="1.5" />
                 </svg>
-                Dashboard
+                <span class="sidebar-text">Dashboard</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
 
             <!-- Penerimaan accordion -->
-            <div>
-                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left active">
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu" data-title="Penerimaan">
                     <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                         <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
                         <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
                     </svg>
-                    Penerimaan
-                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron open text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <span class="sidebar-text">Penerimaan</span>
+                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron ${penerimaan_open} text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
-                <div id="penerimaan-menu" class="submenu open ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                    <a href="penerimaan-log.html" class="submenu-item">Penerimaan Log</a>
-                    <a href="penerimaan-sawtimber.html" class="submenu-item">Penerimaan Sawtimber</a>
-                    <a href="penerimaan-crosscut.html" class="submenu-item">Penerimaan Crosscut</a>
-                    <a href="penerimaan-kaca.html" class="submenu-item active">Penerimaan Kaca</a>
+                <div id="penerimaan-menu" class="submenu ${penerimaan_open} ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="penerimaan-log.html" class="submenu-item ${penerimaan_log_active}">Penerimaan Log</a>
+                    <a href="penerimaan-sawtimber.html" class="submenu-item ${penerimaan_sawtimber_active}">Penerimaan Sawtimber</a>
+                    <a href="penerimaan-crosscut.html" class="submenu-item ${penerimaan_crosscut_active}">Penerimaan Crosscut</a>
+                    <a href="penerimaan-kaca.html" class="submenu-item ${penerimaan_kaca_active}">Penerimaan Kaca</a>
                 </div>
             </div>
 
-            <a href="konversi-log.html" id="nav-konversi" class="nav-item">
+            <a href="konversi-log.html" class="nav-item ${konversi_log_active}" data-title="Konversi Log">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
                 </svg>
-                Konversi Log
+                <span class="sidebar-text">Konversi Log</span>
             </a>
 
-            <a href="produksi.html" id="nav-produksi" class="nav-item">
+            <a href="produksi.html" class="nav-item ${produksi_active}" data-title="Produksi">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <circle cx="12" cy="12" r="3" />
                     <path d="M19.07 4.93l-1.41 1.41M5.34 17.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 6.34L3.93 4.93M12 19v2M12 3V1" />
                 </svg>
-                Produksi
+                <span class="sidebar-text">Produksi</span>
             </a>
 
-            <a href="penjualan-produk.html" id="nav-penjualan" class="nav-item">
+            <a href="penjualan-produk.html" class="nav-item ${penjualan_produk_active}" data-title="Penjualan Produk">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                Penjualan Produk
+                <span class="sidebar-text">Penjualan Produk</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Inventaris</p>
 
-            <a href="manajemen-stok.html" id="nav-stok" class="nav-item">
+            <a href="manajemen-stok.html" class="nav-item ${manajemen_stok_active}" data-title="Manajemen Stok">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                     <line x1="12" y1="22.08" x2="12" y2="12" />
                 </svg>
-                Manajemen Stok
+                <span class="sidebar-text">Manajemen Stok</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
 
-            <a href="data-material.html" id="nav-material" class="nav-item">
+            <a href="data-material.html" class="nav-item ${data_material_active}" data-title="Data Material">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <ellipse cx="12" cy="5" rx="9" ry="3" />
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
                     <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
                 </svg>
-                Data Material
+                <span class="sidebar-text">Data Material</span>
             </a>
-        </nav>
 
-        <!-- User profile -->
-        <div class="p-3" style="border-top:1px solid #F0EDE8;">
-            <div class="sidebar-card mb-3 p-3 text-xs flex flex-col gap-1">
-                <p class="font-bold text-zinc-700">WoodTrack Status</p>
-                <div class="flex items-center gap-1.5 text-zinc-500 mt-1">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-                    <span>Database Sinkron</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-colors">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
-                <div class="min-w-0">
-                    <p class="text-sm font-bold text-zinc-800 truncate">Admin</p>
-                    <p class="text-[11px] text-zinc-400 truncate">admin@woodtrack.id</p>
-                </div>
-            </div>
-        </div>
+        </nav>
     </aside>
 
     <!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
     <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
         <!-- Top bar -->
-        <header class="h-16 bg-white flex items-center justify-between px-6 flex-shrink-0" style="border-bottom:1px solid #F0EDE8;">
-            <div>
+        <header class="h-16 bg-white flex items-center justify-between px-6 flex-shrink-0 relative z-30" style="border-bottom:1px solid #F0EDE8;">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle-btn" class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all" title="Toggle Sidebar">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <div>
                 <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Penerimaan Kaca</h1>
                 <p class="text-[11px] text-zinc-400 mt-0.5">Operasional &nbsp;·&nbsp; Penerimaan</p>
             </div>
+            </div>
             <div class="flex items-center gap-3">
-                <div class="w-px h-6 bg-zinc-100"></div>
-                <button class="relative w-9 h-9 flex items-center justify-center rounded-xl hover:bg-zinc-50 text-zinc-500 transition-colors">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                                <div class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default hover:bg-zinc-100/80 transition-all select-none">
+                    <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
                     </svg>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-sky-500 rounded-full ring-2 ring-white"></span>
-                </button>
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-sky-400 to-sky-700 flex items-center justify-center text-white font-bold text-sm cursor-pointer shadow-sm">A</div>
+                    <span id="live-datetime">-</span>
+                </div>
+                <div class="w-px h-6 bg-zinc-100"></div>
+                
+                <!-- Profile Dropdown -->
+                <div class="relative">
+                    <div id="profile-menu-button" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all border border-transparent hover:border-zinc-100">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">A</div>
+                        <div class="text-left hidden md:block">
+                            <p class="text-xs font-bold text-zinc-800 leading-tight">Admin</p>
+                            <p class="text-[10px] text-zinc-400 leading-none mt-0.5">admin@woodtrack.id</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-zinc-400 hidden md:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <!-- Dropdown -->
+                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-zinc-100 py-1.5 z-50 origin-top-right transition-all transform scale-95 opacity-0">
+                        <a href="pengaturan.html" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
+                            <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                            </svg>
+                            Pengaturan
+                        </a>
+                        <div class="h-px bg-zinc-100 my-1"></div>
+                        <a href="#logout" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" y1="12" x2="9" y2="12" />
+                            </svg>
+                            Keluar
+                        </a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -1139,13 +1083,7 @@
             ];
         }
 
-        // Toggle Sidebar submenus
-        function toggleMenu(id) {
-            const menu = document.getElementById(id + '-menu');
-            const chevron = document.getElementById(id + '-chevron');
-            menu.classList.toggle('open');
-            chevron.classList.toggle('open');
-        }
+        
 
         // View Toggling
         function setView(view) {
@@ -1975,6 +1913,7 @@
             }
         });
     </script>
+    <script src="shared.js"></script>
 </body>
 
 </html>

@@ -14,147 +14,1553 @@
             theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
         }
     </script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4CAC0;
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8AFA5;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-8px) scale(0.96); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .anim {
+            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 0;
+        }
+
+        .d1 { animation-delay: 0.05s; }
+        .d2 { animation-delay: 0.1s; }
+        .d3 { animation-delay: 0.15s; }
+        .d4 { animation-delay: 0.2s; }
+        .d5 { animation-delay: 0.25s; }
+
+        /* ── Card Styles ── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(240, 237, 232, 0.8);
+        }
+
+        .hero-stat {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            padding: 22px;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: default;
+        }
+
+        .hero-stat::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .hero-stat .hero-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-stat:hover .hero-icon {
+            transform: scale(1.08);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* ── Input Premium Styles ── */
+        .premium-input {
+            background: #FDFDFD;
+            border: 1px solid #E4E4E7;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            color: #18181B;
+            transition: all 0.2s ease;
+            outline: none;
+            width: 100%;
+        }
+
+        .premium-input:focus {
+            border-color: #D97706;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        /* ── Modal Styles ── */
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-container.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(24, 24, 27, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            position: relative;
+            background: #fff;
+            border-radius: 16px;
+            width: 520px;
+            max-width: 95%;
+            padding: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            transform: scale(0.95);
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 70;
+        }
+
+        .modal-content.wide {
+            width: 760px;
+        }
+
+        .modal-container.open .modal-content {
+            transform: scale(1);
+        }
+
+        /* ── Toast Notifications ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            background: #fff;
+            border-radius: 14px;
+            padding: 14px 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #D97706;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .toast.error {
+            border-left-color: #EF4444;
+        }
+
+        .toast.success {
+            border-left-color: #10B981;
+        }
+
+        .toast.leaving {
+            animation: toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* ── Search & Filters ── */
+        .search-input {
+            background: #fff;
+            border: 1px solid #E4E4E7;
+            border-radius: 10px;
+            padding: 8px 12px 8px 36px;
+            font-size: 13px;
+            color: #3F3F46;
+            transition: all 0.2s ease;
+            outline: none;
+            width: 240px;
+        }
+
+        .search-input:focus {
+            border-color: #D97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        .filter-pill {
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: #71717A;
+            background: #fff;
+            border: 1px solid #E4E4E7;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-pill:hover {
+            background: #FAFAF9;
+            color: #18181B;
+            border-color: #D4D4D8;
+        }
+
+        .filter-pill.active {
+            background: #18181B;
+            color: #fff;
+            border-color: #18181B;
+        }
+
+        tbody tr:hover {
+            background: #FEFCFA;
+        }
+    </style>
     <link rel="stylesheet" href="shared.css">
 </head>
 
 <body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
 
-    <!-- SIDEBAR -->
-    <aside class="w-60 flex-shrink-0 h-full bg-white flex flex-col overflow-hidden" style="border-right:1px solid #F0EDE8;">
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <aside class="w-[260px] flex-shrink-0 h-full bg-white flex flex-col overflow-hidden" style="border-right:1px solid #F0EDE8;">
         <!-- Logo -->
         <div class="px-5 py-5" style="border-bottom:1px solid #F0EDE8;">
-            <a href="index.html" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-sm flex-shrink-0">
+            <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0" style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="14" width="4" height="6" rx="1" /><rect x="10" y="10" width="4" height="10" rx="1" />
                         <rect x="17" y="12" width="4" height="8" rx="1" /><path d="M5 14V8M12 10V4M19 12V6" /><path d="M3 4h18" />
                     </svg>
                 </div>
-                <div>
+                <div class="sidebar-text">
                     <p class="font-extrabold text-zinc-900 text-sm leading-tight tracking-tight">WoodTrack</p>
-                    <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.12em]">Pro Edition</p>
+                    <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.14em]">Pro Edition</p>
                 </div>
             </a>
         </div>
         <!-- Nav -->
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
-            <a href="index.html" class="nav-item">
+
+            <a href="index.html" class="nav-item " data-title="Dashboard">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
                 </svg>
-                Dashboard
+                <span class="sidebar-text">Dashboard</span>
             </a>
+
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
+
             <!-- Penerimaan accordion -->
-            <div>
-                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left">
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu" data-title="Penerimaan">
                     <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                         <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
                         <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
                     </svg>
-                    Penerimaan
-                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <span class="sidebar-text">Penerimaan</span>
+                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron  text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
-                <div id="penerimaan-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                    <a href="penerimaan-log.html" class="submenu-item">Penerimaan Log</a>
-                    <a href="penerimaan-sawtimber.html" class="submenu-item">Penerimaan Sawtimber</a>
-                    <a href="penerimaan-crosscut.html" class="submenu-item">Penerimaan Crosscut</a>
-                    <a href="penerimaan-kaca.html" class="submenu-item">Penerimaan Kaca</a>
+                <div id="penerimaan-menu" class="submenu  ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="penerimaan-log.html" class="submenu-item ">Penerimaan Log</a>
+                    <a href="penerimaan-sawtimber.html" class="submenu-item ">Penerimaan Sawtimber</a>
+                    <a href="penerimaan-crosscut.html" class="submenu-item ">Penerimaan Crosscut</a>
+                    <a href="penerimaan-kaca.html" class="submenu-item ">Penerimaan Kaca</a>
                 </div>
             </div>
-            <a href="konversi-log.html" class="nav-item">
+
+            <a href="konversi-log.html" class="nav-item " data-title="Konversi Log">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
                 </svg>
-                Konversi Log
+                <span class="sidebar-text">Konversi Log</span>
             </a>
-            <a href="produksi.html" class="nav-item active">
+
+            <a href="produksi.html" class="nav-item active" data-title="Produksi">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <circle cx="12" cy="12" r="3" /><path d="M19.07 4.93l-1.41 1.41M5.34 17.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 6.34L3.93 4.93M12 19v2M12 3V1" />
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.07 4.93l-1.41 1.41M5.34 17.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 6.34L3.93 4.93M12 19v2M12 3V1" />
                 </svg>
-                Produksi
+                <span class="sidebar-text">Produksi</span>
             </a>
-            <a href="penjualan-produk.html" class="nav-item">
+
+            <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                Penjualan Produk
+                <span class="sidebar-text">Penjualan Produk</span>
             </a>
+
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Inventaris</p>
-            <a href="manajemen-stok.html" class="nav-item">
+
+            <a href="manajemen-stok.html" class="nav-item " data-title="Manajemen Stok">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
                 </svg>
-                Manajemen Stok
+                <span class="sidebar-text">Manajemen Stok</span>
             </a>
+
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
-            <a href="data-material.html" class="nav-item">
+
+            <a href="data-material.html" class="nav-item " data-title="Data Material">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <ellipse cx="12" cy="5" rx="9" ry="3" />
-                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
                 </svg>
-                Data Material
+                <span class="sidebar-text">Data Material</span>
             </a>
+
         </nav>
-        <!-- User profile -->
-        <div class="p-3" style="border-top:1px solid #F0EDE8;">
-            <div class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-colors">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
-                <div class="min-w-0">
-                    <p class="text-sm font-bold text-zinc-800 truncate">Admin</p>
-                    <p class="text-[11px] text-zinc-400 truncate">admin@woodtrack.id</p>
-                </div>
-            </div>
-        </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
     <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
         <!-- TOP BAR -->
-        <header class="h-16 bg-white flex items-center justify-between px-6 flex-shrink-0" style="border-bottom:1px solid #F0EDE8;">
-            <div>
-                <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Produksi</h1>
-                <p class="text-[11px] text-zinc-400 mt-0.5">Operasional</p>
-            </div>
-            <div class="flex items-center gap-2">
-                <div class="w-px h-6 bg-zinc-100 mx-1"></div>
-                <button class="relative w-9 h-9 flex items-center justify-center rounded-xl hover:bg-zinc-50 text-zinc-500 transition-colors">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        <header class="h-16 bg-white flex items-center justify-between px-6 flex-shrink-0 relative z-30" style="border-bottom:1px solid #F0EDE8;">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle-btn" class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all" title="Toggle Sidebar">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
                     </svg>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-500 rounded-full ring-2 ring-white"></span>
                 </button>
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-sm cursor-pointer">A</div>
+                <div>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Produksi & Progress</h1>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Operasional</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default hover:bg-zinc-100/80 transition-all select-none">
+                    <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span id="live-datetime">-</span>
+                </div>
+                <div class="w-px h-6 bg-zinc-100 mx-1"></div>
+
+                <!-- Profile Dropdown -->
+                <div class="relative">
+                    <div id="profile-menu-button" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all border border-transparent hover:border-zinc-100">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">A</div>
+                        <div class="text-left hidden md:block">
+                            <p class="text-xs font-bold text-zinc-800 leading-tight">Admin</p>
+                            <p class="text-[10px] text-zinc-400 leading-none mt-0.5">admin@woodtrack.id</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-zinc-400 hidden md:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <!-- Dropdown -->
+                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-zinc-100 py-1.5 z-50 origin-top-right transition-all transform scale-95 opacity-0">
+                        <a href="pengaturan.html" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
+                            <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                            </svg>
+                            Pengaturan
+                        </a>
+                        <div class="h-px bg-zinc-100 my-1"></div>
+                        <a href="#logout" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" y1="12" x2="9" y2="12" />
+                            </svg>
+                            Keluar
+                        </a>
+                    </div>
+                </div>
             </div>
         </header>
+
         <!-- PAGE CONTENT -->
-        <div class="flex-1 overflow-y-auto p-6">
-            <div class="empty-state">
-                <div class="empty-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                        <circle cx="12" cy="12" r="3" />
-                        <path d="M19.07 4.93l-1.41 1.41M5.34 17.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 6.34L3.93 4.93M12 19v2M12 3V1" />
-                    </svg>
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- ═══════════════════════════ DASHBOARD VIEW ═══════════════════════════ -->
+            <div id="dashboard-view" class="space-y-6">
+                <!-- Stat Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+                    <!-- Stat 1: Active Batches -->
+                    <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Proses Aktif (WIP)</p>
+                                <h3 id="stat-active-wip" class="text-2xl font-extrabold mt-1.5">0 Batch</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 2: Materials Picked -->
+                    <div class="hero-stat bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Permintaan Hari Ini</p>
+                                <h3 id="stat-requests-today" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                    <polyline points="10 9 9 9 8 9"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3: Half-Finished Produced -->
+                    <div class="hero-stat bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-md shadow-indigo-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Produk Setengah Jadi</p>
+                                <h3 id="stat-half-finished" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4: Finished Goods Produced -->
+                    <div class="hero-stat bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Produk Jadi Selesai</p>
+                                <h3 id="stat-finished" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h2>Produksi</h2>
-                <p>Halaman ini masih dalam pengembangan.<br>Implementasikan fitur produksi di sini.</p>
-                <span class="empty-badge">🚧 Prototype</span>
+
+                <!-- Main Data Card -->
+                <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
+                    <!-- Search & Filters Toolbar -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- Date Filter Pills -->
+                            <div class="flex items-center gap-2" id="date-filter-pills">
+                                <span class="filter-pill active" onclick="setDateFilter('All')">Semua</span>
+                                <span class="filter-pill" onclick="setDateFilter('Today')">Hari Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Week')">Minggu Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Custom')">Pilih Tanggal</span>
+                            </div>
+
+                            <!-- Custom Date Range Selector -->
+                            <div id="custom-date-container" class="hidden items-center gap-2 transition-all">
+                                <div class="flex items-center gap-1.5 bg-white border border-zinc-200 rounded-xl p-1 px-2.5 shadow-sm">
+                                    <input type="date" id="filter-start-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                    <span class="text-zinc-400 text-[10px] font-bold uppercase mx-1">s/d</span>
+                                    <input type="date" id="filter-end-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                </div>
+                            </div>
+                            
+                            <!-- Status Dropdown Filter -->
+                            <select id="filter-status" onchange="applyFiltersAndRender()" class="premium-input py-1.5 text-xs w-[140px] bg-white border border-zinc-200 rounded-xl">
+                                <option value="">Semua Status</option>
+                                <option value="Diajukan">Diajukan</option>
+                                <option value="Diambil">Diambil (Mulai)</option>
+                                <option value="Selesai Sebagian">Selesai Sebagian</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="relative w-full sm:w-auto">
+                                <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                                <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari ID batch, bahan baku..." class="search-input">
+                            </div>
+                            <button onclick="openRequestModal()" class="flex items-center justify-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-amber-600/20 whitespace-nowrap">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Ambil Bahan Baku
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table Container -->
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal Request</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Request/Batch ID</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Bahan Baku Yang Diambil</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Status</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Hasil Setengah Jadi</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Hasil Jadi (Selesai)</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-36">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Table Empty State -->
+                        <div id="table-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <line x1="9" y1="3" x2="9" y2="21" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada permintaan produksi</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Ambil Bahan Baku" untuk merekam pengambilan baru.</p>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between pt-2">
+                        <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
+                        <div class="flex gap-2">
+                            <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+                            <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </main>
 
+    <!-- ═══════════════════════════ MODAL: TAMBAH REQUEST BAHAN BAKU ═══════════════════════════ -->
+    <div id="request-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeRequestModal()"></div>
+        <div class="modal-content wide space-y-4 max-h-[90vh] overflow-y-auto flex flex-col">
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Permintaan Pick Bahan Baku</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Catat pengambilan bahan baku dari gudang untuk proses produksi</p>
+                </div>
+                <button onclick="closeRequestModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1 py-1">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Pick *</label>
+                        <input type="date" id="req-tanggal" class="premium-input" onchange="generateRequestId()">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Request / Batch ID</label>
+                        <input type="text" id="req-id" class="premium-input bg-zinc-50 font-mono" readonly>
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan / Rencana Produksi</label>
+                    <textarea id="req-catatan" rows="2" placeholder="E.g., Batch Pintu Utama Pesanan PT. Sejahtera, shift pagi..." class="premium-input resize-none h-[64px]"></textarea>
+                </div>
+
+                <!-- Materials Section -->
+                <div class="border-t border-zinc-100 pt-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-zinc-800 text-xs">Pilih Bahan Baku Yang Diambil</h4>
+                        <button onclick="addMaterialRow()" class="flex items-center gap-1 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-lg shadow-sm">
+                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                            Tambah Item
+                        </button>
+                    </div>
+
+                    <div id="material-rows-container" class="space-y-3 max-h-[30vh] overflow-y-auto pr-1">
+                        <!-- Dynamic Material Rows -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0 gap-2">
+                <button onclick="closeRequestModal()" class="px-4 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl border border-zinc-200/60 transition-all">Batal</button>
+                <button onclick="saveProductionRequest()" class="px-5 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-md transition-all">Kirim & Rekam Permintaan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODAL: UPDATE PROGRESS & LOG OUTPUT ═══════════════════════════ -->
+    <div id="output-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeOutputModal()"></div>
+        <div class="modal-content space-y-4 max-h-[90vh] overflow-y-auto flex flex-col">
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Log Progress & Output</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Catat barang setengah jadi/jadi yang selesai diproduksi</p>
+                </div>
+                <button onclick="closeOutputModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1 py-1">
+                <input type="hidden" id="output-batch-id">
+
+                <div class="space-y-1.5 bg-zinc-50 p-3.5 rounded-xl border border-zinc-100">
+                    <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">ID Batch Produksi</span>
+                    <span id="output-display-batch-id" class="text-xs font-bold text-zinc-800 font-mono"></span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Selesai *</label>
+                        <input type="date" id="out-tanggal" class="premium-input">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jenis Output *</label>
+                        <select id="out-type" class="premium-input cursor-pointer">
+                            <option value="Setengah Jadi">Setengah Jadi (WIP)</option>
+                            <option value="Barang Jadi">Barang Jadi (Finished Product)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Nama / Model Produk *</label>
+                        <input type="text" id="out-nama" placeholder="E.g., Papan Kering, Kusen Pintu Jati" class="premium-input">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Hasil (Unit) *</label>
+                        <input type="number" id="out-jumlah" placeholder="Jumlah unit/pcs" min="1" class="premium-input">
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Keterangan / Shift</label>
+                    <input type="text" id="out-keterangan" placeholder="E.g., Shift 2 selesai diampelas" class="premium-input">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0 gap-2">
+                <button onclick="closeOutputModal()" class="px-4 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl border border-zinc-200/60 transition-all">Batal</button>
+                <button onclick="saveProductionOutput()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-md transition-all">Simpan Output</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════ DETAIL MODAL ═══════════════════════════ -->
+    <div id="detail-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeDetailModal()"></div>
+        <div class="modal-content wide space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Detail & History Batch Produksi</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Rincian pengambilan bahan baku dan history penyelesaian produk</p>
+                </div>
+                <button onclick="closeDetailModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-5 flex-1 overflow-y-auto pr-1">
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-zinc-50/50 p-4 rounded-xl border border-zinc-100">
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Tanggal Request</span>
+                        <span id="detail-tanggal" class="text-xs font-bold text-zinc-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Batch ID</span>
+                        <span id="detail-batch-id" class="text-xs font-bold text-zinc-800 font-mono"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Status Produksi</span>
+                        <span id="detail-status" class="text-xs font-bold text-amber-700"></span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Catatan / Rencana Produksi</span>
+                        <span id="detail-catatan" class="text-xs text-zinc-600 block max-h-[60px] overflow-y-auto"></span>
+                    </div>
+                </div>
+
+                <!-- Picked Raw Materials List -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">Bahan Baku Yang Diambil</h4>
+                    <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Kategori</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Spesifikasi Material</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah Diambil</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-materials-body" class="divide-y divide-zinc-50 text-zinc-700 font-medium">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- History of Production Outputs -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">History Log Output Hasil Produksi</h4>
+                    <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Tanggal Hasil</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Jenis Output</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Nama Produk</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah (Unit)</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-outputs-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                        <div id="detail-outputs-empty" class="hidden py-6 text-center text-zinc-400 text-xs">
+                            Belum ada output yang dicatat untuk batch ini.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0">
+                <button onclick="closeDetailModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- ═══════════════════════════ JAVASCRIPT CODE ═══════════════════════════ -->
     <script>
-        function toggleMenu(id) {
-            const menu = document.getElementById(id + '-menu');
-            const chevron = document.getElementById(id + '-chevron');
-            menu.classList.toggle('open');
-            chevron.classList.toggle('open');
+        // State variables
+        let requests = [];
+        let filteredRequests = [];
+        let activeMaterials = []; // Current new request's materials selection
+        let selectedDateFilter = 'All';
+        let customStartDate = '';
+        let customEndDate = '';
+        let searchQuery = '';
+        let statusFilter = '';
+        let currentPage = 1;
+        const rowsPerPage = 10;
+
+        // Inventory Stock Pool loaded from localStorage
+        let logsStock = {};
+        let sawtimberStock = {};
+        let glassStock = {};
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load production data
+            const savedRequests = localStorage.getItem('woodtrack_produksi_requests');
+            if (savedRequests) {
+                requests = JSON.parse(savedRequests);
+                if (requests.length === 0) {
+                    requests = getSeedRequests();
+                    saveToLocalStorage();
+                }
+            } else {
+                requests = getSeedRequests();
+                saveToLocalStorage();
+            }
+
+            // Sync database inventory stock
+            loadInventoryStock();
+            updateDashboardStats();
+            applyFiltersAndRender();
+        });
+
+        function getSeedRequests() {
+            return [
+                {
+                    id: 'REQ-20260601-001',
+                    tanggal: '2026-06-01',
+                    catatan: 'Produksi Papan Kering Jati batch A',
+                    status: 'Selesai',
+                    materials: [
+                        { kategori: 'Log', spec: 'Jati - Grade A - Size A3', jumlah: 8 }
+                    ],
+                    outputs: [
+                        { tanggal: '2026-06-02', tipe: 'Setengah Jadi', nama: 'Papan Kasar Jati', jumlah: 120, keterangan: 'Shift sore' },
+                        { tanggal: '2026-06-03', tipe: 'Barang Jadi', nama: 'Kusen Pintu Jati', jumlah: 10, keterangan: 'Selesai serah terima ke gudang barang jadi' }
+                    ]
+                },
+                {
+                    id: 'REQ-20260602-002',
+                    tanggal: '2026-06-02',
+                    catatan: 'Rencana produksi pintu kaca minimalis',
+                    status: 'Diambil',
+                    materials: [
+                        { kategori: 'Sawtimber', spec: 'Meranti - 5×15×200 - Grade A', jumlah: 25 },
+                        { kategori: 'Kaca', spec: 'Clear 5mm - 122×244', jumlah: 10 }
+                    ],
+                    outputs: [
+                        { tanggal: '2026-06-03', tipe: 'Setengah Jadi', nama: 'Frame Kayu Pintu', jumlah: 25, keterangan: 'Rangka pintu kayu terpasang' }
+                    ]
+                },
+                {
+                    id: 'REQ-20260604-003',
+                    tanggal: '2026-06-04',
+                    catatan: 'Permintaan pick bahan baku darurat',
+                    status: 'Diajukan',
+                    materials: [
+                        { kategori: 'Log', spec: 'Sengon - Grade B - Size A2', jumlah: 15 }
+                    ],
+                    outputs: []
+                }
+            ];
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('woodtrack_produksi_requests', JSON.stringify(requests));
+        }
+
+        function loadInventoryStock() {
+            // Load logs stock
+            logsStock = {};
+            const rawLogs = JSON.parse(localStorage.getItem('woodtrack_penerimaan_log') || '[]');
+            rawLogs.forEach(entry => {
+                if (entry.items) {
+                    entry.items.forEach(item => {
+                        const key = `${item.jenis} - Grade ${item.grade} - Size ${item.size}`;
+                        logsStock[key] = (logsStock[key] || 0) + (parseInt(item.jumlah) || 0);
+                    });
+                }
+            });
+
+            // Load sawtimber stock
+            sawtimberStock = {};
+            const rawSawtimber = JSON.parse(localStorage.getItem('woodtrack_penerimaan_sawtimber') || '[]');
+            rawSawtimber.forEach(entry => {
+                if (entry.items) {
+                    entry.items.forEach(item => {
+                        const key = `${item.jenis} - ${item.size} - Grade ${item.grade}`;
+                        sawtimberStock[key] = (sawtimberStock[key] || 0) + (parseInt(item.jumlah) || 0);
+                    });
+                }
+            });
+
+            // Load glass stock
+            glassStock = {};
+            const rawGlass = JSON.parse(localStorage.getItem('woodtrack_penerimaan_kaca') || '[]');
+            rawGlass.forEach(entry => {
+                if (entry.items) {
+                    entry.items.forEach(item => {
+                        const key = `${item.tipe} ${item.tebal}mm - ${item.dimensi}`;
+                        glassStock[key] = (glassStock[key] || 0) + (parseInt(item.jumlah) || 0);
+                    });
+                }
+            });
+        }
+
+        function updateDashboardStats() {
+            let activeWip = 0;
+            let reqToday = 0;
+            let totalHalfFinished = 0;
+            let totalFinished = 0;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            requests.forEach(r => {
+                if (r.status === 'Diambil' || r.status === 'Selesai Sebagian') {
+                    activeWip++;
+                }
+
+                if (r.tanggal === todayStr) {
+                    reqToday++;
+                }
+
+                if (r.outputs) {
+                    r.outputs.forEach(out => {
+                        if (out.tipe === 'Setengah Jadi') {
+                            totalHalfFinished += parseInt(out.jumlah) || 0;
+                        } else if (out.tipe === 'Barang Jadi') {
+                            totalFinished += parseInt(out.jumlah) || 0;
+                        }
+                    });
+                }
+            });
+
+            document.getElementById('stat-active-wip').innerText = activeWip + ' Batch';
+            document.getElementById('stat-requests-today').innerText = reqToday + ' Request';
+            document.getElementById('stat-half-finished').innerText = totalHalfFinished + ' unit';
+            document.getElementById('stat-finished').innerText = totalFinished + ' unit';
+        }
+
+        // Modals Management
+        function openRequestModal() {
+            const modal = document.getElementById('request-modal');
+            modal.classList.add('open');
+            
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('req-tanggal').value = today;
+            document.getElementById('req-catatan').value = '';
+            
+            generateRequestId();
+            activeMaterials = [];
+            document.getElementById('material-rows-container').innerHTML = '';
+            addMaterialRow();
+        }
+
+        function closeRequestModal() {
+            document.getElementById('request-modal').classList.remove('open');
+        }
+
+        function generateRequestId() {
+            const dateVal = document.getElementById('req-tanggal').value;
+            if (!dateVal) return;
+            const cleanDate = dateVal.replace(/-/g, '');
+            const rand = Math.floor(100 + Math.random() * 900);
+            document.getElementById('req-id').value = `REQ-${cleanDate}-${rand}`;
+        }
+
+        // Dynamic Material rows picker
+        function addMaterialRow() {
+            const tempId = (Date.now() + Math.random()).toString(36).substring(2, 9);
+            
+            const newRow = {
+                tempId,
+                kategori: '',
+                spec: '',
+                jumlah: 0
+            };
+            activeMaterials.push(newRow);
+
+            const container = document.getElementById('material-rows-container');
+            const rowDiv = document.createElement('div');
+            rowDiv.id = `req-row-${tempId}`;
+            rowDiv.className = 'grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-zinc-50/50 p-4 rounded-xl border border-zinc-100 relative';
+
+            rowDiv.innerHTML = `
+                <div class="md:col-span-3 space-y-1.5">
+                    <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block">Kategori Bahan *</label>
+                    <select onchange="updateKategori('${tempId}', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer text-xs">
+                        <option value="" disabled selected>Pilih Kategori...</option>
+                        <option value="Log">Wood Log (Bulat)</option>
+                        <option value="Sawtimber">Sawtimber (Papan)</option>
+                        <option value="Kaca">Kaca (Glass)</option>
+                    </select>
+                </div>
+                <div class="md:col-span-5 space-y-1.5">
+                    <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block">Pilih Material *</label>
+                    <select id="spec-select-${tempId}" disabled onchange="updateMaterialField('${tempId}', 'spec', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer text-xs">
+                        <option value="" disabled selected>Pilih Kategori Terlebih Dahulu...</option>
+                    </select>
+                </div>
+                <div class="md:col-span-3 space-y-1.5">
+                    <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Diambil *</label>
+                    <div class="flex gap-2">
+                        <input type="number" oninput="updateMaterialField('${tempId}', 'jumlah', this.value)" placeholder="Kuantitas" min="1" class="premium-input text-xs">
+                        <span id="stock-badge-${tempId}" class="px-2 py-2 bg-zinc-100 text-zinc-700 font-bold text-[10px] rounded-lg flex items-center justify-center whitespace-nowrap min-w-[70px]">Stok: -</span>
+                    </div>
+                </div>
+                <div class="md:col-span-1 flex justify-end">
+                    <button onclick="removeMaterialRow('${tempId}')" class="p-2.5 bg-white border border-zinc-200 rounded-lg text-zinc-400 hover:text-red-500 transition-colors" title="Hapus">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            container.appendChild(rowDiv);
+        }
+
+        function removeMaterialRow(tempId) {
+            if (activeMaterials.length <= 1) {
+                showToast('Minimal harus ada 1 material item!', 'error');
+                return;
+            }
+            activeMaterials = activeMaterials.filter(r => r.tempId !== tempId);
+            const el = document.getElementById(`req-row-${tempId}`);
+            if (el) el.remove();
+        }
+
+        function updateKategori(tempId, kat) {
+            const row = activeMaterials.find(r => r.tempId === tempId);
+            if (!row) return;
+            row.kategori = kat;
+            row.spec = '';
+            row.jumlah = 0;
+
+            const specSelect = document.getElementById(`spec-select-${tempId}`);
+            const stockBadge = document.getElementById(`stock-badge-${tempId}`);
+            specSelect.disabled = false;
+            specSelect.innerHTML = '<option value="" disabled selected>Pilih Spesifikasi...</option>';
+            stockBadge.innerText = 'Stok: -';
+
+            let pool = {};
+            if (kat === 'Log') pool = logsStock;
+            else if (kat === 'Sawtimber') pool = sawtimberStock;
+            else if (kat === 'Kaca') pool = glassStock;
+
+            Object.keys(pool).forEach(key => {
+                const stock = pool[key];
+                if (stock > 0) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = `${key} (Sedia: ${stock})`;
+                    specSelect.appendChild(option);
+                }
+            });
+        }
+
+        function updateMaterialField(tempId, field, val) {
+            const row = activeMaterials.find(r => r.tempId === tempId);
+            if (!row) return;
+
+            if (field === 'spec') {
+                row.spec = val;
+                const stockBadge = document.getElementById(`stock-badge-${tempId}`);
+                let stock = 0;
+                if (row.kategori === 'Log') stock = logsStock[val] || 0;
+                else if (row.kategori === 'Sawtimber') stock = sawtimberStock[val] || 0;
+                else if (row.kategori === 'Kaca') stock = glassStock[val] || 0;
+                stockBadge.innerText = `Stok: ${stock}`;
+            } else if (field === 'jumlah') {
+                row.jumlah = parseInt(val) || 0;
+            }
+        }
+
+        function saveProductionRequest() {
+            const reqId = document.getElementById('req-id').value;
+            const tanggal = document.getElementById('req-tanggal').value;
+            const catatan = document.getElementById('req-catatan').value.trim();
+
+            if (!tanggal) {
+                showToast('Lengkapi data Tanggal Request!', 'error');
+                return;
+            }
+
+            for (let i = 0; i < activeMaterials.length; i++) {
+                const r = activeMaterials[i];
+                if (!r.kategori || !r.spec || r.jumlah <= 0) {
+                    showToast(`Lengkapi item ke-${i+1} dengan benar!`, 'error');
+                    return;
+                }
+                // Check stock limits
+                let limit = 0;
+                if (r.kategori === 'Log') limit = logsStock[r.spec] || 0;
+                else if (r.kategori === 'Sawtimber') limit = sawtimberStock[r.spec] || 0;
+                else if (r.kategori === 'Kaca') limit = glassStock[r.spec] || 0;
+
+                if (r.jumlah > limit) {
+                    showToast(`Jumlah untuk ${r.spec} melebihi stok yang tersedia (${limit})!`, 'error');
+                    return;
+                }
+            }
+
+            const newReq = {
+                id: reqId,
+                tanggal,
+                catatan: catatan || 'Pengambilan bahan baku produksi',
+                status: 'Diajukan',
+                materials: activeMaterials.map(r => ({
+                    kategori: r.kategori,
+                    spec: r.spec,
+                    jumlah: r.jumlah
+                })),
+                outputs: []
+            };
+
+            requests.unshift(newReq);
+            saveToLocalStorage();
+            closeRequestModal();
+            showToast('Request pick bahan baku berhasil direkam!');
+            loadInventoryStock();
+            updateDashboardStats();
+            applyFiltersAndRender();
+        }
+
+        // Advance lifecycle status
+        function advanceStatus(id) {
+            const r = requests.find(req => req.id === id);
+            if (!r) return;
+
+            if (r.status === 'Diajukan') {
+                r.status = 'Diambil';
+                showToast(`Batch ${id} telah dimulai (Status: Diambil)`);
+            } else if (r.status === 'Diambil') {
+                r.status = 'Selesai Sebagian';
+                showToast(`Batch ${id} diupdate ke status Selesai Sebagian`);
+            } else if (r.status === 'Selesai Sebagian') {
+                r.status = 'Selesai';
+                showToast(`Batch ${id} telah dinyatakan Selesai`);
+            }
+            saveToLocalStorage();
+            updateDashboardStats();
+            applyFiltersAndRender();
+        }
+
+        // Output Logging Modal
+        function openOutputModal(batchId) {
+            const r = requests.find(req => req.id === batchId);
+            if (!r) return;
+
+            document.getElementById('output-batch-id').value = batchId;
+            document.getElementById('output-display-batch-id').innerText = batchId;
+            document.getElementById('out-tanggal').value = new Date().toISOString().split('T')[0];
+            document.getElementById('out-nama').value = '';
+            document.getElementById('out-jumlah').value = '';
+            document.getElementById('out-keterangan').value = '';
+
+            const modal = document.getElementById('output-modal');
+            modal.classList.add('open');
+        }
+
+        function closeOutputModal() {
+            document.getElementById('output-modal').classList.remove('open');
+        }
+
+        function saveProductionOutput() {
+            const batchId = document.getElementById('output-batch-id').value;
+            const r = requests.find(req => req.id === batchId);
+            if (!r) return;
+
+            const tanggal = document.getElementById('out-tanggal').value;
+            const tipe = document.getElementById('out-type').value;
+            const nama = document.getElementById('out-nama').value.trim();
+            const jumlah = parseInt(document.getElementById('out-jumlah').value) || 0;
+            const keterangan = document.getElementById('out-keterangan').value.trim();
+
+            if (!tanggal || !nama || jumlah <= 0) {
+                showToast('Lengkapi semua field bertanda * dengan benar!', 'error');
+                return;
+            }
+
+            const outputLog = {
+                tanggal,
+                tipe,
+                nama,
+                jumlah,
+                keterangan: keterangan || '-'
+            };
+
+            r.outputs.push(outputLog);
+            
+            // Auto advance status to Selesai Sebagian if it was in Diambil state
+            if (r.status === 'Diambil' || r.status === 'Diajukan') {
+                r.status = 'Selesai Sebagian';
+            }
+
+            saveToLocalStorage();
+            closeOutputModal();
+            showToast('Output hasil produksi berhasil ditambahkan!');
+            updateDashboardStats();
+            applyFiltersAndRender();
+        }
+
+        // Details Modal
+        function openDetailModal(id) {
+            const r = requests.find(req => req.id === id);
+            if (!r) return;
+
+            document.getElementById('detail-tanggal').innerText = formatIndoDate(r.tanggal);
+            document.getElementById('detail-batch-id').innerText = r.id;
+            document.getElementById('detail-status').innerText = r.status;
+            document.getElementById('detail-catatan').innerText = r.catatan;
+
+            // Load Materials table
+            const mBody = document.getElementById('detail-materials-body');
+            mBody.innerHTML = '';
+            r.materials.forEach(m => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-zinc-50';
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 bg-zinc-100 rounded text-[10px] font-bold text-zinc-600">${m.kategori}</span></td>
+                    <td class="py-2.5 px-3 font-semibold text-zinc-800">${m.spec}</td>
+                    <td class="py-2.5 px-3 text-right font-bold text-zinc-800">${m.jumlah} pcs</td>
+                `;
+                mBody.appendChild(tr);
+            });
+
+            // Load Outputs table
+            const oBody = document.getElementById('detail-outputs-body');
+            const oEmpty = document.getElementById('detail-outputs-empty');
+            oBody.innerHTML = '';
+
+            if (!r.outputs || r.outputs.length === 0) {
+                oEmpty.classList.remove('hidden');
+            } else {
+                oEmpty.classList.add('hidden');
+                r.outputs.forEach(o => {
+                    const typeColor = o.tipe === 'Barang Jadi' ? 'bg-emerald-50 text-emerald-700' : 'bg-indigo-50 text-indigo-700';
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-zinc-50';
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-3 text-zinc-500 font-semibold">${formatIndoDate(o.tanggal)}</td>
+                        <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${typeColor}">${o.tipe}</span></td>
+                        <td class="py-2.5 px-3 font-bold text-zinc-800">${o.nama}</td>
+                        <td class="py-2.5 px-3 text-right font-bold text-zinc-800">${o.jumlah} unit</td>
+                        <td class="py-2.5 px-3 text-zinc-500">${o.keterangan}</td>
+                    `;
+                    oBody.appendChild(tr);
+                });
+            }
+
+            const modal = document.getElementById('detail-modal');
+            modal.classList.add('open');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.remove('open');
+        }
+
+        // Delete production request batch
+        function deleteRequest(id) {
+            if (!confirm('Apakah Anda yakin ingin membatalkan & menghapus data batch request produksi ini?')) return;
+            requests = requests.filter(r => r.id !== id);
+            saveToLocalStorage();
+            showToast('Batch request produksi berhasil dihapus!');
+            loadInventoryStock();
+            updateDashboardStats();
+            applyFiltersAndRender();
+        }
+
+        // Filters and Formatting
+        function setDateFilter(filter) {
+            selectedDateFilter = filter;
+            const pills = document.querySelectorAll('#date-filter-pills .filter-pill');
+            pills.forEach(p => {
+                if (p.innerText.includes(filter === 'All' ? 'Semua' : filter === 'Today' ? 'Hari Ini' : filter === 'Week' ? 'Minggu' : 'Pilih Tanggal')) {
+                    p.classList.add('active');
+                } else {
+                    p.classList.remove('active');
+                }
+            });
+
+            const customContainer = document.getElementById('custom-date-container');
+            if (filter === 'Custom') {
+                customContainer.classList.remove('hidden');
+                customContainer.classList.add('flex');
+            } else {
+                customContainer.classList.add('hidden');
+                customContainer.classList.remove('flex');
+                applyFiltersAndRender();
+            }
+        }
+
+        function applyCustomDateFilter() {
+            customStartDate = document.getElementById('filter-start-date').value;
+            customEndDate = document.getElementById('filter-end-date').value;
+            applyFiltersAndRender();
+        }
+
+        function handleSearch(val) {
+            searchQuery = val.toLowerCase().trim();
+            applyFiltersAndRender();
+        }
+
+        function applyFiltersAndRender() {
+            currentPage = 1;
+            filterData();
+            renderTable();
+        }
+
+        function filterData() {
+            statusFilter = document.getElementById('filter-status').value;
+
+            filteredRequests = requests.filter(r => {
+                // 1. Search filter
+                let materialsText = r.materials.map(m => m.spec).join(' ').toLowerCase();
+                const matchesSearch = r.id.toLowerCase().includes(searchQuery) ||
+                                      r.catatan.toLowerCase().includes(searchQuery) ||
+                                      materialsText.includes(searchQuery);
+
+                if (!matchesSearch) return false;
+
+                // 2. Status filter
+                if (statusFilter && r.status !== statusFilter) return false;
+
+                // 3. Date filter
+                if (selectedDateFilter === 'All') return true;
+
+                const rDate = new Date(r.tanggal);
+                const today = new Date();
+                today.setHours(0,0,0,0);
+
+                if (selectedDateFilter === 'Today') {
+                    const rDateStr = r.tanggal;
+                    const todayStr = today.toISOString().split('T')[0];
+                    return rDateStr === todayStr;
+                }
+
+                if (selectedDateFilter === 'Week') {
+                    const dayOfWeek = today.getDay();
+                    const startOfWeek = new Date(today);
+                    startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+                    return rDate >= startOfWeek;
+                }
+
+                if (selectedDateFilter === 'Custom') {
+                    if (!customStartDate) return true;
+                    const start = new Date(customStartDate);
+                    start.setHours(0,0,0,0);
+                    if (customEndDate) {
+                        const end = new Date(customEndDate);
+                        end.setHours(23,59,59,999);
+                        return rDate >= start && rDate <= end;
+                    } else {
+                        return r.tanggal === customStartDate;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('table-body');
+            const emptyState = document.getElementById('table-empty');
+
+            if (filteredRequests.length === 0) {
+                tableBody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                document.getElementById('table-pagination-info').innerText = 'Menampilkan 0-0 dari 0 entries';
+                document.getElementById('btn-prev').disabled = true;
+                document.getElementById('btn-next').disabled = true;
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            tableBody.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, filteredRequests.length);
+            const pageData = filteredRequests.slice(startIndex, endIndex);
+
+            pageData.forEach((r, idx) => {
+                const rowNo = startIndex + idx + 1;
+                
+                // Status badge logic
+                let statusBadge = '';
+                if (r.status === 'Diajukan') {
+                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-amber-50 text-amber-700 border border-amber-200">Diajukan</span>`;
+                } else if (r.status === 'Diambil') {
+                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-teal-50 text-teal-700 border border-teal-200">Diambil / Mulai</span>`;
+                } else if (r.status === 'Selesai Sebagian') {
+                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200">Selesai Sebagian</span>`;
+                } else if (r.status === 'Selesai') {
+                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">Selesai</span>`;
+                }
+
+                // Cumulative calculations
+                let qtyHalfFinished = 0;
+                let qtyFinished = 0;
+                if (r.outputs) {
+                    r.outputs.forEach(o => {
+                        if (o.tipe === 'Setengah Jadi') qtyHalfFinished += o.jumlah;
+                        else if (o.tipe === 'Barang Jadi') qtyFinished += o.jumlah;
+                    });
+                }
+
+                // Render materials text list
+                let materialsHtml = r.materials.map(m => `
+                    <div class="text-[12px] text-zinc-700 font-semibold flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                        ${m.spec} <span class="text-zinc-400 font-bold">(${m.jumlah} pcs)</span>
+                    </div>
+                `).join('');
+
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-zinc-50';
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 text-center text-zinc-400 font-bold">${rowNo}</td>
+                    <td class="py-3.5 px-4 font-semibold text-zinc-800">${formatIndoDate(r.tanggal)}</td>
+                    <td class="py-3.5 px-4 font-mono font-bold text-amber-700 text-xs">${r.id}</td>
+                    <td class="py-3.5 px-4 space-y-0.5">${materialsHtml}</td>
+                    <td class="py-3.5 px-4 text-center">${statusBadge}</td>
+                    <td class="py-3.5 px-4 text-center font-bold text-indigo-600">${qtyHalfFinished} unit</td>
+                    <td class="py-3.5 px-4 text-center font-bold text-emerald-600">${qtyFinished} unit</td>
+                    <td class="py-3.5 px-4 text-center">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="openDetailModal('${r.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50 transition-all" title="Detail & History">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                            
+                            ${r.status !== 'Selesai' ? `
+                                <button onclick="openOutputModal('${r.id}')" class="p-1.5 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 hover:text-indigo-800 rounded-lg text-indigo-600 transition-all" title="Log Output/Hasil">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                </button>
+                                <button onclick="advanceStatus('${r.id}')" class="p-1.5 bg-amber-50 border border-amber-100 hover:bg-amber-100 hover:text-amber-800 rounded-lg text-amber-600 transition-all" title="Advance Status">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <polyline points="13 17 18 12 13 7" />
+                                        <polyline points="6 17 11 12 6 7" />
+                                    </svg>
+                                </button>
+                            ` : ''}
+
+                            <button onclick="deleteRequest('${r.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-all" title="Hapus">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            // Pagination Controls
+            document.getElementById('table-pagination-info').innerText = `Menampilkan ${startIndex + 1}-${endIndex} dari ${filteredRequests.length} entries`;
+            document.getElementById('btn-prev').disabled = currentPage === 1;
+            document.getElementById('btn-next').disabled = endIndex >= filteredRequests.length;
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage * rowsPerPage < filteredRequests.length) {
+                currentPage++;
+                renderTable();
+            }
+        }
+
+        // Utils
+        function formatIndoDate(dateStr) {
+            if (!dateStr) return '-';
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return dateStr;
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            return `${parts[2]} ${months[parseInt(parts[1]) - 1]} ${parts[0]}`;
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = `<svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>`;
+            if (type === 'error') {
+                icon = `<svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>`;
+            }
+
+            toast.innerHTML = `
+                ${icon}
+                <span class="text-xs font-bold text-zinc-800">${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('leaving');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3500);
         }
     </script>
+    <script src="shared.js"></script>
 </body>
 </html>

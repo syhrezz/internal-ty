@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WoodTrack Pro — Dashboard</title>
-    <meta name="description" content="WoodTrack Pro admin dashboard — monitor inventory, production, and sales in real-time.">
+    <meta name="description"
+        content="WoodTrack Pro admin dashboard — monitor inventory, production, and sales in real-time.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -133,98 +134,47 @@
             opacity: 0;
         }
 
-        .d1 { animation-delay: 0.05s; }
-        .d2 { animation-delay: 0.1s; }
-        .d3 { animation-delay: 0.15s; }
-        .d4 { animation-delay: 0.2s; }
-        .d5 { animation-delay: 0.25s; }
-        .d6 { animation-delay: 0.3s; }
-        .d7 { animation-delay: 0.35s; }
-        .d8 { animation-delay: 0.4s; }
-        .d9 { animation-delay: 0.45s; }
-        .d10 { animation-delay: 0.5s; }
-
-        /* ── Sidebar ── */
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 12px;
-            border-radius: 10px;
-            font-size: 13.5px;
-            font-weight: 500;
-            color: #52525B;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            position: relative;
+        .d1 {
+            animation-delay: 0.05s;
         }
 
-        .nav-item:hover {
-            background: #FDF3EB;
-            color: #B85D1E;
-            transform: translateX(2px);
+        .d2 {
+            animation-delay: 0.1s;
         }
 
-        .nav-item.active {
-            background: linear-gradient(135deg, #FDF3EB 0%, #FEF0E0 100%);
-            color: #B85D1E;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(184, 93, 30, 0.08);
+        .d3 {
+            animation-delay: 0.15s;
         }
 
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            left: -12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 20px;
-            background: linear-gradient(180deg, #D97706, #B45309);
-            border-radius: 0 4px 4px 0;
+        .d4 {
+            animation-delay: 0.2s;
         }
 
-        .submenu-item {
-            display: block;
-            padding: 7px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #71717A;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.15s ease;
+        .d5 {
+            animation-delay: 0.25s;
         }
 
-        .submenu-item:hover {
-            background: #F9F9F8;
-            color: #3F3F46;
-            transform: translateX(2px);
+        .d6 {
+            animation-delay: 0.3s;
         }
 
-        .submenu-item.active {
-            background: #FDF3EB;
-            color: #B85D1E;
-            font-weight: 700;
+        .d7 {
+            animation-delay: 0.35s;
         }
 
-        /* ── Submenu accordion ── */
-        .submenu {
-            display: none;
+        .d8 {
+            animation-delay: 0.4s;
         }
 
-        .submenu.open {
-            display: block;
-            animation: fadeUp 0.25s ease forwards;
+        .d9 {
+            animation-delay: 0.45s;
         }
 
-        .chevron {
-            transition: transform 0.25s ease;
+        .d10 {
+            animation-delay: 0.5s;
         }
 
-        .chevron.open {
-            transform: rotate(180deg);
-        }
+        /* Core sidebar classes replaced by shared.css */
 
         /* ── Cards ── */
         .card {
@@ -465,15 +415,8 @@
             border-color: #D97706;
             box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
         }
-
-        /* ── Sidebar bottom card ── */
-        .sidebar-card {
-            background: linear-gradient(135deg, #FFFBF5 0%, #FEF3E2 100%);
-            border: 1px solid #FDE8C8;
-            border-radius: 14px;
-            padding: 14px;
-        }
     </style>
+    <link rel="stylesheet" href="shared.css">
 </head>
 
 <body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
@@ -481,12 +424,10 @@
     <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
     <aside class="w-[260px] flex-shrink-0 h-full bg-white flex flex-col overflow-hidden"
         style="border-right:1px solid #F0EDE8;">
-
         <!-- Logo -->
         <div class="px-5 py-5" style="border-bottom:1px solid #F0EDE8;">
-            <div class="flex items-center gap-3">
-                <div
-                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0"
+            <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0"
                     style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -497,17 +438,16 @@
                         <path d="M3 4h18" />
                     </svg>
                 </div>
-                <div>
+                <div class="sidebar-text">
                     <p class="font-extrabold text-zinc-900 text-sm leading-tight tracking-tight">WoodTrack</p>
                     <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.14em]">Pro Edition</p>
                 </div>
-            </div>
+            </a>
         </div>
-
         <!-- Nav -->
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
 
-            <a href="index.html" id="nav-dashboard" class="nav-item active">
+            <a href="index.html" class="nav-item active" data-title="Dashboard">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" />
@@ -515,67 +455,76 @@
                     <rect x="14" y="14" width="7" height="7" rx="1.5" />
                     <rect x="3" y="14" width="7" height="7" rx="1.5" />
                 </svg>
-                Dashboard
+                <span class="sidebar-text">Dashboard</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
 
             <!-- Penerimaan accordion -->
-            <div>
-                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left">
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu"
+                    data-title="Penerimaan">
                     <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round">
                         <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
                         <path
                             d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
                     </svg>
-                    Penerimaan
-                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron text-zinc-400" viewBox="0 0 24 24"
+                    <span class="sidebar-text">Penerimaan</span>
+                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron  text-zinc-400" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
-                <div id="penerimaan-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5"
+                <div id="penerimaan-menu" class="submenu  ml-3 pl-3 mt-1 space-y-0.5"
                     style="border-left:2px solid #F0EDE8;">
-                    <a href="penerimaan-log.html" class="submenu-item">Penerimaan Log</a>
-                    <a href="penerimaan-sawtimber.html" class="submenu-item">Penerimaan Sawtimber</a>
-                    <a href="penerimaan-crosscut.html" class="submenu-item">Penerimaan Crosscut</a>
-                    <a href="penerimaan-kaca.html" class="submenu-item">Penerimaan Kaca</a>
+                    <a href="penerimaan-log.html" class="submenu-item ">Penerimaan Log</a>
+                    <a href="penerimaan-sawtimber.html" class="submenu-item ">Penerimaan Sawtimber</a>
+                    <a href="penerimaan-crosscut.html" class="submenu-item ">Penerimaan Crosscut</a>
+                    <a href="penerimaan-kaca.html" class="submenu-item ">Penerimaan Kaca</a>
                 </div>
             </div>
 
-            <a href="konversi-log.html" id="nav-konversi" class="nav-item">
+            <a href="konversi-log.html" class="nav-item " data-title="Konversi Log">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <path
                         d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
                 </svg>
-                Konversi Log
+                <span class="sidebar-text">Konversi Log</span>
             </a>
 
-            <a href="produksi.html" id="nav-produksi" class="nav-item">
+            <a href="konversi-kiln-dry.html" class="nav-item " data-title="Konversi Kiln Dry">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20v-6M9 20v-10M6 20v-4M15 20v-8M18 20v-12M21 20V4" />
+                    <path d="M3 20h18" />
+                </svg>
+                <span class="sidebar-text">Konversi Kiln Dry</span>
+            </a>
+
+            <a href="produksi.html" class="nav-item " data-title="Produksi">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <circle cx="12" cy="12" r="3" />
                     <path
                         d="M19.07 4.93l-1.41 1.41M5.34 17.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 6.34L3.93 4.93M12 19v2M12 3V1" />
                 </svg>
-                Produksi
+                <span class="sidebar-text">Produksi</span>
             </a>
 
-            <a href="penjualan-produk.html" id="nav-penjualan" class="nav-item">
+            <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                Penjualan Produk
+                <span class="sidebar-text">Penjualan Produk</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Inventaris</p>
 
-            <a href="manajemen-stok.html" id="nav-stok" class="nav-item">
+            <a href="manajemen-stok.html" class="nav-item " data-title="Manajemen Stok">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <path
@@ -583,135 +532,111 @@
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                     <line x1="12" y1="22.08" x2="12" y2="12" />
                 </svg>
-                Manajemen Stok
+                <span class="sidebar-text">Manajemen Stok</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
 
-            <a href="data-material.html" id="nav-data" class="nav-item">
+            <a href="data-material.html" class="nav-item " data-title="Data Material">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round">
                     <ellipse cx="12" cy="5" rx="9" ry="3" />
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
                     <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
                 </svg>
-                Data Material
+                <span class="sidebar-text">Data Material</span>
             </a>
 
         </nav>
-
-        <!-- Sidebar bottom card -->
-        <div class="px-3 pb-2">
-            <div class="sidebar-card">
-                <div class="flex items-center gap-2 mb-2">
-                    <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                    </svg>
-                    <span class="text-[11px] font-bold text-amber-800">Sistem berjalan lancar</span>
-                </div>
-                <p class="text-[10.5px] text-amber-700/70 leading-relaxed">Semua modul operasional aktif dan terhubung.</p>
-            </div>
-        </div>
-
-        <!-- User profile -->
-        <div class="p-3" style="border-top:1px solid #F0EDE8;">
-            <div class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all group">
-                <div
-                    class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow-md group-hover:shadow-lg transition-shadow"
-                    style="box-shadow: 0 3px 10px rgba(217, 119, 6, 0.25);">
-                    A</div>
-                <div class="min-w-0">
-                    <p class="text-sm font-bold text-zinc-800 truncate">Admin</p>
-                    <p class="text-[11px] text-zinc-400 truncate">admin@woodtrack.id</p>
-                </div>
-                <svg class="w-4 h-4 text-zinc-300 ml-auto flex-shrink-0 group-hover:text-zinc-400 transition-colors" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="5" r="1" />
-                    <circle cx="12" cy="12" r="1" />
-                    <circle cx="12" cy="19" r="1" />
-                </svg>
-            </div>
-        </div>
-
     </aside>
 
-    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+    <!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
     <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         <!-- TOP BAR -->
-        <header class="h-16 bg-white/80 backdrop-blur-md flex items-center justify-between px-7 flex-shrink-0"
+        <header
+            class="h-16 bg-white/80 backdrop-blur-md flex items-center justify-between px-7 flex-shrink-0 relative z-30"
             style="border-bottom:1px solid #F0EDE8;">
-            <div>
-                <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Dashboard</h1>
-                <p class="text-[11px] text-zinc-400 mt-0.5">Kamis, 04 Juni 2026 &nbsp;·&nbsp; Selamat datang kembali 👋
-                </p>
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle-btn"
+                    class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all"
+                    title="Toggle Sidebar">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Dashboard</h1>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Kamis, 04 Juni 2026 &nbsp;·&nbsp; Selamat datang kembali
+                        👋
+                    </p>
+                </div>
             </div>
             <div class="flex items-center gap-3">
 
-                <!-- Search -->
-                <div class="relative">
-                    <svg class="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    <input id="global-search" type="text" placeholder="Cari material, produk..." class="search-input">
-                </div>
 
+                <div
+                    class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default hover:bg-zinc-100/80 transition-all select-none">
+                    <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span id="live-datetime">-</span>
+                </div>
                 <div class="w-px h-6 bg-zinc-100 mx-1"></div>
 
-                <button id="btn-notifications"
-                    class="relative w-9 h-9 flex items-center justify-center rounded-xl hover:bg-amber-50 text-zinc-500 hover:text-amber-600 transition-all">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                    </svg>
-                    <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-amber-500 rounded-full ring-2 ring-white status-dot pulse"></span>
-                </button>
-                <div
-                    class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-sm cursor-pointer shadow-md hover:shadow-lg transition-shadow"
-                    style="box-shadow: 0 3px 10px rgba(217, 119, 6, 0.25);">
-                    A</div>
+                <!-- Profile Dropdown -->
+                <div class="relative">
+                    <div id="profile-menu-button"
+                        class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all border border-transparent hover:border-zinc-100">
+                        <div
+                            class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                            A</div>
+                        <div class="text-left hidden md:block">
+                            <p class="text-xs font-bold text-zinc-800 leading-tight">Admin</p>
+                            <p class="text-[10px] text-zinc-400 leading-none mt-0.5">admin@woodtrack.id</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-zinc-400 hidden md:block" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <!-- Dropdown -->
+                    <div id="profile-dropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-zinc-100 py-1.5 z-50 origin-top-right transition-all transform scale-95 opacity-0">
+                        <a href="pengaturan.html"
+                            class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
+                            <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                            </svg>
+                            Pengaturan
+                        </a>
+                        <div class="h-px bg-zinc-100 my-1"></div>
+                        <a href="#logout"
+                            class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" y1="12" x2="9" y2="12" />
+                            </svg>
+                            Keluar
+                        </a>
+                    </div>
+                </div>
             </div>
         </header>
 
         <!-- SCROLLABLE CONTENT -->
         <div class="flex-1 overflow-y-auto p-7 space-y-6" id="dashboard-content">
 
-            <!-- ── GREETING HERO ── -->
-            <div class="anim d1">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-[26px] font-extrabold text-zinc-900 tracking-tight leading-tight">
-                            Selamat Pagi, <span class="shimmer-text">Admin</span> ☀️
-                        </h2>
-                        <p class="text-[13px] text-zinc-400 mt-1">Pantau operasional, monitor progres, dan lacak status inventaris.</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <a href="penerimaan-log.html"
-                            class="btn text-white"
-                            style="background: linear-gradient(135deg, #D97706, #B45309); box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round">
-                                <line x1="12" y1="5" x2="12" y2="19" />
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                            </svg>
-                            Input Baru
-                        </a>
-                        <button id="btn-export"
-                            class="btn bg-white text-zinc-600 hover:text-zinc-800"
-                            style="border: 1px solid #E4E4E7;">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                <polyline points="7 10 12 15 17 10" />
-                                <line x1="12" y1="15" x2="12" y2="3" />
-                            </svg>
-                            Export
-                        </button>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- ── HERO STAT CARDS (featured, gradient-filled like Finexy) ── -->
             <div class="grid grid-cols-3 gap-5 anim d2">
@@ -732,7 +657,8 @@
                     </div>
                     <p class="text-[36px] font-extrabold text-white leading-none">888</p>
                     <p class="text-[13px] text-white/70 mt-1 font-medium">batang</p>
-                    <div class="mt-4 pt-3 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.2);">
+                    <div class="mt-4 pt-3 flex items-center justify-between"
+                        style="border-top:1px solid rgba(255,255,255,0.2);">
                         <span class="text-[11.5px] text-white/60">Volume tersedia</span>
                         <span class="text-[11.5px] font-bold text-white">9,412.00 m³</span>
                     </div>
@@ -757,7 +683,8 @@
                     </div>
                     <p class="text-[36px] font-extrabold text-white leading-none">944</p>
                     <p class="text-[13px] text-white/70 mt-1 font-medium">lembar</p>
-                    <div class="mt-4 pt-3 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.2);">
+                    <div class="mt-4 pt-3 flex items-center justify-between"
+                        style="border-top:1px solid rgba(255,255,255,0.2);">
                         <span class="text-[11.5px] text-white/60">Total volume</span>
                         <span class="text-[11.5px] font-bold text-white">14,160.00 m³</span>
                     </div>
@@ -780,7 +707,8 @@
                     </div>
                     <p class="text-[36px] font-extrabold text-white leading-none">944</p>
                     <p class="text-[13px] text-white/70 mt-1 font-medium">lembar A/B</p>
-                    <div class="mt-4 pt-3 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.2);">
+                    <div class="mt-4 pt-3 flex items-center justify-between"
+                        style="border-top:1px solid rgba(255,255,255,0.2);">
                         <span class="text-[11.5px] text-white/60">Siap produksi</span>
                         <span class="text-[11.5px] font-bold text-white">14,160.00 m³</span>
                     </div>
@@ -859,61 +787,6 @@
 
             </div>
 
-            <!-- ── QUICK ACTIONS ── -->
-            <div class="anim d4">
-                <div class="flex items-center gap-3 mb-3">
-                    <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                    </svg>
-                    <h3 class="text-[13px] font-bold text-zinc-700">Aksi Cepat</h3>
-                </div>
-                <div class="grid grid-cols-5 gap-3">
-                    <a href="penerimaan-log.html" class="quick-action" id="qa-log">
-                        <div class="qa-icon bg-amber-50">
-                            <svg class="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                            </svg>
-                        </div>
-                        <span class="text-[11.5px] font-semibold text-zinc-600">Terima Log</span>
-                    </a>
-                    <a href="penerimaan-sawtimber.html" class="quick-action" id="qa-sawtimber">
-                        <div class="qa-icon bg-green-50">
-                            <svg class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <rect x="2" y="7" width="20" height="14" rx="2" />
-                                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                            </svg>
-                        </div>
-                        <span class="text-[11.5px] font-semibold text-zinc-600">Sawtimber</span>
-                    </a>
-                    <a href="konversi-log.html" class="quick-action" id="qa-konversi">
-                        <div class="qa-icon bg-teal-50">
-                            <svg class="w-5 h-5 text-teal-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
-                            </svg>
-                        </div>
-                        <span class="text-[11.5px] font-semibold text-zinc-600">Konversi</span>
-                    </a>
-                    <a href="produksi.html" class="quick-action" id="qa-produksi">
-                        <div class="qa-icon bg-blue-50">
-                            <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <circle cx="12" cy="12" r="3" />
-                                <path d="M19.07 4.93l-1.41 1.41M5.34 17.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 6.34L3.93 4.93M12 19v2M12 3V1" />
-                            </svg>
-                        </div>
-                        <span class="text-[11.5px] font-semibold text-zinc-600">Produksi</span>
-                    </a>
-                    <a href="manajemen-stok.html" class="quick-action" id="qa-stok">
-                        <div class="qa-icon bg-violet-50">
-                            <svg class="w-5 h-5 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                                <line x1="12" y1="22.08" x2="12" y2="12" />
-                            </svg>
-                        </div>
-                        <span class="text-[11.5px] font-semibold text-zinc-600">Cek Stok</span>
-                    </a>
-                </div>
-            </div>
 
             <!-- ── CHARTS ROW ── -->
             <div class="grid grid-cols-5 gap-5 anim d5">
@@ -972,28 +845,36 @@
                         <div class="flex items-center gap-3">
                             <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Raw Log</span>
                             <div class="progress-track flex-1">
-                                <div class="progress-fill" style="--target-width: 32%; background: linear-gradient(90deg, #F59E0B, #D97706);"></div>
+                                <div class="progress-fill"
+                                    style="--target-width: 32%; background: linear-gradient(90deg, #F59E0B, #D97706);">
+                                </div>
                             </div>
                             <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">32%</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Sawtimber</span>
                             <div class="progress-track flex-1">
-                                <div class="progress-fill" style="--target-width: 34%; background: linear-gradient(90deg, #22C55E, #16A34A);"></div>
+                                <div class="progress-fill"
+                                    style="--target-width: 34%; background: linear-gradient(90deg, #22C55E, #16A34A);">
+                                </div>
                             </div>
                             <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">34%</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Bhn Baku</span>
                             <div class="progress-track flex-1">
-                                <div class="progress-fill" style="--target-width: 34%; background: linear-gradient(90deg, #14B8A6, #0D9488);"></div>
+                                <div class="progress-fill"
+                                    style="--target-width: 34%; background: linear-gradient(90deg, #14B8A6, #0D9488);">
+                                </div>
                             </div>
                             <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">34%</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Produk</span>
                             <div class="progress-track flex-1">
-                                <div class="progress-fill" style="--target-width: 0.3%; background: linear-gradient(90deg, #3B82F6, #2563EB);"></div>
+                                <div class="progress-fill"
+                                    style="--target-width: 0.3%; background: linear-gradient(90deg, #3B82F6, #2563EB);">
+                                </div>
                             </div>
                             <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">&lt;1%</span>
                         </div>
@@ -1007,7 +888,8 @@
                             <h3 class="text-[14px] font-bold text-zinc-800">Aktivitas Produksi</h3>
                             <p class="text-[12px] text-zinc-400 mt-0.5">Penerimaan &amp; produksi 7 hari terakhir</p>
                         </div>
-                        <div class="flex items-center gap-0.5 p-1 bg-zinc-50 rounded-xl" style="border: 1px solid #F0EDE8;">
+                        <div class="flex items-center gap-0.5 p-1 bg-zinc-50 rounded-xl"
+                            style="border: 1px solid #F0EDE8;">
                             <button id="btn-minggu" onclick="switchChart('minggu')"
                                 class="px-3.5 py-1.5 text-[11px] font-semibold rounded-lg bg-white shadow-sm text-zinc-700 transition-all">Mingguan</button>
                             <button id="btn-bulan" onclick="switchChart('bulan')"
@@ -1035,7 +917,10 @@
                         <a href="#"
                             class="text-[11.5px] font-semibold text-amber-600 hover:text-amber-700 transition-colors flex items-center gap-1">
                             Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
                         </a>
                     </div>
                     <table class="w-full">
@@ -1083,7 +968,10 @@
                         <a href="#"
                             class="text-[11.5px] font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-1">
                             Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
                         </a>
                     </div>
                     <table class="w-full">
@@ -1124,7 +1012,10 @@
                         <a href="#"
                             class="text-[11.5px] font-semibold text-teal-600 hover:text-teal-700 transition-colors flex items-center gap-1">
                             Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
                         </a>
                     </div>
                     <table class="w-full">
@@ -1170,7 +1061,10 @@
                         <a href="#"
                             class="text-[11.5px] font-semibold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1">
                             Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
                         </a>
                     </div>
                     <table class="w-full">
@@ -1206,12 +1100,16 @@
                             </div>
                             <a href="#" class="text-[11.5px] font-semibold text-violet-600 flex items-center gap-1">
                                 + Input
-                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
                             </a>
                         </div>
                         <div class="py-3 flex flex-col items-center gap-1.5">
                             <div class="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
-                                <svg class="w-4 h-4 text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <svg class="w-4 h-4 text-violet-300" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round">
                                     <rect x="1" y="3" width="15" height="13" rx="2" />
                                     <path d="M16 8h4l3 3v5h-7V8z" />
                                 </svg>
@@ -1227,12 +1125,16 @@
                             </div>
                             <a href="#" class="text-[11.5px] font-semibold text-slate-600 flex items-center gap-1">
                                 + Input
-                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
                             </a>
                         </div>
                         <div class="py-3 flex flex-col items-center gap-1.5">
                             <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
-                                <svg class="w-4 h-4 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <svg class="w-4 h-4 text-slate-300" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round">
                                     <rect x="2" y="3" width="20" height="14" rx="2" />
                                     <path d="M2 10h20" />
                                     <path d="M7 3v14" />
@@ -1249,8 +1151,8 @@
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-lg flex items-center justify-center"
                                 style="background: linear-gradient(135deg, #FFFBF5, #FEF3E2); border: 1px solid #FDE8C8;">
-                                <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
+                                <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
                                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                                 </svg>
                             </div>
@@ -1259,11 +1161,13 @@
                                 <p class="text-[11px] text-zinc-400">Transaksi operasional terbaru</p>
                             </div>
                         </div>
-                        <a href="#"
-                            class="btn text-zinc-600 bg-zinc-50 hover:bg-zinc-100 text-[11px]"
+                        <a href="#" class="btn text-zinc-600 bg-zinc-50 hover:bg-zinc-100 text-[11px]"
                             style="border: 1px solid #E4E4E7;">
                             Lihat Semua
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
                         </a>
                     </div>
                     <table class="w-full">
@@ -1292,7 +1196,8 @@
                                     </div>
                                 </td>
                                 <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Pintu Panel 210×90</td>
-                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span></td>
+                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
+                                </td>
                                 <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">9 unit</td>
                                 <td class="py-3.5 text-right text-[11.5px] text-zinc-400">03 Jun 2026</td>
                             </tr>
@@ -1304,7 +1209,8 @@
                                     </div>
                                 </td>
                                 <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Jati · A1</td>
-                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span></td>
+                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
+                                </td>
                                 <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">100 btg</td>
                                 <td class="py-3.5 text-right text-[11.5px] text-zinc-400">02 Jun 2026</td>
                             </tr>
@@ -1349,12 +1255,7 @@
     <!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
     <script>
         /* ── Sidebar accordion ── */
-        function toggleMenu(id) {
-            const menu = document.getElementById(id + '-menu');
-            const chevron = document.getElementById(id + '-chevron');
-            menu.classList.toggle('open');
-            chevron.classList.toggle('open');
-        }
+
 
         /* ── Chart: defaults ── */
         Chart.defaults.font.family = 'Plus Jakarta Sans';
@@ -1538,6 +1439,7 @@
             });
         });
     </script>
+    <script src="shared.js"></script>
 </body>
 
 </html>
