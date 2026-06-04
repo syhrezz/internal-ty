@@ -1,14 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoodTrack Pro — Dashboard</title>
-    <meta name="description"
-        content="WoodTrack Pro admin dashboard — monitor inventory, production, and sales in real-time.">
+    <title>WoodTrack Pro — Live Stock TV Monitor</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -48,23 +45,11 @@
             background: #B8AFA5;
         }
 
-        /* ── Animations ── */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(18px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        /* ── Transitions & Animations ── */
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(-12px);
+                transform: translateX(15px);
             }
 
             to {
@@ -73,133 +58,101 @@
             }
         }
 
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.92);
+        @keyframes pulse-border {
+
+            0%,
+            100% {
+                border-color: rgba(239, 68, 68, 0.2);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.15);
             }
 
-            to {
-                opacity: 1;
+            50% {
+                border-color: rgba(239, 68, 68, 0.65);
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+        }
+
+        @keyframes pulse-green {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+            }
+        }
+
+        @keyframes count-change {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+                background-color: #FEF3C7;
+            }
+
+            100% {
                 transform: scale(1);
             }
         }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-
-            100% {
-                background-position: 200% 0;
-            }
+        .slide-container {
+            display: none;
+            animation: slideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        @keyframes progressFill {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: var(--target-width);
-            }
+        .slide-container.active {
+            display: block;
         }
 
-        @keyframes pulse-glow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 0 0 6px rgba(217, 119, 6, 0);
-            }
+        .critical-alert {
+            animation: pulse-border 2.5s infinite;
+            border-width: 1.5px !important;
+            background-color: #FFFDFD !important;
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-3px);
-            }
+        .pulse-live {
+            animation: pulse-green 2s infinite;
         }
 
-        .anim {
-            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            opacity: 0;
+        .change-flash {
+            animation: count-change 0.8s ease-out;
         }
 
-        .d1 {
-            animation-delay: 0.05s;
+        /* ── Slide Progress Bar ── */
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background: #E4E4E7;
+            position: relative;
+            overflow: hidden;
+            display: none;
+            /* Hide progress bar by default in desktop view */
         }
 
-        .d2 {
-            animation-delay: 0.1s;
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #F59E0B, #D97706);
+            width: 0%;
+            transition: width 0.1s linear;
         }
 
-        .d3 {
-            animation-delay: 0.15s;
-        }
-
-        .d4 {
-            animation-delay: 0.2s;
-        }
-
-        .d5 {
-            animation-delay: 0.25s;
-        }
-
-        .d6 {
-            animation-delay: 0.3s;
-        }
-
-        .d7 {
-            animation-delay: 0.35s;
-        }
-
-        .d8 {
-            animation-delay: 0.4s;
-        }
-
-        .d9 {
-            animation-delay: 0.45s;
-        }
-
-        .d10 {
-            animation-delay: 0.5s;
-        }
-
-        /* Core sidebar classes replaced by shared.css */
-
-        /* ── Cards ── */
-        .card {
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .card:hover {
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
-            transform: translateY(-2px);
-        }
-
-        /* ── Hero stat card (gradient-filled like Finexy) ── */
-        .hero-stat {
+        /* ── Premium overview cards in desktop mode ── */
+        .overview-card {
             position: relative;
             overflow: hidden;
             border-radius: 18px;
-            padding: 22px;
+            padding: 24px;
+            color: #fff;
             transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             cursor: default;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
         }
 
-        .hero-stat::after {
+        .overview-card::after {
             content: '';
             position: absolute;
             top: -50%;
@@ -210,12 +163,12 @@
             pointer-events: none;
         }
 
-        .hero-stat:hover {
+        .overview-card:hover {
             transform: translateY(-3px) scale(1.01);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
         }
 
-        .hero-stat .hero-icon {
+        .overview-card .card-icon-bg {
             width: 42px;
             height: 42px;
             border-radius: 12px;
@@ -227,193 +180,80 @@
             transition: transform 0.3s ease;
         }
 
-        .hero-stat:hover .hero-icon {
-            transform: scale(1.08);
-            animation: float 2s ease-in-out infinite;
-        }
-
-        /* ── Standard stat card ── */
-        .stat-card {
-            position: relative;
-            overflow: hidden;
-            background: #fff;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .stat-card:hover {
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
-        }
-
-        .stat-card .accent-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            border-radius: 18px 18px 0 0;
-        }
-
-        /* ── Icon box ── */
-        .icon-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: transform 0.2s ease;
-        }
-
-        .stat-card:hover .icon-box {
+        .overview-card:hover .card-icon-bg {
             transform: scale(1.08);
         }
 
-        /* ── Progress bar ── */
-        .progress-track {
-            width: 100%;
-            height: 6px;
-            border-radius: 99px;
-            background: rgba(0, 0, 0, 0.06);
-            overflow: hidden;
+        /* ── TV Mode Styling Overrides ── */
+        body.tv-mode-active {
+            background-color: #FAF9F6;
         }
 
-        .progress-fill {
-            height: 100%;
-            border-radius: 99px;
-            animation: progressFill 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-            animation-delay: 0.5s;
-            width: 0;
+        body.tv-mode-active aside {
+            display: none !important;
         }
 
-        /* ── Badge ── */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px 10px;
-            border-radius: 99px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.01em;
+        body.tv-mode-active header {
+            display: none !important;
         }
 
-        /* ── Status dot ── */
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            display: inline-block;
-            flex-shrink: 0;
+        body.tv-mode-active #desktop-controls-bar {
+            display: none !important;
+            /* Hide sub-bar in TV mode */
         }
 
-        .status-dot.pulse {
-            animation: pulse-glow 2s ease-in-out infinite;
+        body.tv-mode-active #tv-mode-header {
+            display: flex !important;
         }
 
-        /* ── Button ── */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s ease;
-            white-space: nowrap;
+        body.tv-mode-active #dashboard-content {
+            padding: 28px !important;
+            height: calc(100vh - 94px) !important;
         }
 
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        body.tv-mode-active .progress-bar-container {
+            display: block !important;
+            /* Show progress bar in TV mode */
         }
 
-        .btn:active {
-            transform: scale(0.97);
+        body.tv-mode-active .overview-card {
+            padding: 28px !important;
+            border-radius: 20px !important;
         }
 
-        /* ── Table ── */
-        tbody tr {
-            transition: all 0.15s ease;
+        body.tv-mode-active .tv-zoom-card {
+            padding: 18px !important;
+            border-radius: 16px !important;
         }
 
-        tbody tr:hover {
-            background: #FEFCFA;
+        body.tv-mode-active .tv-card-title {
+            font-size: 1.15rem !important;
+            line-height: 1.5rem !important;
         }
 
-        /* ── Greeting shimmer ── */
-        .shimmer-text {
-            background: linear-gradient(90deg, #18181B 30%, #D97706 50%, #18181B 70%);
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 4s ease-in-out infinite;
+        body.tv-mode-active .tv-card-subtitle {
+            font-size: 0.9rem !important;
         }
 
-        /* ── Quick action buttons ── */
-        .quick-action {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding: 16px 12px;
-            border-radius: 14px;
-            background: #fff;
-            border: 1px solid #F0EDE8;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            text-decoration: none;
+        body.tv-mode-active .tv-card-count {
+            font-size: 2.1rem !important;
+            line-height: 1 !important;
         }
 
-        .quick-action:hover {
-            background: #FFFBF5;
-            border-color: #F0D9C0;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.08);
+        body.tv-mode-active .tv-card-volume {
+            font-size: 0.95rem !important;
         }
 
-        .quick-action .qa-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.25s ease;
+        body.tv-mode-active .tv-grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         }
 
-        .quick-action:hover .qa-icon {
-            transform: scale(1.1);
+        body.tv-mode-active .tv-grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         }
 
-        /* ── Search input ── */
-        .search-input {
-            background: #F9F7F4;
-            border: 1px solid #F0EDE8;
-            border-radius: 10px;
-            padding: 7px 12px 7px 34px;
-            font-size: 12.5px;
-            color: #3F3F46;
-            transition: all 0.2s ease;
-            outline: none;
-            width: 200px;
-        }
-
-        .search-input::placeholder {
-            color: #A1A1AA;
-        }
-
-        .search-input:focus {
-            background: #fff;
-            border-color: #D97706;
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        body.tv-mode-active .tv-grid-cols-4 {
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
         }
     </style>
     <link rel="stylesheet" href="shared.css">
@@ -444,11 +284,12 @@
                 </div>
             </a>
         </div>
-                                                                                                <!-- Nav -->
-        <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
 
+        <!-- Nav -->
+        <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
             <a href="index.html" class="nav-item active" data-title="Dashboard">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" />
                     <rect x="14" y="3" width="7" height="7" rx="1.5" />
                     <rect x="14" y="14" width="7" height="7" rx="1.5" />
@@ -458,44 +299,51 @@
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
-
-            <!-- Penerimaan accordion -->
             <div class="has-submenu-container">
-                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu" data-title="Penerimaan">
-                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu"
+                    data-title="Penerimaan">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round">
                         <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
-                        <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                        <path
+                            d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
                     </svg>
                     <span class="sidebar-text">Penerimaan</span>
-                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron  text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron text-zinc-400" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
-                <div id="penerimaan-menu" class="submenu  ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                    <a href="penerimaan-log.html" class="submenu-item ">Penerimaan Log</a>
-                    <a href="penerimaan-sawtimber.html" class="submenu-item ">Penerimaan Sawtimber</a>
-                    <a href="penerimaan-crosscut.html" class="submenu-item ">Penerimaan Crosscut</a>
-                    <a href="penerimaan-kaca.html" class="submenu-item ">Penerimaan Kaca</a>
+                <div id="penerimaan-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5"
+                    style="border-left:2px solid #F0EDE8;">
+                    <a href="penerimaan-log.html" class="submenu-item">Penerimaan Log</a>
+                    <a href="penerimaan-sawtimber.html" class="submenu-item">Penerimaan Sawtimber</a>
+                    <a href="penerimaan-crosscut.html" class="submenu-item">Penerimaan Crosscut</a>
+                    <a href="penerimaan-kaca.html" class="submenu-item">Penerimaan Kaca</a>
                 </div>
             </div>
 
-            <a href="konversi-log.html" class="nav-item " data-title="Konversi Log">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+            <a href="konversi-log.html" class="nav-item" data-title="Konversi Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path
+                        d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
                 </svg>
                 <span class="sidebar-text">Konversi Log</span>
             </a>
 
-            <a href="konversi-kiln-dry.html" class="nav-item " data-title="Konversi Kiln Dry">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="konversi-kiln-dry.html" class="nav-item" data-title="Konversi Kiln Dry">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 20v-6M9 20v-10M6 20v-4M15 20v-8M18 20v-12M21 20V4" />
                     <path d="M3 20h18" />
                 </svg>
                 <span class="sidebar-text">Konversi Kiln Dry</span>
             </a>
 
-            <a href="proses-produksi.html" class="nav-item " data-title="Proses Produksi">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="proses-produksi.html" class="nav-item" data-title="Proses Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
                     <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
                     <path d="M9 14h6" />
@@ -505,16 +353,18 @@
                 <span class="sidebar-text">Proses Produksi</span>
             </a>
 
-            <a href="hasil-produksi.html" class="nav-item " data-title="Hasil Produksi">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="hasil-produksi.html" class="nav-item" data-title="Hasil Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
                 <span class="sidebar-text">Hasil Produksi</span>
             </a>
 
-            <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <a href="penjualan-produk.html" class="nav-item" data-title="Penjualan Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -522,34 +372,37 @@
                 <span class="sidebar-text">Penjualan Produk</span>
             </a>
 
-            <a href="waste-material.html" class="nav-item " data-title="Waste Material">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            <a href="waste-material.html" class="nav-item" data-title="Waste Material">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
                 <span class="sidebar-text">Waste Material</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Stok</p>
-
-            <a href="stok-log.html" class="nav-item " data-title="Stok Log">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+            <a href="stok-log.html" class="nav-item" data-title="Stok Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                     <line x1="12" y1="22.08" x2="12" y2="12" />
                 </svg>
                 <span class="sidebar-text">Stok Log</span>
             </a>
-
-            <a href="stok-sawtimber.html" class="nav-item " data-title="Stok Sawtimber">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <a href="stok-sawtimber.html" class="nav-item" data-title="Stok Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
                     <rect x="2" y="7" width="20" height="14" rx="2" />
                     <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
                 </svg>
                 <span class="sidebar-text">Stok Sawtimber</span>
             </a>
-
-            <a href="stok-crosscut.html" class="nav-item " data-title="Stok Crosscut">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <a href="stok-crosscut.html" class="nav-item" data-title="Stok Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
                     <rect x="1" y="3" width="15" height="13" rx="2" />
                     <path d="M16 8h4l3 3v5h-7V8z" />
                     <circle cx="5.5" cy="18.5" r="2.5" />
@@ -557,25 +410,25 @@
                 </svg>
                 <span class="sidebar-text">Stok Crosscut</span>
             </a>
-
-            <a href="stok-bahan-baku.html" class="nav-item " data-title="Stok Bahan Baku">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <a href="stok-bahan-baku.html" class="nav-item" data-title="Stok Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5z" />
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
                 <span class="sidebar-text">Stok Bahan Baku</span>
             </a>
-
-            <a href="stok-product.html" class="nav-item " data-title="Stok Produk">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <a href="stok-product.html" class="nav-item" data-title="Stok Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
                 <span class="sidebar-text">Stok Produk</span>
             </a>
-
-            <a href="stock-opname.html" class="nav-item " data-title="Stock Opname">
+            
+            <a href="stock-opname.html" class="nav-item" data-title="Stock Opname">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
@@ -584,7 +437,7 @@
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
 
-            <a href="master-log.html" class="nav-item " data-title="Master Log">
+            <a href="master-log.html" class="nav-item" data-title="Master Log">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <ellipse cx="12" cy="5" rx="9" ry="3" />
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
@@ -593,7 +446,7 @@
                 <span class="sidebar-text">Master Log</span>
             </a>
 
-            <a href="master-sawtimber.html" class="nav-item " data-title="Master Sawtimber">
+            <a href="master-sawtimber.html" class="nav-item" data-title="Master Sawtimber">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <rect x="2" y="7" width="20" height="14" rx="2" />
                     <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
@@ -601,7 +454,7 @@
                 <span class="sidebar-text">Master Sawtimber</span>
             </a>
 
-            <a href="master-crosscut.html" class="nav-item " data-title="Master Crosscut">
+            <a href="master-crosscut.html" class="nav-item" data-title="Master Crosscut">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <line x1="8" y1="6" x2="21" y2="6" />
                     <line x1="8" y1="12" x2="21" y2="12" />
@@ -613,7 +466,7 @@
                 <span class="sidebar-text">Master Crosscut</span>
             </a>
 
-            <a href="master-kaca.html" class="nav-item " data-title="Master Kaca">
+            <a href="master-kaca.html" class="nav-item" data-title="Master Kaca">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
@@ -622,7 +475,7 @@
                 <span class="sidebar-text">Master Kaca</span>
             </a>
 
-            <a href="master-bahan-baku.html" class="nav-item " data-title="Master Bahan Baku">
+            <a href="master-bahan-baku.html" class="nav-item" data-title="Master Bahan Baku">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5z" />
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -630,7 +483,7 @@
                 <span class="sidebar-text">Master Bahan Baku</span>
             </a>
 
-            <a href="master-produk.html" class="nav-item " data-title="Master Produk">
+            <a href="master-produk.html" class="nav-item" data-title="Master Produk">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
@@ -639,7 +492,7 @@
                 <span class="sidebar-text">Master Produk</span>
             </a>
 
-            <a href="master-pengguna.html" class="nav-item " data-title="Master Pengguna">
+            <a href="master-pengguna.html" class="nav-item" data-title="Master Pengguna">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                     <circle cx="9" cy="7" r="4" />
@@ -651,7 +504,7 @@
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sistem</p>
 
-            <a href="system-log.html" class="nav-item " data-title="System Log">
+            <a href="system-log.html" class="nav-item" data-title="System Log">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                     <line x1="16" y1="2" x2="16" y2="6" />
@@ -660,21 +513,103 @@
                 </svg>
                 <span class="sidebar-text">System Log</span>
             </a>
-
         </nav>
     </aside>
 
     <!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
-    <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
 
-        <!-- TOP BAR -->
+        <!-- AUTO-PLAY PROGRESS BAR (Top border in TV mode) -->
+        <div class="progress-bar-container flex-shrink-0">
+            <div id="slide-progress" class="progress-bar-fill"></div>
+        </div>
+
+        <!-- TV MODE HEADER -->
+        <div id="tv-mode-header"
+            class="hidden h-[90px] bg-white items-center justify-between px-8 border-b border-zinc-200 select-none">
+            <div class="flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="14" width="4" height="6" rx="1" />
+                        <rect x="10" y="10" width="4" height="10" rx="1" />
+                        <rect x="17" y="12" width="4" height="8" rx="1" />
+                        <path d="M5 14V8M12 10V4M19 12V6" />
+                        <path d="M3 4h18" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-3">
+                        REALTIME MONITOR
+                        <span
+                            class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full pulse-live select-none">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                            LIVE SYNC ACTIVE
+                        </span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide Indicator HUD -->
+            <div class="flex items-center gap-2 px-5 py-2.5 bg-zinc-100 rounded-2xl border border-zinc-200">
+                <span class="text-xs font-black text-zinc-500 uppercase tracking-widest">Halaman:</span>
+                <span id="tv-slide-indicator" class="text-sm font-black text-amber-700">1 / 6</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Clock -->
+                <div
+                    class="text-sm font-extrabold text-zinc-700 bg-zinc-50 border border-zinc-150 px-4 py-2.5 rounded-xl flex items-center gap-2">
+                    <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span id="tv-live-datetime">-</span>
+                </div>
+
+                <!-- Slide Control Panel (TV Mode) -->
+                <div class="flex items-center gap-1 bg-zinc-50 border border-zinc-250 p-1 rounded-xl">
+                    <button onclick="prevSlide()"
+                        class="p-2 hover:bg-zinc-100 rounded-lg text-zinc-600 transition-colors" title="Previous Page">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>
+                    </button>
+                    <button id="tv-play-btn" onclick="togglePlay()"
+                        class="p-2 hover:bg-zinc-100 rounded-lg text-amber-700 transition-colors"
+                        title="Pause Rotation">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <rect x="6" y="4" width="4" height="16" />
+                            <rect x="14" y="4" width="4" height="16" />
+                        </svg>
+                    </button>
+                    <button onclick="nextSlide()"
+                        class="p-2 hover:bg-zinc-100 rounded-lg text-zinc-600 transition-colors" title="Next Page">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                    </button>
+                </div>
+
+                <button onclick="toggleTVMode()"
+                    class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center gap-2">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                    EXIT TV MODE
+                </button>
+            </div>
+        </div>
+
+        <!-- STANDARD DESKTOP HEADER -->
         <header
-            class="h-16 bg-white/80 backdrop-blur-md flex items-center justify-between px-7 flex-shrink-0 relative z-30"
-            style="border-bottom:1px solid #F0EDE8;">
+            class="h-16 bg-white/80 backdrop-blur-md flex items-center justify-between px-7 flex-shrink-0 relative z-30 border-b border-zinc-200">
             <div class="flex items-center gap-3">
                 <button id="sidebar-toggle-btn"
-                    class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all"
-                    title="Toggle Sidebar">
+                    class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round">
                         <line x1="3" y1="12" x2="21" y2="12" />
@@ -683,17 +618,18 @@
                     </svg>
                 </button>
                 <div>
-                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Dashboard</h1>
-                    <p class="text-[11px] text-zinc-400 mt-0.5">Kamis, 04 Juni 2026 &nbsp;·&nbsp; Selamat datang kembali
-                        👋
-                    </p>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight flex items-center gap-2">
+                        Dashboard
+                        <span class="px-2 py-0.5 text-[9px] font-bold bg-amber-100 text-amber-800 rounded">7 Display
+                            Slides</span>
+                    </h1>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Real-time stock monitoring slideshow board</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
 
-
+            <div class="flex items-center gap-4">
                 <div
-                    class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default hover:bg-zinc-100/80 transition-all select-none">
+                    class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default">
                     <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
@@ -701,7 +637,19 @@
                     </svg>
                     <span id="live-datetime">-</span>
                 </div>
-                <div class="w-px h-6 bg-zinc-100 mx-1"></div>
+
+                <button onclick="toggleTVMode()"
+                    class="px-4 py-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-extrabold text-xs rounded-xl shadow-md shadow-amber-500/10 transition-all flex items-center gap-2 active:scale-95">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                    TV MODE
+                </button>
+
+                <div class="w-px h-6 bg-zinc-150 mx-1"></div>
 
                 <!-- Profile Dropdown -->
                 <div class="relative">
@@ -747,811 +695,969 @@
             </div>
         </header>
 
-        <!-- SCROLLABLE CONTENT -->
-        <div class="flex-1 overflow-y-auto p-7 space-y-6" id="dashboard-content">
-
-
-
-            <!-- ── HERO STAT CARDS (featured, gradient-filled like Finexy) ── -->
-            <div class="grid grid-cols-3 gap-5 anim d2">
-
-                <!-- Total Raw Log — warm amber gradient -->
-                <div class="hero-stat"
-                    style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.25);">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <p class="text-[11px] font-bold text-white/70 uppercase tracking-widest">Total Raw Log</p>
-                        </div>
-                        <div class="hero-icon">
-                            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round">
-                                <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p class="text-[36px] font-extrabold text-white leading-none">888</p>
-                    <p class="text-[13px] text-white/70 mt-1 font-medium">batang</p>
-                    <div class="mt-4 pt-3 flex items-center justify-between"
-                        style="border-top:1px solid rgba(255,255,255,0.2);">
-                        <span class="text-[11.5px] text-white/60">Volume tersedia</span>
-                        <span class="text-[11.5px] font-bold text-white">9,412.00 m³</span>
-                    </div>
+        <!-- SUB-HEADER FOR TABS & CONTROLS -->
+        <div id="desktop-controls-bar"
+            class="bg-white border-b border-zinc-200 px-7 py-3 flex items-center justify-between z-20 flex-shrink-0">
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Pilih Kategori:</span>
+                <!-- Tab Controls (Desktop) -->
+                <div class="flex items-center gap-1.5 p-1 bg-zinc-50 border border-zinc-200 rounded-xl"
+                    id="desktop-tabs">
+                    <button onclick="setSlide(1)"
+                        class="tab-btn px-3 py-1.5 text-xs font-extrabold rounded-lg transition-all bg-white shadow-sm text-zinc-900"
+                        data-slide="1">Overview</button>
+                    <button onclick="setSlide(2)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="2">Logs</button>
+                    <button onclick="setSlide(3)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="3">Sawtimber</button>
+                    <button onclick="setSlide(4)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="4">Oven KD</button>
+                    <button onclick="setSlide(5)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="5">Kaca</button>
+                    <button onclick="setSlide(6)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="6">Crosscut</button>
+                    <button onclick="setSlide(7)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="7">Produk Jadi</button>
                 </div>
-
-                <!-- Total Sawtimber — green gradient -->
-                <div class="hero-stat"
-                    style="background: linear-gradient(135deg, #22C55E 0%, #16A34A 50%, #15803D 100%); box-shadow: 0 8px 30px rgba(22, 163, 74, 0.2);">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <p class="text-[11px] font-bold text-white/70 uppercase tracking-widest">Total Sawtimber</p>
-                        </div>
-                        <div class="hero-icon">
-                            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round">
-                                <rect x="2" y="7" width="20" height="14" rx="2" />
-                                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                                <line x1="12" y1="12" x2="12" y2="16" />
-                                <line x1="10" y1="14" x2="14" y2="14" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p class="text-[36px] font-extrabold text-white leading-none">944</p>
-                    <p class="text-[13px] text-white/70 mt-1 font-medium">lembar</p>
-                    <div class="mt-4 pt-3 flex items-center justify-between"
-                        style="border-top:1px solid rgba(255,255,255,0.2);">
-                        <span class="text-[11.5px] text-white/60">Total volume</span>
-                        <span class="text-[11.5px] font-bold text-white">14,160.00 m³</span>
-                    </div>
-                </div>
-
-                <!-- Total Bahan Baku — teal gradient -->
-                <div class="hero-stat"
-                    style="background: linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%); box-shadow: 0 8px 30px rgba(13, 148, 136, 0.2);">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <p class="text-[11px] font-bold text-white/70 uppercase tracking-widest">Bahan Baku</p>
-                        </div>
-                        <div class="hero-icon">
-                            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round">
-                                <path
-                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p class="text-[36px] font-extrabold text-white leading-none">944</p>
-                    <p class="text-[13px] text-white/70 mt-1 font-medium">lembar A/B</p>
-                    <div class="mt-4 pt-3 flex items-center justify-between"
-                        style="border-top:1px solid rgba(255,255,255,0.2);">
-                        <span class="text-[11.5px] text-white/60">Siap produksi</span>
-                        <span class="text-[11.5px] font-bold text-white">14,160.00 m³</span>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- ── SECONDARY STAT CARDS ── -->
-            <div class="grid grid-cols-3 gap-5 anim d3">
-
-                <!-- Produk Jadi -->
-                <div class="stat-card">
-                    <div class="accent-line" style="background: linear-gradient(90deg, #3B82F6, #60A5FA);"></div>
-                    <div class="flex items-start justify-between mb-3">
-                        <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Produk Jadi</p>
-                        <div class="icon-box bg-blue-50">
-                            <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p class="text-[28px] font-extrabold text-zinc-900 leading-none">9</p>
-                    <p class="text-[12.5px] text-zinc-500 mt-1 font-medium">unit</p>
-                    <div class="mt-4 pt-3 flex items-center gap-2" style="border-top:1px solid #F0F0F5;">
-                        <span class="status-dot bg-blue-500"></span>
-                        <span class="text-[11.5px] font-semibold text-blue-600">Siap dijual</span>
-                    </div>
-                </div>
-
-                <!-- Crosscut -->
-                <div class="stat-card">
-                    <div class="accent-line" style="background: linear-gradient(90deg, #8B5CF6, #A78BFA);"></div>
-                    <div class="flex items-start justify-between mb-3">
-                        <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Crosscut</p>
-                        <div class="icon-box bg-violet-50">
-                            <svg class="w-5 h-5 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round">
-                                <rect x="1" y="3" width="15" height="13" rx="2" />
-                                <path d="M16 8h4l3 3v5h-7V8z" />
-                                <circle cx="5.5" cy="18.5" r="2.5" />
-                                <circle cx="18.5" cy="18.5" r="2.5" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p class="text-[28px] font-extrabold text-zinc-900 leading-none">0.00</p>
-                    <p class="text-[12.5px] text-zinc-500 mt-1 font-medium">m³</p>
-                    <div class="mt-4 pt-3 flex items-center gap-2" style="border-top:1px solid #F0F0F5;">
-                        <span class="status-dot bg-zinc-300"></span>
-                        <span class="text-[11.5px] text-zinc-400">0 entri</span>
-                    </div>
-                </div>
-
-                <!-- Kaca -->
-                <div class="stat-card">
-                    <div class="accent-line" style="background: linear-gradient(90deg, #64748B, #94A3B8);"></div>
-                    <div class="flex items-start justify-between mb-3">
-                        <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Kaca</p>
-                        <div class="icon-box bg-slate-50">
-                            <svg class="w-5 h-5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round">
-                                <rect x="2" y="3" width="20" height="14" rx="2" />
-                                <path d="M2 10h20" />
-                                <path d="M7 3v14" />
-                            </svg>
-                        </div>
-                    </div>
-                    <p class="text-[28px] font-extrabold text-zinc-900 leading-none">0</p>
-                    <p class="text-[12.5px] text-zinc-500 mt-1 font-medium">lembar</p>
-                    <div class="mt-4 pt-3 flex items-center gap-2" style="border-top:1px solid #F0F0F5;">
-                        <span class="status-dot bg-zinc-300"></span>
-                        <span class="text-[11.5px] text-zinc-400">0.000 m³</span>
-                    </div>
-                </div>
-
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Auto Rotate Slideshow:</span>
+                <!-- Play/Pause Controls -->
+                <button id="desktop-play-btn" onclick="togglePlay()"
+                    class="p-2 border border-zinc-200 rounded-xl text-amber-700 hover:bg-zinc-50 transition-colors"
+                    title="Pause Auto Rotation">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                </button>
             </div>
+        </div>
+
+        <!-- CONTAINER FOR SCROLLABLE SLIDESHOW VIEWS -->
+        <div class="flex-1 overflow-y-auto p-7" id="dashboard-content">
 
 
-            <!-- ── CHARTS ROW ── -->
-            <div class="grid grid-cols-5 gap-5 anim d5">
 
-                <!-- Donut: Distribusi Material -->
-                <div class="card col-span-2 p-6" id="chart-distribusi">
-                    <div class="mb-5">
-                        <h3 class="text-[14px] font-bold text-zinc-800">Distribusi Material</h3>
-                        <p class="text-[12px] text-zinc-400 mt-0.5">Perbandingan volume stok saat ini</p>
-                    </div>
-                    <div class="flex items-center gap-6">
-                        <div class="relative flex-shrink-0" style="width:140px;height:140px;">
-                            <canvas id="donutChart"></canvas>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                <p class="text-[22px] font-extrabold text-zinc-800 leading-none">2,785</p>
-                                <p class="text-[11px] text-zinc-400 mt-0.5 font-medium">Total Item</p>
+            <!-- ================= SLIDE 1: OVERVIEW SUMMARY ================= -->
+            <div id="slide-1" class="slide-container active">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5 flex items-center gap-2">
+                    RINGKASAN TOTAL STOK LAPANGAN
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 tv-zoom-grid tv-grid-cols-3">
+
+                    <!-- Card 1: Logs -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.25);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    LOG KAYU MENTAH</p>
                             </div>
-                        </div>
-                        <div class="space-y-3.5 flex-1 min-w-0">
-                            <div class="flex items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5 min-w-0">
-                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
-                                        style="background: linear-gradient(135deg, #F59E0B, #D97706);"></div>
-                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Raw Log</span>
-                                </div>
-                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">888</span>
-                            </div>
-                            <div class="flex items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5 min-w-0">
-                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
-                                        style="background: linear-gradient(135deg, #22C55E, #16A34A);"></div>
-                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Sawtimber</span>
-                                </div>
-                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">944</span>
-                            </div>
-                            <div class="flex items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5 min-w-0">
-                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
-                                        style="background: linear-gradient(135deg, #14B8A6, #0D9488);"></div>
-                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Bahan Baku</span>
-                                </div>
-                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">944</span>
-                            </div>
-                            <div class="flex items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5 min-w-0">
-                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
-                                        style="background: linear-gradient(135deg, #3B82F6, #2563EB);"></div>
-                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Produk Jadi</span>
-                                </div>
-                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Progress bars -->
-                    <div class="mt-5 space-y-2.5">
-                        <div class="flex items-center gap-3">
-                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Raw Log</span>
-                            <div class="progress-track flex-1">
-                                <div class="progress-fill"
-                                    style="--target-width: 32%; background: linear-gradient(90deg, #F59E0B, #D97706);">
-                                </div>
-                            </div>
-                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">32%</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Sawtimber</span>
-                            <div class="progress-track flex-1">
-                                <div class="progress-fill"
-                                    style="--target-width: 34%; background: linear-gradient(90deg, #22C55E, #16A34A);">
-                                </div>
-                            </div>
-                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">34%</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Bhn Baku</span>
-                            <div class="progress-track flex-1">
-                                <div class="progress-fill"
-                                    style="--target-width: 34%; background: linear-gradient(90deg, #14B8A6, #0D9488);">
-                                </div>
-                            </div>
-                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">34%</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Produk</span>
-                            <div class="progress-track flex-1">
-                                <div class="progress-fill"
-                                    style="--target-width: 0.3%; background: linear-gradient(90deg, #3B82F6, #2563EB);">
-                                </div>
-                            </div>
-                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">&lt;1%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bar Chart: Aktivitas -->
-                <div class="card col-span-3 p-6" id="chart-aktivitas">
-                    <div class="flex items-center justify-between mb-5">
-                        <div>
-                            <h3 class="text-[14px] font-bold text-zinc-800">Aktivitas Produksi</h3>
-                            <p class="text-[12px] text-zinc-400 mt-0.5">Penerimaan &amp; produksi 7 hari terakhir</p>
-                        </div>
-                        <div class="flex items-center gap-0.5 p-1 bg-zinc-50 rounded-xl"
-                            style="border: 1px solid #F0EDE8;">
-                            <button id="btn-minggu" onclick="switchChart('minggu')"
-                                class="px-3.5 py-1.5 text-[11px] font-semibold rounded-lg bg-white shadow-sm text-zinc-700 transition-all">Mingguan</button>
-                            <button id="btn-bulan" onclick="switchChart('bulan')"
-                                class="px-3.5 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-zinc-600 rounded-lg transition-all">Bulanan</button>
-                        </div>
-                    </div>
-                    <div style="height:180px;">
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- ── STOCK MINI TABLES ── -->
-            <div class="grid grid-cols-3 gap-5 anim d7">
-
-                <!-- Raw Log -->
-                <div class="card p-5" id="stock-rawlog">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                                style="background: linear-gradient(135deg, #F59E0B, #D97706);"></div>
-                            <h3 class="text-[13.5px] font-bold text-zinc-800">Raw Log</h3>
-                        </div>
-                        <a href="#"
-                            class="text-[11.5px] font-semibold text-amber-600 hover:text-amber-700 transition-colors flex items-center gap-1">
-                            Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round">
-                                <path d="M5 12h14m-7-7l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
-                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis
-                                </th>
-                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Size
-                                </th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
-                                    Grade</th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
-                                    Qty</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Jati</td>
-                                <td class="py-2.5 text-[12.5px] text-zinc-500">A1</td>
-                                <td class="py-2.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
-                                </td>
-                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">100</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Meranti</td>
-                                <td class="py-2.5 text-[12.5px] text-zinc-500">A3</td>
-                                <td class="py-2.5 text-center"><span class="badge bg-amber-50 text-amber-600">C</span>
-                                </td>
-                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">788</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Sawtimber -->
-                <div class="card p-5" id="stock-sawtimber">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                                style="background: linear-gradient(135deg, #22C55E, #16A34A);"></div>
-                            <h3 class="text-[13.5px] font-bold text-zinc-800">Sawtimber</h3>
-                        </div>
-                        <a href="#"
-                            class="text-[11.5px] font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-1">
-                            Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round">
-                                <path d="M5 12h14m-7-7l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
-                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis
-                                </th>
-                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Size
-                                </th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
-                                    Grade</th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
-                                    Qty</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Jati</td>
-                                <td class="py-2.5 text-[11.5px] text-zinc-500">5×15×200</td>
-                                <td class="py-2.5 text-center"><span class="badge bg-green-50 text-green-600">A</span>
-                                </td>
-                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">944</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Bahan Baku -->
-                <div class="card p-5" id="stock-bahanbaku">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                                style="background: linear-gradient(135deg, #14B8A6, #0D9488);"></div>
-                            <h3 class="text-[13.5px] font-bold text-zinc-800">Bahan Baku A/B</h3>
-                        </div>
-                        <a href="#"
-                            class="text-[11.5px] font-semibold text-teal-600 hover:text-teal-700 transition-colors flex items-center gap-1">
-                            Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round">
-                                <path d="M5 12h14m-7-7l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
-                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis
-                                </th>
-                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Size
-                                </th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
-                                    Grade</th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
-                                    Qty</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Jati</td>
-                                <td class="py-2.5 text-[11.5px] text-zinc-500">5×15×200</td>
-                                <td class="py-2.5 text-center"><span class="badge bg-green-50 text-green-600">A</span>
-                                </td>
-                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">944</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-            <!-- ── PRODUK JADI + AKTIVITAS TERKINI ── -->
-            <div class="grid grid-cols-3 gap-5 anim d8">
-
-                <!-- Produk Jadi -->
-                <div class="card p-5" id="stock-produkjadi">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                                style="background: linear-gradient(135deg, #3B82F6, #2563EB);"></div>
-                            <h3 class="text-[13.5px] font-bold text-zinc-800">Produk Jadi</h3>
-                        </div>
-                        <a href="#"
-                            class="text-[11.5px] font-semibold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1">
-                            Lihat Stok
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round">
-                                <path d="M5 12h14m-7-7l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </div>
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
-                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Varian
-                                </th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
-                                    Total</th>
-                                <th
-                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
-                                    Grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="py-2.5 text-[12.5px] font-semibold text-zinc-700">Pintu Panel 210×90</td>
-                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">9</td>
-                                <td class="py-2.5 text-center"><span class="badge bg-blue-50 text-blue-600">B:9</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <!-- Empty states for Crosscut & Kaca -->
-                    <div class="mt-5 pt-4" style="border-top:1px solid #F4F4F5;">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-2">
-                                <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                                    style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);"></div>
-                                <h3 class="text-[13px] font-bold text-zinc-800">Crosscut Terbaru</h3>
-                            </div>
-                            <a href="#" class="text-[11.5px] font-semibold text-violet-600 flex items-center gap-1">
-                                + Input
-                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                            <div class="card-icon-bg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
                                 </svg>
-                            </a>
+                            </div>
                         </div>
-                        <div class="py-3 flex flex-col items-center gap-1.5">
-                            <div class="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
-                                <svg class="w-4 h-4 text-violet-300" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-logs-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Volume Tersedia</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume" id="summary-logs-vol">Volume:
+                                0.00 m³</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Sawtimber -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #22C55E 0%, #16A34A 50%, #15803D 100%); box-shadow: 0 8px 30px rgba(22, 163, 74, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    SAWTIMBER PAPAN BASAH</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-saw-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Volume Tersedia</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume" id="summary-saw-vol">Volume:
+                                0.00 m³</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Papan Kering Oven KD -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%); box-shadow: 0 8px 30px rgba(13, 148, 136, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    PAPAN KERING OVEN KD</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M12 20v-6M9 20v-10M6 20v-4M15 20v-8M18 20v-12M21 20V4" />
+                                    <path d="M3 20h18" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-kd-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Kategori Aktif</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume" id="summary-kd-spec">0
+                                Kategori</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Crosscut -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%); box-shadow: 0 8px 30px rgba(124, 58, 237, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    STOK CROSSCUT</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
                                     <rect x="1" y="3" width="15" height="13" rx="2" />
                                     <path d="M16 8h4l3 3v5h-7V8z" />
+                                    <circle cx="5.5" cy="18.5" r="2.5" />
+                                    <circle cx="18.5" cy="18.5" r="2.5" />
                                 </svg>
                             </div>
-                            <p class="text-[11.5px] text-zinc-400">Belum ada penerimaan crosscut</p>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-crosscut-vol">0.00</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Status Stok</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume">Sisa potongan/belahan
+                                m³</span>
                         </div>
                     </div>
-                    <div class="mt-3 pt-4" style="border-top:1px solid #F4F4F5;">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-2">
-                                <div class="w-2.5 h-2.5 rounded-full bg-slate-400 flex-shrink-0"></div>
-                                <h3 class="text-[13px] font-bold text-zinc-800">Kaca</h3>
+
+                    <!-- Card 5: Kaca Lembaran -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #64748B 0%, #475569 50%, #334155 100%); box-shadow: 0 8px 30px rgba(71, 85, 105, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    KACA LEMBARAN</p>
                             </div>
-                            <a href="#" class="text-[11.5px] font-semibold text-slate-600 flex items-center gap-1">
-                                + Input
-                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="py-3 flex flex-col items-center gap-1.5">
-                            <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
-                                <svg class="w-4 h-4 text-slate-300" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <div class="card-icon-bg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
                                     <rect x="2" y="3" width="20" height="14" rx="2" />
                                     <path d="M2 10h20" />
                                     <path d="M7 3v14" />
                                 </svg>
                             </div>
-                            <p class="text-[11.5px] text-zinc-400">Belum ada penerimaan kaca</p>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-glass-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Status Bahan</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume">Bahan baku lembaran</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Aktivitas Terkini (spans 2 cols) -->
-                <div class="card col-span-2 p-6" id="activity-table">
-                    <div class="flex items-center justify-between mb-5">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center"
-                                style="background: linear-gradient(135deg, #FFFBF5, #FEF3E2); border: 1px solid #FDE8C8;">
-                                <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    <!-- Card 6: Produk Jadi -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%); box-shadow: 0 8px 30px rgba(37, 99, 235, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    PRODUK JADI</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <circle cx="9" cy="21" r="1" />
+                                    <circle cx="20" cy="21" r="1" />
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                                 </svg>
                             </div>
-                            <div>
-                                <h3 class="text-[14px] font-bold text-zinc-800">Aktivitas Terkini</h3>
-                                <p class="text-[11px] text-zinc-400">Transaksi operasional terbaru</p>
-                            </div>
                         </div>
-                        <a href="#" class="btn text-zinc-600 bg-zinc-50 hover:bg-zinc-100 text-[11px]"
-                            style="border: 1px solid #E4E4E7;">
-                            Lihat Semua
-                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round">
-                                <path d="M5 12h14m-7-7l7 7-7 7" />
-                            </svg>
-                        </a>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-product-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Status Unit</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume">Unit siap dijual</span>
+                        </div>
                     </div>
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
-                                <th class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis</th>
-                                <th class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Material /
-                                    Produk</th>
-                                <th
-                                    class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
-                                    Grade</th>
-                                <th
-                                    class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
-                                    Qty</th>
-                                <th
-                                    class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
-                                    Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="py-3.5">
-                                    <div class="flex items-center gap-2">
-                                        <span class="status-dot bg-green-500 pulse"></span>
-                                        <span class="badge bg-green-50 text-green-700">Produksi</span>
-                                    </div>
-                                </td>
-                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Pintu Panel 210×90</td>
-                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
-                                </td>
-                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">9 unit</td>
-                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">03 Jun 2026</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3.5">
-                                    <div class="flex items-center gap-2">
-                                        <span class="status-dot bg-amber-500"></span>
-                                        <span class="badge bg-amber-50 text-amber-700">Terima Log</span>
-                                    </div>
-                                </td>
-                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Jati · A1</td>
-                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
-                                </td>
-                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">100 btg</td>
-                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">02 Jun 2026</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3.5">
-                                    <div class="flex items-center gap-2">
-                                        <span class="status-dot bg-amber-500"></span>
-                                        <span class="badge bg-amber-50 text-amber-700">Terima Log</span>
-                                    </div>
-                                </td>
-                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Meranti · A3</td>
-                                <td class="py-3.5 text-center"><span class="badge bg-amber-50 text-amber-600">C</span>
-                                </td>
-                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">788 btg</td>
-                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">02 Jun 2026</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3.5">
-                                    <div class="flex items-center gap-2">
-                                        <span class="status-dot bg-teal-500"></span>
-                                        <span class="badge bg-teal-50 text-teal-700">Terima Sawtimber</span>
-                                    </div>
-                                </td>
-                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Jati · 5×15×200</td>
-                                <td class="py-3.5 text-center"><span class="badge bg-green-50 text-green-600">A</span>
-                                </td>
-                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">983 lbr</td>
-                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">02 Jun 2026</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-
             </div>
 
-            <!-- bottom padding -->
-            <div class="h-4"></div>
+            <!-- ================= SLIDE 2: LOG DETAILS FOCUS ================= -->
+            <div id="slide-2" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Log Kayu Mentah
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-logs-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 3: SAWTIMBER DETAILS FOCUS ================= -->
+            <div id="slide-3" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Sawtimber Papan Basah
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-saw-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 4: BAHAN BAKU FOCUS ================= -->
+            <div id="slide-4" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Bahan Baku Oven KD
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-kd-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 5: KACA FOCUS ================= -->
+            <div id="slide-5" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Kaca Lembaran
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-kaca-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 6: CROSSCUT FOCUS ================= -->
+            <div id="slide-6" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Potongan Crosscut
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-crosscut-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 7: PRODUK JADI FOCUS ================= -->
+            <div id="slide-7" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Produk Jadi Siap Dijual
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-products-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
 
         </div><!-- /scrollable -->
     </main>
 
     <!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
     <script>
-        /* ── Sidebar accordion ── */
+        let currentSlide = 1;
+        const totalSlides = 7;
+        let slideInterval = null;
+        let isRotationActive = false; // Disabled by default in desktop view
+        const rotationDuration = 15000; // 15 seconds slide cycle
+        let slideTimePassed = 0;
+        const tickRate = 100; // 100ms progress ticks
 
+        // Stock tracking variables
+        let previousStocks = {
+            logs: {},
+            sawtimber: {},
+            bahanbaku: {},
+            products: {},
+            crosscut: {}
+        };
 
-        /* ── Chart: defaults ── */
-        Chart.defaults.font.family = 'Plus Jakarta Sans';
+        window.addEventListener('DOMContentLoaded', () => {
+            refreshData();
 
-        /* ── Donut ── */
-        new Chart(document.getElementById('donutChart'), {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: [888, 944, 944, 9],
-                    backgroundColor: [
-                        'rgba(245, 158, 11, 0.85)',
-                        'rgba(34, 197, 94, 0.85)',
-                        'rgba(20, 184, 166, 0.85)',
-                        'rgba(59, 130, 246, 0.85)'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 8,
-                    spacing: 3,
-                    borderRadius: 4,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '72%',
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#fff',
-                        borderColor: '#E4E4E7',
-                        borderWidth: 1,
-                        titleColor: '#18181B',
-                        bodyColor: '#71717A',
-                        padding: 12,
-                        cornerRadius: 10,
-                        displayColors: true,
-                        boxPadding: 4,
-                        callbacks: {
-                            label: (ctx) => {
-                                const labels = ['Raw Log', 'Sawtimber', 'Bahan Baku', 'Produk Jadi'];
-                                return '  ' + labels[ctx.dataIndex] + ': ' + ctx.parsed;
-                            }
-                        }
-                    }
-                }
-            }
+            // Set up real time clock
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // Sync database check every 10 seconds
+            setInterval(syncDatabaseCheck, 10000);
+
+            // Initialize play/pause buttons to reflect inactive rotation
+            initializePlayButtons();
+
+            // Start slide rotation timer & progress bar (which will just return since rotation is inactive)
+            resetSlideTimer();
         });
 
-        /* ── Bar Chart data ── */
-        const weekData = {
-            labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-            penerimaan: [45, 62, 38, 80, 55, 28, 0],
-            produksi: [20, 35, 15, 45, 30, 10, 0],
-        };
-        const monthData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-            penerimaan: [320, 410, 280, 500, 390, 180, 0, 0, 0, 0, 0, 0],
-            produksi: [180, 240, 160, 310, 220, 90, 0, 0, 0, 0, 0, 0],
-        };
+        function updateClock() {
+            const now = new Date();
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
 
-        /* Create gradient fills */
-        const barCtx = document.getElementById('barChart').getContext('2d');
-        const amberGradient = barCtx.createLinearGradient(0, 0, 0, 200);
-        amberGradient.addColorStop(0, '#FCD34D');
-        amberGradient.addColorStop(1, '#F59E0B');
-        const greenGradient = barCtx.createLinearGradient(0, 0, 0, 200);
-        greenGradient.addColorStop(0, '#86EFAC');
-        greenGradient.addColorStop(1, '#22C55E');
+            const formatted = `${days[now.getDay()]}, ${String(now.getDate()).padStart(2, '0')} ${months[now.getMonth()]} ${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
 
-        const barChartConfig = {
-            type: 'bar',
-            data: {
-                labels: weekData.labels,
-                datasets: [
-                    {
-                        label: 'Penerimaan',
-                        data: weekData.penerimaan,
-                        backgroundColor: amberGradient,
-                        borderRadius: { topLeft: 6, topRight: 6 },
-                        borderSkipped: false,
-                        barPercentage: 0.5,
-                        categoryPercentage: 0.7,
-                    },
-                    {
-                        label: 'Produksi',
-                        data: weekData.produksi,
-                        backgroundColor: greenGradient,
-                        borderRadius: { topLeft: 6, topRight: 6 },
-                        borderSkipped: false,
-                        barPercentage: 0.5,
-                        categoryPercentage: 0.7,
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        align: 'end',
-                        labels: {
-                            usePointStyle: true,
-                            pointStyle: 'circle',
-                            padding: 18,
-                            font: { size: 11, weight: '600' },
-                            color: '#71717A',
-                            boxWidth: 8,
-                            boxHeight: 8,
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: '#fff',
-                        borderColor: '#E4E4E7',
-                        borderWidth: 1,
-                        titleColor: '#18181B',
-                        bodyColor: '#71717A',
-                        padding: 12,
-                        boxPadding: 4,
-                        cornerRadius: 10,
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: false,
-                        grid: { display: false },
-                        border: { display: false },
-                        ticks: { font: { size: 11, weight: '500' }, color: '#A1A1AA' }
-                    },
-                    y: {
-                        grid: { color: '#F4F4F5', drawBorder: false },
-                        border: { display: false, dash: [3, 3] },
-                        ticks: { font: { size: 11 }, color: '#A1A1AA' }
-                    }
+            if (document.getElementById('live-datetime')) document.getElementById('live-datetime').textContent = formatted;
+            if (document.getElementById('tv-live-datetime')) document.getElementById('tv-live-datetime').textContent = formatted;
+        }
+
+        // Auto-rotation slides logic
+        function resetSlideTimer() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideTimePassed = 0;
+            updateProgressUI();
+
+            if (!isRotationActive) return;
+
+            slideInterval = setInterval(() => {
+                slideTimePassed += tickRate;
+                if (slideTimePassed >= rotationDuration) {
+                    nextSlide();
+                } else {
+                    updateProgressUI();
                 }
-            }
-        };
-
-        const barChart = new Chart(document.getElementById('barChart'), barChartConfig);
-
-        /* ── Switch chart period ── */
-        function switchChart(period) {
-            const d = period === 'minggu' ? weekData : monthData;
-            barChart.data.labels = d.labels;
-            barChart.data.datasets[0].data = d.penerimaan;
-            barChart.data.datasets[1].data = d.produksi;
-            barChart.update('active');
-
-            document.getElementById('btn-minggu').className = period === 'minggu'
-                ? 'px-3.5 py-1.5 text-[11px] font-semibold rounded-lg bg-white shadow-sm text-zinc-700 transition-all'
-                : 'px-3.5 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-zinc-600 rounded-lg transition-all';
-            document.getElementById('btn-bulan').className = period === 'bulan'
-                ? 'px-3.5 py-1.5 text-[11px] font-semibold rounded-lg bg-white shadow-sm text-zinc-700 transition-all'
-                : 'px-3.5 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-zinc-600 rounded-lg transition-all';
+            }, tickRate);
         }
 
-        /* ── Animate numbers on load ── */
-        function animateValue(element, start, end, duration) {
-            const range = end - start;
-            const startTime = performance.now();
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const current = Math.round(start + range * eased);
-                element.textContent = current.toLocaleString('id-ID');
-                if (progress < 1) requestAnimationFrame(update);
-            }
-            requestAnimationFrame(update);
+        function updateProgressUI() {
+            const percent = (slideTimePassed / rotationDuration) * 100;
+            const bar = document.getElementById('slide-progress');
+            if (bar) bar.style.width = `${percent}%`;
+
+            const secs = Math.ceil((rotationDuration - slideTimePassed) / 1000);
+            const countdownText = document.getElementById('countdown-text');
+            if (countdownText) countdownText.textContent = `${secs}s`;
         }
 
-        /* Start counter animations after stagger delay */
-        document.addEventListener('DOMContentLoaded', () => {
-            const heroNumbers = document.querySelectorAll('.hero-stat .text-\\[36px\\]');
-            const targets = [888, 944, 944];
-            heroNumbers.forEach((el, i) => {
-                setTimeout(() => {
-                    animateValue(el, 0, targets[i], 1200);
-                }, 300 + i * 100);
+        function initializePlayButtons() {
+            const tvBtn = document.getElementById('tv-play-btn');
+            const deskBtn = document.getElementById('desktop-play-btn');
+            const playIcon = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+            const pauseIcon = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+
+            const icon = isRotationActive ? pauseIcon : playIcon;
+            if (tvBtn) tvBtn.innerHTML = icon;
+            if (deskBtn) deskBtn.innerHTML = icon;
+        }
+
+        function togglePlay() {
+            isRotationActive = !isRotationActive;
+            const tvBtn = document.getElementById('tv-play-btn');
+            const deskBtn = document.getElementById('desktop-play-btn');
+
+            const pauseIcon = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+            const playIcon = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+
+            if (isRotationActive) {
+                if (tvBtn) tvBtn.innerHTML = pauseIcon;
+                if (deskBtn) deskBtn.innerHTML = pauseIcon;
+                resetSlideTimer();
+            } else {
+                if (tvBtn) tvBtn.innerHTML = playIcon;
+                if (deskBtn) deskBtn.innerHTML = playIcon;
+                if (slideInterval) clearInterval(slideInterval);
+                const bar = document.getElementById('slide-progress');
+                if (bar) bar.style.width = '0%';
+            }
+        }
+
+        function setSlide(slideNum) {
+            currentSlide = slideNum;
+            if (currentSlide > totalSlides) currentSlide = 1;
+            if (currentSlide < 1) currentSlide = totalSlides;
+
+            // Update UI tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                const num = parseInt(btn.getAttribute('data-slide'));
+                if (num === currentSlide) {
+                    btn.className = "tab-btn px-3 py-1.5 text-xs font-extrabold rounded-lg transition-all bg-white shadow-sm text-zinc-900";
+                } else {
+                    btn.className = "tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700";
+                }
             });
-        });
+
+            // Update TV Indicator
+            const indicator = document.getElementById('tv-slide-indicator');
+            if (indicator) {
+                const labels = ['Ringkasan', 'Raw Logs', 'Sawtimber', 'Oven KD', 'Kaca', 'Crosscut', 'Produk Jadi'];
+                indicator.textContent = `${currentSlide} / 7 - ${labels[currentSlide - 1]}`;
+            }
+
+            // Show active slide
+            document.querySelectorAll('.slide-container').forEach((el, idx) => {
+                if (idx + 1 === currentSlide) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+
+            // Reset countdown progress
+            slideTimePassed = 0;
+            resetSlideTimer();
+        }
+
+        function nextSlide() {
+            setSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            setSlide(currentSlide - 1);
+        }
+
+        function toggleTVMode() {
+            document.body.classList.toggle('tv-mode-active');
+            const isActive = document.body.classList.contains('tv-mode-active');
+
+            if (isActive) {
+                // TV Mode: Start slideshow rotation automatically
+                isRotationActive = true;
+                initializePlayButtons();
+                resetSlideTimer();
+                try {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } catch (e) { console.log('Fullscreen blocked'); }
+            } else {
+                // Desktop view: Pause rotation
+                isRotationActive = false;
+                initializePlayButtons();
+                if (slideInterval) clearInterval(slideInterval);
+                const bar = document.getElementById('slide-progress');
+                if (bar) bar.style.width = '0%';
+                try {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                } catch (e) { }
+            }
+        }
+
+        function syncDatabaseCheck() {
+            // Automatically aggregate database updates and trigger flashes
+            refreshData();
+        }
+
+        function refreshData() {
+            // Calculate Stock Maps
+            const logs = calculateLogsStock();
+            const sawtimber = calculateSawtimberStock();
+            const bahanBaku = calculateBahanBakuStock();
+            const crosscut = calculateCrosscutStock();
+            const products = calculateProductsStock();
+
+            // Render Slides UI
+            renderSlide1(logs, sawtimber, bahanBaku, crosscut, products);
+            renderSlide2(logs);
+            renderSlide3(sawtimber);
+            renderSlide4(bahanBaku);
+            renderSlide5(bahanBaku);
+            renderSlide6(crosscut);
+            renderSlide7(products);
+
+            // Ticker latest feed updates
+            updateTicker();
+        }
+
+        /* ── STOCK AGGREGATION CALCULATIONS ── */
+
+        function calculateLogsStock() {
+            const rawLogs = JSON.parse(localStorage.getItem('woodtrack_penerimaan_log') || '[]');
+            const conversions = JSON.parse(localStorage.getItem('woodtrack_log_conversions') || '[]');
+            const sizeCoefs = { 'A1': 0.08, 'A2': 0.18, 'A3': 0.38, 'A4': 0.68, 'A5': 1.18 };
+            const logMap = {};
+
+            rawLogs.forEach(receipt => {
+                if (receipt.items) {
+                    receipt.items.forEach(item => {
+                        const key = `${item.jenis}|${item.grade}|${item.size}`;
+                        if (!logMap[key]) {
+                            logMap[key] = { jenis: item.jenis, grade: item.grade, size: item.size, received: 0, consumed: 0 };
+                        }
+                        logMap[key].received += parseInt(item.jumlah) || 0;
+                    });
+                }
+            });
+
+            conversions.forEach(conv => {
+                if (conv.input) {
+                    const key = `${conv.input.jenis}|${conv.input.grade}|${conv.input.size}`;
+                    if (!logMap[key]) {
+                        logMap[key] = { jenis: conv.input.jenis, grade: conv.input.grade, size: conv.input.size, received: 0, consumed: 0 };
+                    }
+                    logMap[key].consumed += parseInt(conv.input.jumlah) || 0;
+                }
+            });
+
+            return Object.values(logMap).map(log => {
+                const stockLeft = Math.max(0, log.received - log.consumed);
+                const coef = sizeCoefs[log.size] || 0.1;
+                const volume = stockLeft * coef;
+                return { ...log, stock: stockLeft, volume: volume };
+            }).filter(log => log.stock > 0 || log.received > 0);
+        }
+
+        function calculateSawtimberStock() {
+            const rawSawtimber = JSON.parse(localStorage.getItem('woodtrack_penerimaan_sawtimber') || '[]');
+            const ovenBatches = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+            const defaultSizes = [
+                { code: '5×10×200', volume: 0.0100 },
+                { code: '5×15×200', volume: 0.0150 },
+                { code: '7×15×400', volume: 0.0420 },
+                { code: '3×7×300', volume: 0.0063 },
+                { code: '4×10×400', volume: 0.0160 }
+            ];
+            const savedSizes = JSON.parse(localStorage.getItem('woodtrack_sawtimber_sizes') || '[]');
+            const allSizes = [...savedSizes, ...defaultSizes];
+            const stockMap = {};
+
+            rawSawtimber.forEach(entry => {
+                if (entry.items) {
+                    entry.items.forEach(item => {
+                        const key = `${item.jenis}|${item.grade}|${item.size}`;
+                        if (!stockMap[key]) {
+                            stockMap[key] = { jenis: item.jenis, grade: item.grade, size: item.size, received: 0, consumed: 0 };
+                        }
+                        stockMap[key].received += parseInt(item.jumlah) || 0;
+                    });
+                }
+            });
+
+            ovenBatches.forEach(batch => {
+                if (batch.input) {
+                    const key = `${batch.input.jenis}|${batch.input.grade}|${batch.input.size}`;
+                    if (!stockMap[key]) {
+                        stockMap[key] = { jenis: batch.input.jenis, grade: batch.input.grade, size: batch.input.size, received: 0, consumed: 0 };
+                    }
+                    stockMap[key].consumed += parseInt(batch.input.jumlah) || 0;
+                }
+            });
+
+            return Object.values(stockMap).map(item => {
+                const stockLeft = Math.max(0, item.received - item.consumed);
+                const sDef = allSizes.find(s => s.code === item.size);
+                const coef = sDef ? sDef.volume : 0.015;
+                const volume = stockLeft * coef;
+                return { ...item, stock: stockLeft, volume: volume };
+            }).filter(item => item.stock > 0 || item.received > 0);
+        }
+
+        function calculateBahanBakuStock() {
+            const rawGlass = JSON.parse(localStorage.getItem('woodtrack_penerimaan_kaca') || '[]');
+            const dryKiln = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+            const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+            const stockMap = {};
+
+            // Kaca incoming
+            rawGlass.forEach(entry => {
+                if (entry.items) {
+                    entry.items.forEach(item => {
+                        const spec = `${item.tipe} ${item.tebal}mm - ${item.dimensi}`;
+                        if (!stockMap[spec]) {
+                            stockMap[spec] = { spec: spec, kategori: 'Kaca', received: 0, consumed: 0 };
+                        }
+                        stockMap[spec].received += parseInt(item.jumlah) || 0;
+                    });
+                }
+            });
+
+            // Papan Kering KD incoming
+            dryKiln.forEach(batch => {
+                if (batch.output) {
+                    const spec = `${batch.output.jenis} - ${batch.output.size} - Grade ${batch.output.grade}`;
+                    if (!stockMap[spec]) {
+                        stockMap[spec] = { spec: spec, kategori: 'Papan Kering', received: 0, consumed: 0 };
+                    }
+                    stockMap[spec].received += parseInt(batch.output.jumlah) || 0;
+                }
+            });
+
+            // Production consumptions
+            prodRequests.forEach(req => {
+                if (req.materials) {
+                    req.materials.forEach(mat => {
+                        if (mat.kategori === 'Kaca' || mat.kategori === 'Sawtimber') {
+                            const spec = mat.spec;
+                            if (!stockMap[spec]) {
+                                stockMap[spec] = { spec: spec, kategori: mat.kategori === 'Kaca' ? 'Kaca' : 'Papan Kering', received: 0, consumed: 0 };
+                            }
+                            stockMap[spec].consumed += parseInt(mat.jumlah) || 0;
+                        }
+                    });
+                }
+            });
+
+            return Object.values(stockMap).map(item => {
+                const stockLeft = Math.max(0, item.received - item.consumed);
+                return { ...item, stock: stockLeft };
+            }).filter(item => item.stock > 0 || item.received > 0);
+        }
+
+        function calculateCrosscutStock() {
+            const rawCrosscut = JSON.parse(localStorage.getItem('woodtrack_penerimaan_crosscut') || '[]');
+            const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+            const stockMap = {};
+
+            rawCrosscut.forEach(entry => {
+                if (entry.items) {
+                    entry.items.forEach(item => {
+                        const key = item.sumber.trim();
+                        if (!stockMap[key]) {
+                            stockMap[key] = { spec: key, kategori: 'Crosscut', received: 0, consumed: 0 };
+                        }
+                        stockMap[key].received += parseFloat(item.volume) || 0;
+                    });
+                }
+            });
+
+            prodRequests.forEach(req => {
+                if (req.materials) {
+                    req.materials.forEach(mat => {
+                        if (mat.kategori === 'Crosscut') {
+                            const key = mat.spec.trim();
+                            if (!stockMap[key]) {
+                                stockMap[key] = { spec: key, kategori: 'Crosscut', received: 0, consumed: 0 };
+                            }
+                            stockMap[key].consumed += parseFloat(mat.jumlah) || 0;
+                        }
+                    });
+                }
+            });
+
+            return Object.values(stockMap).map(item => {
+                const stockLeft = Math.max(0, item.received - item.consumed);
+                return { ...item, stock: stockLeft };
+            }).filter(item => item.stock > 0 || item.received > 0);
+        }
+
+        function calculateProductsStock() {
+            const prodLogs = JSON.parse(localStorage.getItem('woodtrack_hasil_produksi_logs') || '[]');
+            const salesLogs = JSON.parse(localStorage.getItem('woodtrack_penjualan_produk') || '[]');
+            const stockMap = {};
+
+            prodLogs.forEach(entry => {
+                const key = `${entry.nama}|${entry.grade}`;
+                if (!stockMap[key]) {
+                    stockMap[key] = { nama: entry.nama, grade: entry.grade, received: 0, consumed: 0 };
+                }
+                stockMap[key].received += parseInt(entry.jumlah) || 0;
+            });
+
+            salesLogs.forEach(sale => {
+                if (sale.items) {
+                    sale.items.forEach(item => {
+                        const key = `${item.nama}|${item.grade}`;
+                        if (!stockMap[key]) {
+                            stockMap[key] = { nama: item.nama, grade: item.grade, received: 0, consumed: 0 };
+                        }
+                        stockMap[key].consumed += parseInt(item.jumlah) || 0;
+                    });
+                }
+            });
+
+            return Object.values(stockMap).map(item => {
+                const stockLeft = Math.max(0, item.received - item.consumed);
+                return { ...item, stock: stockLeft };
+            }).filter(item => item.stock > 0 || item.received > 0);
+        }
+
+        /* ── SLIDESHOW RENDERING DETAILS ── */
+
+        // Render Slide 1: Ringkasan Total
+        function renderSlide1(logs, sawtimber, bahanBaku, crosscut, products) {
+            let totalLogQty = logs.reduce((sum, item) => sum + item.stock, 0);
+            let totalLogVol = logs.reduce((sum, item) => sum + item.volume, 0);
+            let totalSawQty = sawtimber.reduce((sum, item) => sum + item.stock, 0);
+            let totalSawVol = sawtimber.reduce((sum, item) => sum + item.volume, 0);
+
+            let totalKDQty = 0;
+            let categoriesSet = new Set();
+            bahanBaku.forEach(item => {
+                if (item.kategori === 'Papan Kering') {
+                    totalKDQty += item.stock;
+                    categoriesSet.add(item.spec.split('-')[0].trim());
+                }
+            });
+
+            let totalKacaQty = bahanBaku.filter(item => item.kategori === 'Kaca').reduce((sum, item) => sum + item.stock, 0);
+            let totalCrosscutVol = crosscut.reduce((sum, item) => sum + item.stock, 0);
+            let totalProdQty = products.reduce((sum, item) => sum + item.stock, 0);
+
+            // Bind values
+            document.getElementById('summary-logs-qty').textContent = `${totalLogQty} btg`;
+            document.getElementById('summary-logs-vol').textContent = `Volume: ${totalLogVol.toFixed(2)} m³`;
+            document.getElementById('summary-saw-qty').textContent = `${totalSawQty} lbr`;
+            document.getElementById('summary-saw-vol').textContent = `Volume: ${totalSawVol.toFixed(2)} m³`;
+            document.getElementById('summary-kd-qty').textContent = `${totalKDQty} pcs`;
+            document.getElementById('summary-kd-spec').textContent = `${categoriesSet.size} Jenis Kayu KD`;
+            document.getElementById('summary-crosscut-vol').textContent = `${totalCrosscutVol.toFixed(2)} m³`;
+            document.getElementById('summary-glass-qty').textContent = `${totalKacaQty} lbr`;
+            document.getElementById('summary-product-qty').textContent = `${totalProdQty} unit`;
+        }
+
+        // Render Slide 2: Log Focus details
+        function renderSlide2(data) {
+            const container = document.getElementById('grid-logs-focus');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = `<div class="col-span-4 py-20 text-center text-zinc-400 text-sm font-bold">Stok Log Mentah Kosong.</div>`;
+                return;
+            }
+
+            // Sort by quantity descending
+            data.sort((a, b) => b.stock - a.stock);
+
+            data.forEach(item => {
+                const itemKey = `logs-${item.jenis}-${item.grade}-${item.size}`;
+                const isUpdated = previousStocks.logs[itemKey] !== undefined && previousStocks.logs[itemKey] !== item.stock;
+                const changeClass = isUpdated ? 'change-flash' : '';
+                previousStocks.logs[itemKey] = item.stock;
+
+                const isCritical = item.stock <= 10;
+                const criticalClass = isCritical ? 'critical-alert' : '';
+
+                let typeColor = 'text-amber-800 bg-amber-100 border-amber-200';
+                if (item.jenis === 'Sengon') typeColor = 'text-emerald-800 bg-emerald-100 border-emerald-200';
+                else if (item.jenis === 'Mahoni') typeColor = 'text-rose-800 bg-rose-100 border-rose-200';
+
+                container.innerHTML += `
+                    <div class="tv-zoom-card bg-white border border-zinc-200 p-3.5 rounded-xl shadow-sm flex flex-col justify-between ${criticalClass} ${changeClass}">
+                        <div>
+                            <div class="flex items-center justify-between gap-1.5">
+                                <span class="tv-card-title text-sm font-bold text-zinc-950">${item.jenis}</span>
+                                <span class="px-1.5 py-0.5 text-[8.5px] font-bold rounded border ${typeColor}">${item.size}</span>
+                            </div>
+                            <p class="tv-card-subtitle text-[9px] text-zinc-400 font-semibold uppercase tracking-wider mt-1.5">
+                                Grade ${item.grade} · <span class="text-amber-700 font-bold tv-card-volume">${item.volume.toFixed(2)} m³</span>
+                            </p>
+                        </div>
+                        <div class="mt-3 flex justify-end">
+                            <span class="tv-card-count text-lg font-extrabold ${isCritical ? 'text-red-600' : 'text-zinc-950'}">${item.stock} <span class="text-[10px] font-bold text-zinc-400">btg</span></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Render Slide 3: Sawtimber Focus details
+        function renderSlide3(data) {
+            const container = document.getElementById('grid-saw-focus');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = `<div class="col-span-4 py-20 text-center text-zinc-400 text-sm font-bold">Stok Sawtimber Kosong.</div>`;
+                return;
+            }
+
+            // Sort by quantity descending
+            data.sort((a, b) => b.stock - a.stock);
+
+            data.forEach(item => {
+                const itemKey = `saw-${item.jenis}-${item.grade}-${item.size}`;
+                const isUpdated = previousStocks.sawtimber[itemKey] !== undefined && previousStocks.sawtimber[itemKey] !== item.stock;
+                const changeClass = isUpdated ? 'change-flash' : '';
+                previousStocks.sawtimber[itemKey] = item.stock;
+
+                const isCritical = item.stock <= 20;
+                const criticalClass = isCritical ? 'critical-alert' : '';
+
+                let typeColor = 'text-amber-800 bg-amber-100 border-amber-200';
+                if (item.jenis === 'Sengon') typeColor = 'text-emerald-800 bg-emerald-100 border-emerald-200';
+
+                container.innerHTML += `
+                    <div class="tv-zoom-card bg-white border border-zinc-200 p-3.5 rounded-xl shadow-sm flex flex-col justify-between ${criticalClass} ${changeClass}">
+                        <div>
+                            <span class="tv-card-title text-sm font-bold text-zinc-950">${item.jenis}</span>
+                            <p class="tv-card-subtitle text-[9px] text-zinc-400 font-semibold uppercase tracking-wider mt-1.5">
+                                Ukuran: <span class="font-mono text-zinc-650">${item.size}</span>
+                            </p>
+                            <p class="tv-card-subtitle text-[9px] text-zinc-400 font-semibold uppercase tracking-wider mt-0.5">
+                                Grade ${item.grade} · <span class="text-emerald-700 font-bold tv-card-volume">${item.volume.toFixed(3)} m³</span>
+                            </p>
+                        </div>
+                        <div class="mt-3 flex justify-end">
+                            <span class="tv-card-count text-lg font-extrabold ${isCritical ? 'text-red-600' : 'text-zinc-950'}">${item.stock} <span class="text-[10px] font-bold text-zinc-400">lbr</span></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Render Slide 4: Oven KD Focus details
+        function renderSlide4(data) {
+            const container = document.getElementById('grid-kd-focus');
+            container.innerHTML = '';
+
+            const kdData = data.filter(item => item.kategori === 'Papan Kering');
+
+            if (kdData.length === 0) {
+                container.innerHTML = `<div class="col-span-4 py-20 text-center text-zinc-400 text-sm font-bold">Stok Papan Oven KD Kosong.</div>`;
+                return;
+            }
+
+            // Sort by quantity descending
+            kdData.sort((a, b) => b.stock - a.stock);
+
+            kdData.forEach(item => {
+                const itemKey = `kd-${item.spec}`;
+                const isUpdated = previousStocks.bahanbaku[itemKey] !== undefined && previousStocks.bahanbaku[itemKey] !== item.stock;
+                const changeClass = isUpdated ? 'change-flash' : '';
+                previousStocks.bahanbaku[itemKey] = item.stock;
+
+                const isCritical = item.stock <= 10;
+                const criticalClass = isCritical ? 'critical-alert' : '';
+
+                container.innerHTML += `
+                    <div class="tv-zoom-card bg-white border border-zinc-200 p-3.5 rounded-xl shadow-sm flex flex-col justify-between ${criticalClass} ${changeClass}">
+                        <div>
+                            <span class="px-1.5 py-0.5 text-[8px] font-bold rounded border bg-teal-50 border-teal-150 text-teal-700">PAPAN KERING Oven KD</span>
+                            <h4 class="tv-card-title text-xs font-bold text-zinc-900 mt-2 truncate" title="${item.spec}">${item.spec}</h4>
+                        </div>
+                        <div class="mt-3.5 flex justify-end">
+                            <span class="tv-card-count text-lg font-extrabold ${isCritical ? 'text-red-600' : 'text-zinc-950'}">${item.stock} <span class="text-[10px] font-bold text-zinc-400">pcs</span></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Render Slide 5: Kaca Lembaran Focus details
+        function renderSlide5(bahanBaku) {
+            const container = document.getElementById('grid-kaca-focus');
+            container.innerHTML = '';
+
+            const glassData = bahanBaku.filter(item => item.kategori === 'Kaca');
+
+            if (glassData.length === 0) {
+                container.innerHTML = `<div class="col-span-4 py-20 text-center text-zinc-400 text-sm font-bold">Stok Kaca Kosong.</div>`;
+                return;
+            }
+
+            // Sort by quantity descending
+            glassData.sort((a, b) => b.stock - a.stock);
+
+            // Render Kaca Cards
+            glassData.forEach(item => {
+                const itemKey = `glass-${item.spec}`;
+                const isUpdated = previousStocks.bahanbaku[itemKey] !== undefined && previousStocks.bahanbaku[itemKey] !== item.stock;
+                const changeClass = isUpdated ? 'change-flash' : '';
+                previousStocks.bahanbaku[itemKey] = item.stock;
+
+                const isCritical = item.stock <= 5;
+                const criticalClass = isCritical ? 'critical-alert' : '';
+
+                container.innerHTML += `
+                    <div class="tv-zoom-card bg-white border border-zinc-200 p-3.5 rounded-xl shadow-sm flex flex-col justify-between ${criticalClass} ${changeClass}">
+                        <div>
+                            <span class="px-1.5 py-0.5 text-[8px] font-bold rounded border bg-indigo-50 border-indigo-150 text-indigo-700">KACA LEMBARAN</span>
+                            <h4 class="tv-card-title text-xs font-bold text-zinc-900 mt-2 truncate" title="${item.spec}">${item.spec}</h4>
+                        </div>
+                        <div class="mt-3.5 flex justify-end">
+                            <span class="tv-card-count text-lg font-extrabold ${isCritical ? 'text-red-600' : 'text-zinc-950'}">${item.stock} <span class="text-[10px] font-bold text-zinc-400">lbr</span></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Render Slide 6: Crosscut Focus details
+        function renderSlide6(crosscut) {
+            const container = document.getElementById('grid-crosscut-focus');
+            container.innerHTML = '';
+
+            if (crosscut.length === 0) {
+                container.innerHTML = `<div class="col-span-4 py-20 text-center text-zinc-400 text-sm font-bold">Stok Crosscut Kosong.</div>`;
+                return;
+            }
+
+            // Sort by volume descending
+            crosscut.sort((a, b) => b.stock - a.stock);
+
+            // Render Crosscut Cards
+            crosscut.forEach(item => {
+                const itemKey = `crosscut-${item.spec}`;
+                const isUpdated = previousStocks.crosscut[itemKey] !== undefined && previousStocks.crosscut[itemKey] !== item.stock;
+                const changeClass = isUpdated ? 'change-flash' : '';
+                previousStocks.crosscut[itemKey] = item.stock;
+
+                const isCritical = item.stock < 2.0;
+                const criticalClass = isCritical ? 'critical-alert' : '';
+
+                container.innerHTML += `
+                    <div class="tv-zoom-card bg-white border border-zinc-200 p-3.5 rounded-xl shadow-sm flex flex-col justify-between ${criticalClass} ${changeClass}">
+                        <div>
+                            <span class="px-1.5 py-0.5 text-[8px] font-bold rounded border bg-purple-50 border-purple-150 text-purple-700">CROSSCUT</span>
+                            <h4 class="tv-card-title text-xs font-bold text-zinc-900 mt-2 truncate" title="${item.spec}">${item.spec}</h4>
+                        </div>
+                        <div class="mt-3.5 flex justify-end">
+                            <span class="tv-card-count text-lg font-extrabold ${isCritical ? 'text-red-600' : 'text-zinc-950'}">${item.stock.toFixed(2)} <span class="text-[10px] font-bold text-zinc-400">m³</span></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Render Slide 7: Products Focus details
+        function renderSlide7(data) {
+            const container = document.getElementById('grid-products-focus');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = `<div class="col-span-4 py-20 text-center text-zinc-400 text-sm font-bold">Stok Produk Jadi Kosong.</div>`;
+                return;
+            }
+
+            // Sort by quantity descending
+            data.sort((a, b) => b.stock - a.stock);
+
+            data.forEach(item => {
+                const itemKey = `prod-${item.nama}-${item.grade}`;
+                const isUpdated = previousStocks.products[itemKey] !== undefined && previousStocks.products[itemKey] !== item.stock;
+                const changeClass = isUpdated ? 'change-flash' : '';
+                previousStocks.products[itemKey] = item.stock;
+
+                const isCritical = item.stock <= 2;
+                const criticalClass = isCritical ? 'critical-alert' : '';
+
+                container.innerHTML += `
+                    <div class="tv-zoom-card bg-white border border-zinc-200 p-3.5 rounded-xl shadow-sm flex flex-col justify-between ${criticalClass} ${changeClass}">
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-1.5 py-0.5 text-[8px] font-bold rounded border bg-blue-50 border-blue-150 text-blue-700">PRODUK JADI</span>
+                                <span class="px-1 py-0.2 bg-zinc-100 text-zinc-500 rounded text-[8.5px] font-bold uppercase">Grade ${item.grade}</span>
+                            </div>
+                            <h4 class="tv-card-title text-xs font-bold text-zinc-900 mt-2 truncate">${item.nama}</h4>
+                        </div>
+                        <div class="mt-3.5 flex justify-end">
+                            <span class="tv-card-count text-lg font-extrabold ${isCritical ? 'text-red-600' : 'text-zinc-950'}">${item.stock} <span class="text-[10px] font-bold text-zinc-400">unit</span></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Ticker logic (Removed)
+        function updateTicker() { }
     </script>
     <script src="shared.js"></script>
 </body>

@@ -1,0 +1,1559 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Dashboard</title>
+    <meta name="description"
+        content="WoodTrack Pro admin dashboard — monitor inventory, production, and sales in real-time.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4CAC0;
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8AFA5;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes progressFill {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: var(--target-width);
+            }
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(217, 119, 6, 0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .anim {
+            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 0;
+        }
+
+        .d1 {
+            animation-delay: 0.05s;
+        }
+
+        .d2 {
+            animation-delay: 0.1s;
+        }
+
+        .d3 {
+            animation-delay: 0.15s;
+        }
+
+        .d4 {
+            animation-delay: 0.2s;
+        }
+
+        .d5 {
+            animation-delay: 0.25s;
+        }
+
+        .d6 {
+            animation-delay: 0.3s;
+        }
+
+        .d7 {
+            animation-delay: 0.35s;
+        }
+
+        .d8 {
+            animation-delay: 0.4s;
+        }
+
+        .d9 {
+            animation-delay: 0.45s;
+        }
+
+        .d10 {
+            animation-delay: 0.5s;
+        }
+
+        /* Core sidebar classes replaced by shared.css */
+
+        /* ── Cards ── */
+        .card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            transform: translateY(-2px);
+        }
+
+        /* ── Hero stat card (gradient-filled like Finexy) ── */
+        .hero-stat {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            padding: 22px;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: default;
+        }
+
+        .hero-stat::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .hero-stat .hero-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-stat:hover .hero-icon {
+            transform: scale(1.08);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* ── Standard stat card ── */
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-card .accent-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 18px 18px 0 0;
+        }
+
+        /* ── Icon box ── */
+        .icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover .icon-box {
+            transform: scale(1.08);
+        }
+
+        /* ── Progress bar ── */
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            border-radius: 99px;
+            background: rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 99px;
+            animation: progressFill 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation-delay: 0.5s;
+            width: 0;
+        }
+
+        /* ── Badge ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+        /* ── Status dot ── */
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .status-dot.pulse {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* ── Button ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ── Table ── */
+        tbody tr {
+            transition: all 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: #FEFCFA;
+        }
+
+        /* ── Greeting shimmer ── */
+        .shimmer-text {
+            background: linear-gradient(90deg, #18181B 30%, #D97706 50%, #18181B 70%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        /* ── Quick action buttons ── */
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 12px;
+            border-radius: 14px;
+            background: #fff;
+            border: 1px solid #F0EDE8;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .quick-action:hover {
+            background: #FFFBF5;
+            border-color: #F0D9C0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.08);
+        }
+
+        .quick-action .qa-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s ease;
+        }
+
+        .quick-action:hover .qa-icon {
+            transform: scale(1.1);
+        }
+
+        /* ── Search input ── */
+        .search-input {
+            background: #F9F7F4;
+            border: 1px solid #F0EDE8;
+            border-radius: 10px;
+            padding: 7px 12px 7px 34px;
+            font-size: 12.5px;
+            color: #3F3F46;
+            transition: all 0.2s ease;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-input::placeholder {
+            color: #A1A1AA;
+        }
+
+        .search-input:focus {
+            background: #fff;
+            border-color: #D97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <aside class="w-[260px] flex-shrink-0 h-full bg-white flex flex-col overflow-hidden"
+        style="border-right:1px solid #F0EDE8;">
+        <!-- Logo -->
+        <div class="px-5 py-5" style="border-bottom:1px solid #F0EDE8;">
+            <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0"
+                    style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="14" width="4" height="6" rx="1" />
+                        <rect x="10" y="10" width="4" height="10" rx="1" />
+                        <rect x="17" y="12" width="4" height="8" rx="1" />
+                        <path d="M5 14V8M12 10V4M19 12V6" />
+                        <path d="M3 4h18" />
+                    </svg>
+                </div>
+                <div class="sidebar-text">
+                    <p class="font-extrabold text-zinc-900 text-sm leading-tight tracking-tight">WoodTrack</p>
+                    <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.14em]">Pro Edition</p>
+                </div>
+            </a>
+        </div>
+                                                                                                <!-- Nav -->
+        <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+
+            <a href="index.html" class="nav-item active" data-title="Dashboard">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                </svg>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
+
+            <!-- Penerimaan accordion -->
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu" data-title="Penerimaan">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                        <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                    </svg>
+                    <span class="sidebar-text">Penerimaan</span>
+                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron  text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div id="penerimaan-menu" class="submenu  ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="penerimaan-log.html" class="submenu-item ">Penerimaan Log</a>
+                    <a href="penerimaan-sawtimber.html" class="submenu-item ">Penerimaan Sawtimber</a>
+                    <a href="penerimaan-crosscut.html" class="submenu-item ">Penerimaan Crosscut</a>
+                    <a href="penerimaan-kaca.html" class="submenu-item ">Penerimaan Kaca</a>
+                </div>
+            </div>
+
+            <a href="konversi-log.html" class="nav-item " data-title="Konversi Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                </svg>
+                <span class="sidebar-text">Konversi Log</span>
+            </a>
+
+            <a href="konversi-kiln-dry.html" class="nav-item " data-title="Konversi Kiln Dry">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20v-6M9 20v-10M6 20v-4M15 20v-8M18 20v-12M21 20V4" />
+                    <path d="M3 20h18" />
+                </svg>
+                <span class="sidebar-text">Konversi Kiln Dry</span>
+            </a>
+
+            <a href="proses-produksi.html" class="nav-item " data-title="Proses Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                    <path d="M9 14h6" />
+                    <path d="M9 18h6" />
+                    <path d="M12 10h3" />
+                </svg>
+                <span class="sidebar-text">Proses Produksi</span>
+            </a>
+
+            <a href="hasil-produksi.html" class="nav-item " data-title="Hasil Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                <span class="sidebar-text">Hasil Produksi</span>
+            </a>
+
+            <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Penjualan Produk</span>
+            </a>
+
+            <a href="waste-material.html" class="nav-item " data-title="Waste Material">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span class="sidebar-text">Waste Material</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Stok</p>
+
+            <a href="stok-log.html" class="nav-item " data-title="Stok Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+                <span class="sidebar-text">Stok Log</span>
+            </a>
+
+            <a href="stok-sawtimber.html" class="nav-item " data-title="Stok Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Stok Sawtimber</span>
+            </a>
+
+            <a href="stok-crosscut.html" class="nav-item " data-title="Stok Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="1" y="3" width="15" height="13" rx="2" />
+                    <path d="M16 8h4l3 3v5h-7V8z" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                <span class="sidebar-text">Stok Crosscut</span>
+            </a>
+
+            <a href="stok-bahan-baku.html" class="nav-item " data-title="Stok Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Stok Bahan Baku</span>
+            </a>
+
+            <a href="stok-product.html" class="nav-item " data-title="Stok Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Stok Produk</span>
+            </a>
+
+            <a href="stock-opname.html" class="nav-item " data-title="Stock Opname">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                <span class="sidebar-text">Stock Opname</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
+
+            <a href="master-log.html" class="nav-item " data-title="Master Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <ellipse cx="12" cy="5" rx="9" ry="3" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                </svg>
+                <span class="sidebar-text">Master Log</span>
+            </a>
+
+            <a href="master-sawtimber.html" class="nav-item " data-title="Master Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Master Sawtimber</span>
+            </a>
+
+            <a href="master-crosscut.html" class="nav-item " data-title="Master Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                <span class="sidebar-text">Master Crosscut</span>
+            </a>
+
+            <a href="master-kaca.html" class="nav-item " data-title="Master Kaca">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                </svg>
+                <span class="sidebar-text">Master Kaca</span>
+            </a>
+
+            <a href="master-bahan-baku.html" class="nav-item " data-title="Master Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Master Bahan Baku</span>
+            </a>
+
+            <a href="master-produk.html" class="nav-item " data-title="Master Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Master Produk</span>
+            </a>
+
+            <a href="master-pengguna.html" class="nav-item " data-title="Master Pengguna">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <span class="sidebar-text">Master Pengguna</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sistem</p>
+
+            <a href="system-log.html" class="nav-item " data-title="System Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span class="sidebar-text">System Log</span>
+            </a>
+
+        </nav>
+    </aside>
+
+    <!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+        <!-- TOP BAR -->
+        <header
+            class="h-16 bg-white/80 backdrop-blur-md flex items-center justify-between px-7 flex-shrink-0 relative z-30"
+            style="border-bottom:1px solid #F0EDE8;">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle-btn"
+                    class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all"
+                    title="Toggle Sidebar">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Dashboard</h1>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Kamis, 04 Juni 2026 &nbsp;·&nbsp; Selamat datang kembali
+                        👋
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+
+
+                <div
+                    class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default hover:bg-zinc-100/80 transition-all select-none">
+                    <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span id="live-datetime">-</span>
+                </div>
+                <div class="w-px h-6 bg-zinc-100 mx-1"></div>
+
+                <!-- Profile Dropdown -->
+                <div class="relative">
+                    <div id="profile-menu-button"
+                        class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all border border-transparent hover:border-zinc-100">
+                        <div
+                            class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                            A</div>
+                        <div class="text-left hidden md:block">
+                            <p class="text-xs font-bold text-zinc-800 leading-tight">Admin</p>
+                            <p class="text-[10px] text-zinc-400 leading-none mt-0.5">admin@woodtrack.id</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-zinc-400 hidden md:block" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <!-- Dropdown -->
+                    <div id="profile-dropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-zinc-100 py-1.5 z-50 origin-top-right transition-all transform scale-95 opacity-0">
+                        <a href="pengaturan.html"
+                            class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
+                            <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                            </svg>
+                            Pengaturan
+                        </a>
+                        <div class="h-px bg-zinc-100 my-1"></div>
+                        <a href="#logout"
+                            class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <polyline points="16 17 21 12 16 7" />
+                                <line x1="21" y1="12" x2="9" y2="12" />
+                            </svg>
+                            Keluar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SCROLLABLE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-7 space-y-6" id="dashboard-content">
+
+
+
+            <!-- ── HERO STAT CARDS (featured, gradient-filled like Finexy) ── -->
+            <div class="grid grid-cols-3 gap-5 anim d2">
+
+                <!-- Total Raw Log — warm amber gradient -->
+                <div class="hero-stat"
+                    style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.25);">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <p class="text-[11px] font-bold text-white/70 uppercase tracking-widest">Total Raw Log</p>
+                        </div>
+                        <div class="hero-icon">
+                            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round">
+                                <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[36px] font-extrabold text-white leading-none">888</p>
+                    <p class="text-[13px] text-white/70 mt-1 font-medium">batang</p>
+                    <div class="mt-4 pt-3 flex items-center justify-between"
+                        style="border-top:1px solid rgba(255,255,255,0.2);">
+                        <span class="text-[11.5px] text-white/60">Volume tersedia</span>
+                        <span class="text-[11.5px] font-bold text-white">9,412.00 m³</span>
+                    </div>
+                </div>
+
+                <!-- Total Sawtimber — green gradient -->
+                <div class="hero-stat"
+                    style="background: linear-gradient(135deg, #22C55E 0%, #16A34A 50%, #15803D 100%); box-shadow: 0 8px 30px rgba(22, 163, 74, 0.2);">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <p class="text-[11px] font-bold text-white/70 uppercase tracking-widest">Total Sawtimber</p>
+                        </div>
+                        <div class="hero-icon">
+                            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" />
+                                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                                <line x1="12" y1="12" x2="12" y2="16" />
+                                <line x1="10" y1="14" x2="14" y2="14" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[36px] font-extrabold text-white leading-none">944</p>
+                    <p class="text-[13px] text-white/70 mt-1 font-medium">lembar</p>
+                    <div class="mt-4 pt-3 flex items-center justify-between"
+                        style="border-top:1px solid rgba(255,255,255,0.2);">
+                        <span class="text-[11.5px] text-white/60">Total volume</span>
+                        <span class="text-[11.5px] font-bold text-white">14,160.00 m³</span>
+                    </div>
+                </div>
+
+                <!-- Total Bahan Baku — teal gradient -->
+                <div class="hero-stat"
+                    style="background: linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%); box-shadow: 0 8px 30px rgba(13, 148, 136, 0.2);">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <p class="text-[11px] font-bold text-white/70 uppercase tracking-widest">Bahan Baku</p>
+                        </div>
+                        <div class="hero-icon">
+                            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round">
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[36px] font-extrabold text-white leading-none">944</p>
+                    <p class="text-[13px] text-white/70 mt-1 font-medium">lembar A/B</p>
+                    <div class="mt-4 pt-3 flex items-center justify-between"
+                        style="border-top:1px solid rgba(255,255,255,0.2);">
+                        <span class="text-[11.5px] text-white/60">Siap produksi</span>
+                        <span class="text-[11.5px] font-bold text-white">14,160.00 m³</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ── SECONDARY STAT CARDS ── -->
+            <div class="grid grid-cols-3 gap-5 anim d3">
+
+                <!-- Produk Jadi -->
+                <div class="stat-card">
+                    <div class="accent-line" style="background: linear-gradient(90deg, #3B82F6, #60A5FA);"></div>
+                    <div class="flex items-start justify-between mb-3">
+                        <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Produk Jadi</p>
+                        <div class="icon-box bg-blue-50">
+                            <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[28px] font-extrabold text-zinc-900 leading-none">9</p>
+                    <p class="text-[12.5px] text-zinc-500 mt-1 font-medium">unit</p>
+                    <div class="mt-4 pt-3 flex items-center gap-2" style="border-top:1px solid #F0F0F5;">
+                        <span class="status-dot bg-blue-500"></span>
+                        <span class="text-[11.5px] font-semibold text-blue-600">Siap dijual</span>
+                    </div>
+                </div>
+
+                <!-- Crosscut -->
+                <div class="stat-card">
+                    <div class="accent-line" style="background: linear-gradient(90deg, #8B5CF6, #A78BFA);"></div>
+                    <div class="flex items-start justify-between mb-3">
+                        <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Crosscut</p>
+                        <div class="icon-box bg-violet-50">
+                            <svg class="w-5 h-5 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round">
+                                <rect x="1" y="3" width="15" height="13" rx="2" />
+                                <path d="M16 8h4l3 3v5h-7V8z" />
+                                <circle cx="5.5" cy="18.5" r="2.5" />
+                                <circle cx="18.5" cy="18.5" r="2.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[28px] font-extrabold text-zinc-900 leading-none">0.00</p>
+                    <p class="text-[12.5px] text-zinc-500 mt-1 font-medium">m³</p>
+                    <div class="mt-4 pt-3 flex items-center gap-2" style="border-top:1px solid #F0F0F5;">
+                        <span class="status-dot bg-zinc-300"></span>
+                        <span class="text-[11.5px] text-zinc-400">0 entri</span>
+                    </div>
+                </div>
+
+                <!-- Kaca -->
+                <div class="stat-card">
+                    <div class="accent-line" style="background: linear-gradient(90deg, #64748B, #94A3B8);"></div>
+                    <div class="flex items-start justify-between mb-3">
+                        <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Kaca</p>
+                        <div class="icon-box bg-slate-50">
+                            <svg class="w-5 h-5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" />
+                                <path d="M2 10h20" />
+                                <path d="M7 3v14" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[28px] font-extrabold text-zinc-900 leading-none">0</p>
+                    <p class="text-[12.5px] text-zinc-500 mt-1 font-medium">lembar</p>
+                    <div class="mt-4 pt-3 flex items-center gap-2" style="border-top:1px solid #F0F0F5;">
+                        <span class="status-dot bg-zinc-300"></span>
+                        <span class="text-[11.5px] text-zinc-400">0.000 m³</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ── CHARTS ROW ── -->
+            <div class="grid grid-cols-5 gap-5 anim d5">
+
+                <!-- Donut: Distribusi Material -->
+                <div class="card col-span-2 p-6" id="chart-distribusi">
+                    <div class="mb-5">
+                        <h3 class="text-[14px] font-bold text-zinc-800">Distribusi Material</h3>
+                        <p class="text-[12px] text-zinc-400 mt-0.5">Perbandingan volume stok saat ini</p>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="relative flex-shrink-0" style="width:140px;height:140px;">
+                            <canvas id="donutChart"></canvas>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                <p class="text-[22px] font-extrabold text-zinc-800 leading-none">2,785</p>
+                                <p class="text-[11px] text-zinc-400 mt-0.5 font-medium">Total Item</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3.5 flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
+                                        style="background: linear-gradient(135deg, #F59E0B, #D97706);"></div>
+                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Raw Log</span>
+                                </div>
+                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">888</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
+                                        style="background: linear-gradient(135deg, #22C55E, #16A34A);"></div>
+                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Sawtimber</span>
+                                </div>
+                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">944</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
+                                        style="background: linear-gradient(135deg, #14B8A6, #0D9488);"></div>
+                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Bahan Baku</span>
+                                </div>
+                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">944</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <div class="w-3 h-3 rounded-full flex-shrink-0"
+                                        style="background: linear-gradient(135deg, #3B82F6, #2563EB);"></div>
+                                    <span class="text-[12.5px] text-zinc-600 truncate font-medium">Produk Jadi</span>
+                                </div>
+                                <span class="text-[12.5px] font-bold text-zinc-800 flex-shrink-0">9</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Progress bars -->
+                    <div class="mt-5 space-y-2.5">
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Raw Log</span>
+                            <div class="progress-track flex-1">
+                                <div class="progress-fill"
+                                    style="--target-width: 32%; background: linear-gradient(90deg, #F59E0B, #D97706);">
+                                </div>
+                            </div>
+                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">32%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Sawtimber</span>
+                            <div class="progress-track flex-1">
+                                <div class="progress-fill"
+                                    style="--target-width: 34%; background: linear-gradient(90deg, #22C55E, #16A34A);">
+                                </div>
+                            </div>
+                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">34%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Bhn Baku</span>
+                            <div class="progress-track flex-1">
+                                <div class="progress-fill"
+                                    style="--target-width: 34%; background: linear-gradient(90deg, #14B8A6, #0D9488);">
+                                </div>
+                            </div>
+                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">34%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10.5px] text-zinc-400 w-16 flex-shrink-0">Produk</span>
+                            <div class="progress-track flex-1">
+                                <div class="progress-fill"
+                                    style="--target-width: 0.3%; background: linear-gradient(90deg, #3B82F6, #2563EB);">
+                                </div>
+                            </div>
+                            <span class="text-[10.5px] font-bold text-zinc-500 w-8 text-right">&lt;1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bar Chart: Aktivitas -->
+                <div class="card col-span-3 p-6" id="chart-aktivitas">
+                    <div class="flex items-center justify-between mb-5">
+                        <div>
+                            <h3 class="text-[14px] font-bold text-zinc-800">Aktivitas Produksi</h3>
+                            <p class="text-[12px] text-zinc-400 mt-0.5">Penerimaan &amp; produksi 7 hari terakhir</p>
+                        </div>
+                        <div class="flex items-center gap-0.5 p-1 bg-zinc-50 rounded-xl"
+                            style="border: 1px solid #F0EDE8;">
+                            <button id="btn-minggu" onclick="switchChart('minggu')"
+                                class="px-3.5 py-1.5 text-[11px] font-semibold rounded-lg bg-white shadow-sm text-zinc-700 transition-all">Mingguan</button>
+                            <button id="btn-bulan" onclick="switchChart('bulan')"
+                                class="px-3.5 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-zinc-600 rounded-lg transition-all">Bulanan</button>
+                        </div>
+                    </div>
+                    <div style="height:180px;">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ── STOCK MINI TABLES ── -->
+            <div class="grid grid-cols-3 gap-5 anim d7">
+
+                <!-- Raw Log -->
+                <div class="card p-5" id="stock-rawlog">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                                style="background: linear-gradient(135deg, #F59E0B, #D97706);"></div>
+                            <h3 class="text-[13.5px] font-bold text-zinc-800">Raw Log</h3>
+                        </div>
+                        <a href="#"
+                            class="text-[11.5px] font-semibold text-amber-600 hover:text-amber-700 transition-colors flex items-center gap-1">
+                            Lihat Stok
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
+                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis
+                                </th>
+                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Size
+                                </th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
+                                    Grade</th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
+                                    Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Jati</td>
+                                <td class="py-2.5 text-[12.5px] text-zinc-500">A1</td>
+                                <td class="py-2.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
+                                </td>
+                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">100</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Meranti</td>
+                                <td class="py-2.5 text-[12.5px] text-zinc-500">A3</td>
+                                <td class="py-2.5 text-center"><span class="badge bg-amber-50 text-amber-600">C</span>
+                                </td>
+                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">788</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Sawtimber -->
+                <div class="card p-5" id="stock-sawtimber">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                                style="background: linear-gradient(135deg, #22C55E, #16A34A);"></div>
+                            <h3 class="text-[13.5px] font-bold text-zinc-800">Sawtimber</h3>
+                        </div>
+                        <a href="#"
+                            class="text-[11.5px] font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-1">
+                            Lihat Stok
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
+                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis
+                                </th>
+                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Size
+                                </th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
+                                    Grade</th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
+                                    Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Jati</td>
+                                <td class="py-2.5 text-[11.5px] text-zinc-500">5×15×200</td>
+                                <td class="py-2.5 text-center"><span class="badge bg-green-50 text-green-600">A</span>
+                                </td>
+                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">944</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Bahan Baku -->
+                <div class="card p-5" id="stock-bahanbaku">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                                style="background: linear-gradient(135deg, #14B8A6, #0D9488);"></div>
+                            <h3 class="text-[13.5px] font-bold text-zinc-800">Bahan Baku A/B</h3>
+                        </div>
+                        <a href="#"
+                            class="text-[11.5px] font-semibold text-teal-600 hover:text-teal-700 transition-colors flex items-center gap-1">
+                            Lihat Stok
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
+                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis
+                                </th>
+                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Size
+                                </th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
+                                    Grade</th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
+                                    Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2.5 text-[13px] font-semibold text-zinc-700">Jati</td>
+                                <td class="py-2.5 text-[11.5px] text-zinc-500">5×15×200</td>
+                                <td class="py-2.5 text-center"><span class="badge bg-green-50 text-green-600">A</span>
+                                </td>
+                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">944</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- ── PRODUK JADI + AKTIVITAS TERKINI ── -->
+            <div class="grid grid-cols-3 gap-5 anim d8">
+
+                <!-- Produk Jadi -->
+                <div class="card p-5" id="stock-produkjadi">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                                style="background: linear-gradient(135deg, #3B82F6, #2563EB);"></div>
+                            <h3 class="text-[13.5px] font-bold text-zinc-800">Produk Jadi</h3>
+                        </div>
+                        <a href="#"
+                            class="text-[11.5px] font-semibold text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1">
+                            Lihat Stok
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
+                                <th class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Varian
+                                </th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
+                                    Total</th>
+                                <th
+                                    class="pb-2.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
+                                    Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2.5 text-[12.5px] font-semibold text-zinc-700">Pintu Panel 210×90</td>
+                                <td class="py-2.5 text-right text-[13px] font-bold text-zinc-800">9</td>
+                                <td class="py-2.5 text-center"><span class="badge bg-blue-50 text-blue-600">B:9</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Empty states for Crosscut & Kaca -->
+                    <div class="mt-5 pt-4" style="border-top:1px solid #F4F4F5;">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                                    style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);"></div>
+                                <h3 class="text-[13px] font-bold text-zinc-800">Crosscut Terbaru</h3>
+                            </div>
+                            <a href="#" class="text-[11.5px] font-semibold text-violet-600 flex items-center gap-1">
+                                + Input
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="py-3 flex flex-col items-center gap-1.5">
+                            <div class="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-violet-300" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <rect x="1" y="3" width="15" height="13" rx="2" />
+                                    <path d="M16 8h4l3 3v5h-7V8z" />
+                                </svg>
+                            </div>
+                            <p class="text-[11.5px] text-zinc-400">Belum ada penerimaan crosscut</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-4" style="border-top:1px solid #F4F4F5;">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-400 flex-shrink-0"></div>
+                                <h3 class="text-[13px] font-bold text-zinc-800">Kaca</h3>
+                            </div>
+                            <a href="#" class="text-[11.5px] font-semibold text-slate-600 flex items-center gap-1">
+                                + Input
+                                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="py-3 flex flex-col items-center gap-1.5">
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-slate-300" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <path d="M2 10h20" />
+                                    <path d="M7 3v14" />
+                                </svg>
+                            </div>
+                            <p class="text-[11.5px] text-zinc-400">Belum ada penerimaan kaca</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aktivitas Terkini (spans 2 cols) -->
+                <div class="card col-span-2 p-6" id="activity-table">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center"
+                                style="background: linear-gradient(135deg, #FFFBF5, #FEF3E2); border: 1px solid #FDE8C8;">
+                                <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-[14px] font-bold text-zinc-800">Aktivitas Terkini</h3>
+                                <p class="text-[11px] text-zinc-400">Transaksi operasional terbaru</p>
+                            </div>
+                        </div>
+                        <a href="#" class="btn text-zinc-600 bg-zinc-50 hover:bg-zinc-100 text-[11px]"
+                            style="border: 1px solid #E4E4E7;">
+                            Lihat Semua
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14m-7-7l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left" style="border-bottom:1px solid #F4F4F5;">
+                                <th class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jenis</th>
+                                <th class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Material /
+                                    Produk</th>
+                                <th
+                                    class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">
+                                    Grade</th>
+                                <th
+                                    class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
+                                    Qty</th>
+                                <th
+                                    class="pb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-right">
+                                    Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-3.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="status-dot bg-green-500 pulse"></span>
+                                        <span class="badge bg-green-50 text-green-700">Produksi</span>
+                                    </div>
+                                </td>
+                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Pintu Panel 210×90</td>
+                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
+                                </td>
+                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">9 unit</td>
+                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">03 Jun 2026</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="status-dot bg-amber-500"></span>
+                                        <span class="badge bg-amber-50 text-amber-700">Terima Log</span>
+                                    </div>
+                                </td>
+                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Jati · A1</td>
+                                <td class="py-3.5 text-center"><span class="badge bg-blue-50 text-blue-600">B</span>
+                                </td>
+                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">100 btg</td>
+                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">02 Jun 2026</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="status-dot bg-amber-500"></span>
+                                        <span class="badge bg-amber-50 text-amber-700">Terima Log</span>
+                                    </div>
+                                </td>
+                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Meranti · A3</td>
+                                <td class="py-3.5 text-center"><span class="badge bg-amber-50 text-amber-600">C</span>
+                                </td>
+                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">788 btg</td>
+                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">02 Jun 2026</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="status-dot bg-teal-500"></span>
+                                        <span class="badge bg-teal-50 text-teal-700">Terima Sawtimber</span>
+                                    </div>
+                                </td>
+                                <td class="py-3.5 text-[13px] font-semibold text-zinc-700">Jati · 5×15×200</td>
+                                <td class="py-3.5 text-center"><span class="badge bg-green-50 text-green-600">A</span>
+                                </td>
+                                <td class="py-3.5 text-right text-[13px] font-bold text-zinc-800">983 lbr</td>
+                                <td class="py-3.5 text-right text-[11.5px] text-zinc-400">02 Jun 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- bottom padding -->
+            <div class="h-4"></div>
+
+        </div><!-- /scrollable -->
+    </main>
+
+    <!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+    <script>
+        /* ── Sidebar accordion ── */
+
+
+        /* ── Chart: defaults ── */
+        Chart.defaults.font.family = 'Plus Jakarta Sans';
+
+        /* ── Donut ── */
+        new Chart(document.getElementById('donutChart'), {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [888, 944, 944, 9],
+                    backgroundColor: [
+                        'rgba(245, 158, 11, 0.85)',
+                        'rgba(34, 197, 94, 0.85)',
+                        'rgba(20, 184, 166, 0.85)',
+                        'rgba(59, 130, 246, 0.85)'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 8,
+                    spacing: 3,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '72%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#fff',
+                        borderColor: '#E4E4E7',
+                        borderWidth: 1,
+                        titleColor: '#18181B',
+                        bodyColor: '#71717A',
+                        padding: 12,
+                        cornerRadius: 10,
+                        displayColors: true,
+                        boxPadding: 4,
+                        callbacks: {
+                            label: (ctx) => {
+                                const labels = ['Raw Log', 'Sawtimber', 'Bahan Baku', 'Produk Jadi'];
+                                return '  ' + labels[ctx.dataIndex] + ': ' + ctx.parsed;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        /* ── Bar Chart data ── */
+        const weekData = {
+            labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+            penerimaan: [45, 62, 38, 80, 55, 28, 0],
+            produksi: [20, 35, 15, 45, 30, 10, 0],
+        };
+        const monthData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            penerimaan: [320, 410, 280, 500, 390, 180, 0, 0, 0, 0, 0, 0],
+            produksi: [180, 240, 160, 310, 220, 90, 0, 0, 0, 0, 0, 0],
+        };
+
+        /* Create gradient fills */
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        const amberGradient = barCtx.createLinearGradient(0, 0, 0, 200);
+        amberGradient.addColorStop(0, '#FCD34D');
+        amberGradient.addColorStop(1, '#F59E0B');
+        const greenGradient = barCtx.createLinearGradient(0, 0, 0, 200);
+        greenGradient.addColorStop(0, '#86EFAC');
+        greenGradient.addColorStop(1, '#22C55E');
+
+        const barChartConfig = {
+            type: 'bar',
+            data: {
+                labels: weekData.labels,
+                datasets: [
+                    {
+                        label: 'Penerimaan',
+                        data: weekData.penerimaan,
+                        backgroundColor: amberGradient,
+                        borderRadius: { topLeft: 6, topRight: 6 },
+                        borderSkipped: false,
+                        barPercentage: 0.5,
+                        categoryPercentage: 0.7,
+                    },
+                    {
+                        label: 'Produksi',
+                        data: weekData.produksi,
+                        backgroundColor: greenGradient,
+                        borderRadius: { topLeft: 6, topRight: 6 },
+                        borderSkipped: false,
+                        barPercentage: 0.5,
+                        categoryPercentage: 0.7,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 18,
+                            font: { size: 11, weight: '600' },
+                            color: '#71717A',
+                            boxWidth: 8,
+                            boxHeight: 8,
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#fff',
+                        borderColor: '#E4E4E7',
+                        borderWidth: 1,
+                        titleColor: '#18181B',
+                        bodyColor: '#71717A',
+                        padding: 12,
+                        boxPadding: 4,
+                        cornerRadius: 10,
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false,
+                        grid: { display: false },
+                        border: { display: false },
+                        ticks: { font: { size: 11, weight: '500' }, color: '#A1A1AA' }
+                    },
+                    y: {
+                        grid: { color: '#F4F4F5', drawBorder: false },
+                        border: { display: false, dash: [3, 3] },
+                        ticks: { font: { size: 11 }, color: '#A1A1AA' }
+                    }
+                }
+            }
+        };
+
+        const barChart = new Chart(document.getElementById('barChart'), barChartConfig);
+
+        /* ── Switch chart period ── */
+        function switchChart(period) {
+            const d = period === 'minggu' ? weekData : monthData;
+            barChart.data.labels = d.labels;
+            barChart.data.datasets[0].data = d.penerimaan;
+            barChart.data.datasets[1].data = d.produksi;
+            barChart.update('active');
+
+            document.getElementById('btn-minggu').className = period === 'minggu'
+                ? 'px-3.5 py-1.5 text-[11px] font-semibold rounded-lg bg-white shadow-sm text-zinc-700 transition-all'
+                : 'px-3.5 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-zinc-600 rounded-lg transition-all';
+            document.getElementById('btn-bulan').className = period === 'bulan'
+                ? 'px-3.5 py-1.5 text-[11px] font-semibold rounded-lg bg-white shadow-sm text-zinc-700 transition-all'
+                : 'px-3.5 py-1.5 text-[11px] font-medium text-zinc-400 hover:text-zinc-600 rounded-lg transition-all';
+        }
+
+        /* ── Animate numbers on load ── */
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(start + range * eased);
+                element.textContent = current.toLocaleString('id-ID');
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        /* Start counter animations after stagger delay */
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroNumbers = document.querySelectorAll('.hero-stat .text-\\[36px\\]');
+            const targets = [888, 944, 944];
+            heroNumbers.forEach((el, i) => {
+                setTimeout(() => {
+                    animateValue(el, 0, targets[i], 1200);
+                }, 300 + i * 100);
+            });
+        });
+    </script>
+    <script src="shared.js"></script>
+</body>
+
+</html>
