@@ -113,3 +113,30 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateClock, 1000);
     }
 });
+
+// Global function to log user actions across the system
+window.logActivity = function(action, category, details) {
+    try {
+        const logs = JSON.parse(localStorage.getItem('woodtrack_system_logs') || '[]');
+        const user = localStorage.getItem('admin_name') || 'Admin';
+        const timestamp = new Date().toISOString();
+        
+        logs.unshift({
+            id: String(Date.now() + Math.random()),
+            timestamp,
+            user,
+            action,     // 'TAMBAH', 'EDIT', 'HAPUS', etc.
+            category,   // 'Master Log', 'Master Sawtimber', etc.
+            details
+        });
+        
+        // Cap logs at 500 entries to manage localStorage space
+        if (logs.length > 500) {
+            logs.length = 500;
+        }
+        
+        localStorage.setItem('woodtrack_system_logs', JSON.stringify(logs));
+    } catch (e) {
+        console.error('Error logging activity:', e);
+    }
+};

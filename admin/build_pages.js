@@ -1,36 +1,36 @@
-import os
-import re
+const fs = require('fs');
+const path = require('path');
 
-base_dir = r"d:\PromptEngineer\new_ty\admin"
+const baseDir = __dirname;
 
-pages = {
-    "penerimaan-log": {"title": "Penerimaan Log", "parent": "Operasional · Penerimaan"},
-    "penerimaan-sawtimber": {"title": "Penerimaan Sawtimber", "parent": "Operasional · Penerimaan"},
-    "penerimaan-crosscut": {"title": "Penerimaan Crosscut", "parent": "Operasional · Penerimaan"},
-    "penerimaan-kaca": {"title": "Penerimaan Kaca", "parent": "Operasional · Penerimaan"},
-    "konversi-log": {"title": "Konversi Log", "parent": "Operasional"},
-    "konversi-kiln-dry": {"title": "Konversi Kiln Dry", "parent": "Operasional"},
-    "proses-produksi": {"title": "Proses Produksi", "parent": "Operasional"},
-    "hasil-produksi": {"title": "Hasil Produksi", "parent": "Operasional"},
-    "penjualan-produk": {"title": "Penjualan Produk", "parent": "Operasional"},
-    "waste-material": {"title": "Waste Material", "parent": "Operasional"},
-    "stok-log": {"title": "Stok Log", "parent": "Stok"},
-    "stok-sawtimber": {"title": "Stok Sawtimber", "parent": "Stok"},
-    "stok-crosscut": {"title": "Stok Crosscut", "parent": "Stok"},
-    "stok-bahan-baku": {"title": "Stok Bahan Baku", "parent": "Stok"},
-    "stok-product": {"title": "Stok Produk", "parent": "Stok"},
-    "stock-opname": {"title": "Stock Opname", "parent": "Stok"},
-    "master-log": {"title": "Master Log", "parent": "Master Data"},
-    "master-sawtimber": {"title": "Master Sawtimber", "parent": "Master Data"},
-    "master-crosscut": {"title": "Master Crosscut", "parent": "Master Data"},
-    "master-kaca": {"title": "Master Kaca", "parent": "Master Data"},
-    "master-bahan-baku": {"title": "Master Bahan Baku", "parent": "Master Data"},
-    "master-produk": {"title": "Master Produk", "parent": "Master Data"},
-    "master-pengguna": {"title": "Master Pengguna", "parent": "Master Data"},
-    "system-log": {"title": "System Log", "parent": "Sistem"},
-}
+const pages = {
+    "penerimaan-log": { "title": "Penerimaan Log", "parent": "Operasional · Penerimaan" },
+    "penerimaan-sawtimber": { "title": "Penerimaan Sawtimber", "parent": "Operasional · Penerimaan" },
+    "penerimaan-crosscut": { "title": "Penerimaan Crosscut", "parent": "Operasional · Penerimaan" },
+    "penerimaan-kaca": { "title": "Penerimaan Kaca", "parent": "Operasional · Penerimaan" },
+    "konversi-log": { "title": "Konversi Log", "parent": "Operasional" },
+    "konversi-kiln-dry": { "title": "Konversi Kiln Dry", "parent": "Operasional" },
+    "proses-produksi": { "title": "Proses Produksi", "parent": "Operasional" },
+    "hasil-produksi": { "title": "Hasil Produksi", "parent": "Operasional" },
+    "penjualan-produk": { "title": "Penjualan Produk", "parent": "Operasional" },
+    "waste-material": { "title": "Waste Material", "parent": "Operasional" },
+    "stok-log": { "title": "Stok Log", "parent": "Stok" },
+    "stok-sawtimber": { "title": "Stok Sawtimber", "parent": "Stok" },
+    "stok-crosscut": { "title": "Stok Crosscut", "parent": "Stok" },
+    "stok-bahan-baku": { "title": "Stok Bahan Baku", "parent": "Stok" },
+    "stok-product": { "title": "Stok Produk", "parent": "Stok" },
+    "stock-opname": { "title": "Stock Opname", "parent": "Stok" },
+    "master-log": { "title": "Master Log", "parent": "Master Data" },
+    "master-sawtimber": { "title": "Master Sawtimber", "parent": "Master Data" },
+    "master-crosscut": { "title": "Master Crosscut", "parent": "Master Data" },
+    "master-kaca": { "title": "Master Kaca", "parent": "Master Data" },
+    "master-bahan-baku": { "title": "Master Bahan Baku", "parent": "Master Data" },
+    "master-produk": { "title": "Master Produk", "parent": "Master Data" },
+    "master-pengguna": { "title": "Master Pengguna", "parent": "Master Data" },
+    "system-log": { "title": "System Log", "parent": "Sistem" },
+};
 
-nav_template = """        <!-- Nav -->
+const navTemplate = `        <!-- Nav -->
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
 
             <a href="index.html" class="nav-item {index_active}" data-title="Dashboard">
@@ -81,7 +81,7 @@ nav_template = """        <!-- Nav -->
             </a>
 
             <a href="proses-produksi.html" class="nav-item {proses_produksi_active}" data-title="Proses Produksi">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
                     <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
                     <path d="M9 14h6" />
@@ -92,7 +92,7 @@ nav_template = """        <!-- Nav -->
             </a>
 
             <a href="hasil-produksi.html" class="nav-item {hasil_produksi_active}" data-title="Hasil Produksi">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
@@ -247,9 +247,9 @@ nav_template = """        <!-- Nav -->
                 <span class="sidebar-text">System Log</span>
             </a>
 
-        </nav>"""
+        </nav>`;
 
-page_template = """<!DOCTYPE html>
+const pageTemplate = `<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -261,9 +261,9 @@ page_template = """<!DOCTYPE html>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <script>
-        tailwind.config = {{
-            theme: {{ extend: {{ fontFamily: {{ sans: ['Plus Jakarta Sans', 'sans-serif'] }} }} }}
-        }}
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+        }
     </script>
     <link rel="stylesheet" href="shared.css">
 </head>
@@ -334,7 +334,7 @@ page_template = """<!DOCTYPE html>
                         <a href="pengaturan.html" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
                             <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="3" />
-                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
                             </svg>
                             Pengaturan
                         </a>
@@ -369,92 +369,98 @@ page_template = """<!DOCTYPE html>
 
     <script src="shared.js"></script>
 </body>
-</html>
-"""
+</html>`;
 
-def get_nav(active_id):
-    kwargs = {
-        "index_active": "",
-        "penerimaan_open": "",
-        "penerimaan_log_active": "",
-        "penerimaan_sawtimber_active": "",
-        "penerimaan_crosscut_active": "",
-        "penerimaan_kaca_active": "",
-        "konversi_log_active": "",
-        "konversi_kiln_dry_active": "",
-        "proses_produksi_active": "",
-        "hasil_produksi_active": "",
-        "penjualan_produk_active": "",
-        "waste_material_active": "",
-        "stok_log_active": "",
-        "stok_sawtimber_active": "",
-        "stok_crosscut_active": "",
-        "stok_bahan_baku_active": "",
-        "stok_product_active": "",
-        "stock_opname_active": "",
-        "master_log_active": "",
-        "master_sawtimber_active": "",
-        "master_crosscut_active": "",
-        "master_kaca_active": "",
-        "master_bahan_baku_active": "",
-        "master_produk_active": "",
-        "master_pengguna_active": "",
-        "system_log_active": ""
+function getNav(activeId) {
+    const kwargs = {
+        index_active: "",
+        penerimaan_open: "",
+        penerimaan_log_active: "",
+        penerimaan_sawtimber_active: "",
+        penerimaan_crosscut_active: "",
+        penerimaan_kaca_active: "",
+        konversi_log_active: "",
+        konversi_kiln_dry_active: "",
+        proses_produksi_active: "",
+        hasil_produksi_active: "",
+        penjualan_produk_active: "",
+        waste_material_active: "",
+        stok_log_active: "",
+        stok_sawtimber_active: "",
+        stok_crosscut_active: "",
+        stok_bahan_baku_active: "",
+        stok_product_active: "",
+        stock_opname_active: "",
+        master_log_active: "",
+        master_sawtimber_active: "",
+        master_crosscut_active: "",
+        master_kaca_active: "",
+        master_bahan_baku_active: "",
+        master_produk_active: "",
+        master_pengguna_active: "",
+        system_log_active: ""
+    };
+
+    if (activeId === "index") {
+        kwargs.index_active = "active";
+    } else if (activeId.startsWith("penerimaan-")) {
+        kwargs.penerimaan_open = "open";
+        kwargs[activeId.replace(/-/g, '_') + "_active"] = "active";
+    } else {
+        kwargs[activeId.replace(/-/g, '_') + "_active"] = "active";
     }
-    
-    if active_id == "index":
-        kwargs["index_active"] = "active"
-    elif active_id.startswith("penerimaan-"):
-        kwargs["penerimaan_open"] = "open"
-        kwargs[active_id.replace('-', '_') + "_active"] = "active"
-    else:
-        kwargs[active_id.replace('-', '_') + "_active"] = "active"
+
+    let rendered = navTemplate;
+    for (const key in kwargs) {
+        rendered = rendered.replace(new RegExp(`{${key}}`, 'g'), kwargs[key]);
+    }
+    return rendered;
+}
+
+function updateFileNav(filePath, pageId) {
+    if (!fs.existsSync(filePath)) return;
+    let content = fs.readFileSync(filePath, 'utf8');
+    const navRegex = /<!-- Nav -->\s*<nav[\s\S]*?<\/nav>/;
+    if (navRegex.test(content)) {
+        const newNav = getNav(pageId);
+        content = content.replace(navRegex, newNav);
+        fs.writeFileSync(filePath, content, 'utf8');
+        console.log(`Updated nav in: ${path.basename(filePath)}`);
+    }
+}
+
+// Update navbars in all custom/existing html pages in the admin folder
+const files = fs.readdirSync(baseDir);
+files.forEach(filename => {
+    if (filename.endsWith('.html')) {
+        const pageId = filename.slice(0, -5);
+        updateFileNav(path.join(baseDir, filename), pageId);
+    }
+});
+
+// Create other missing pages if they don't exist
+for (const pageId in pages) {
+    const file_path = path.join(baseDir, pageId + ".html");
+    let isEmptyState = true;
+    if (fs.existsSync(file_path)) {
+        const contentCheck = fs.readFileSync(file_path, 'utf8');
+        if (!contentCheck.includes("empty-state") && contentCheck.length > 15000) {
+            isEmptyState = false;
+        }
+    }
+
+    if (isEmptyState) {
+        const navHtml = getNav(pageId);
+        let content = pageTemplate
+            .replace(/{title}/g, pages[pageId].title)
+            .replace(/{parent}/g, pages[pageId].parent)
+            .replace(/{nav_content}/g, navHtml);
         
-    return nav_template.format(**kwargs)
+        fs.writeFileSync(file_path, content, 'utf8');
+        console.log(`Created/Updated empty state page: ${pageId}.html`);
+    } else {
+        console.log(`Skipping custom page generation for: ${pageId}.html`);
+    }
+}
 
-# Function to update navbar in any html file if the block exists
-def update_file_nav(file_path, page_id):
-    if not os.path.exists(file_path):
-        return
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
-    
-    nav_match = re.search(r'<!-- Nav -->\s*<nav.*?</nav>', content, re.DOTALL)
-    if nav_match:
-        new_nav = get_nav(page_id)
-        content = content[:nav_match.start()] + new_nav + content[nav_match.end():]
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(content)
-        print(f"Updated nav in: {os.path.basename(file_path)}")
-
-# Update navbars in all custom/existing html pages in the admin folder
-for filename in os.listdir(base_dir):
-    if filename.endswith(".html"):
-        page_id = filename[:-5]
-        update_file_nav(os.path.join(base_dir, filename), page_id)
-
-# Create other missing pages if they don't exist
-for page_id, info in pages.items():
-    file_path = os.path.join(base_dir, page_id + ".html")
-    # Only overwrite if the file doesn't exist or is an empty state page
-    is_empty_state = True
-    if os.path.exists(file_path):
-        with open(file_path, "r", encoding="utf-8") as f:
-            content_check = f.read()
-        if "empty-state" not in content_check and len(content_check) > 15000:
-            is_empty_state = False
-            
-    if is_empty_state:
-        nav_html = get_nav(page_id)
-        content = page_template.format(
-            title=info["title"],
-            parent=info["parent"],
-            nav_content=nav_html
-        )
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(content)
-        print(f"Created/Updated empty state page: {page_id}.html")
-    else:
-        print(f"Skipping custom page generation for: {page_id}.html")
-
-print("All navbars and pages processed successfully.")
+console.log("All navbars and pages processed successfully.");

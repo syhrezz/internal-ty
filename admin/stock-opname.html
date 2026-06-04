@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Stock Opname</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+        }
+    </script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4CAC0;
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8AFA5;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .anim {
+            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 0;
+        }
+
+        .d1 { animation-delay: 0.05s; }
+        .d2 { animation-delay: 0.1s; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(240, 237, 232, 0.8);
+        }
+
+        .premium-input {
+            width: 100%;
+            background: #F9F7F4;
+            border: 1px solid #E4E4E7;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #3F3F46;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .premium-input:focus {
+            background: #fff;
+            border-color: #D97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        .premium-select {
+            background: #fff;
+            border: 1px solid #E4E4E7;
+            border-radius: 10px;
+            padding: 8px 32px 8px 12px;
+            font-size: 13px;
+            color: #3F3F46;
+            transition: all 0.2s ease;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2371717a' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+        }
+
+        .premium-select:focus {
+            border-color: #D97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-container.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(24, 24, 27, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            position: relative;
+            background: #fff;
+            border-radius: 16px;
+            width: 640px;
+            max-width: 95%;
+            padding: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            transform: scale(0.95);
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 70;
+        }
+
+        .modal-container.open .modal-content {
+            transform: scale(1);
+        }
+
+        tbody tr:hover {
+            background: #FEFCFA;
+        }
+
+        /* Toast notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: #fff;
+            border-left: 4px solid #10B981;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .toast.error {
+            border-left-color: #EF4444;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <aside class="w-[260px] flex-shrink-0 h-full bg-white flex flex-col overflow-hidden" style="border-right:1px solid #F0EDE8;">
+        <!-- Logo -->
+        <div class="px-5 py-5" style="border-bottom:1px solid #F0EDE8;">
+            <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0" style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="14" width="4" height="6" rx="1" /><rect x="10" y="10" width="4" height="10" rx="1" />
+                        <rect x="17" y="12" width="4" height="8" rx="1" /><path d="M5 14V8M12 10V4M19 12V6" /><path d="M3 4h18" />
+                    </svg>
+                </div>
+                <div class="sidebar-text">
+                    <p class="font-extrabold text-zinc-900 text-sm leading-tight tracking-tight">WoodTrack</p>
+                    <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.14em]">Pro Edition</p>
+                </div>
+            </a>
+        </div>
+                                                <!-- Nav -->
+        <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+
+            <a href="index.html" class="nav-item " data-title="Dashboard">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                </svg>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
+
+            <!-- Penerimaan accordion -->
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu" data-title="Penerimaan">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                        <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                    </svg>
+                    <span class="sidebar-text">Penerimaan</span>
+                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron  text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div id="penerimaan-menu" class="submenu  ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="penerimaan-log.html" class="submenu-item ">Penerimaan Log</a>
+                    <a href="penerimaan-sawtimber.html" class="submenu-item ">Penerimaan Sawtimber</a>
+                    <a href="penerimaan-crosscut.html" class="submenu-item ">Penerimaan Crosscut</a>
+                    <a href="penerimaan-kaca.html" class="submenu-item ">Penerimaan Kaca</a>
+                </div>
+            </div>
+
+            <a href="konversi-log.html" class="nav-item " data-title="Konversi Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                </svg>
+                <span class="sidebar-text">Konversi Log</span>
+            </a>
+
+            <a href="konversi-kiln-dry.html" class="nav-item " data-title="Konversi Kiln Dry">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20v-6M9 20v-10M6 20v-4M15 20v-8M18 20v-12M21 20V4" />
+                    <path d="M3 20h18" />
+                </svg>
+                <span class="sidebar-text">Konversi Kiln Dry</span>
+            </a>
+
+            <a href="proses-produksi.html" class="nav-item " data-title="Proses Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                    <path d="M9 14h6" />
+                    <path d="M9 18h6" />
+                    <path d="M12 10h3" />
+                </svg>
+                <span class="sidebar-text">Proses Produksi</span>
+            </a>
+
+            <a href="hasil-produksi.html" class="nav-item " data-title="Hasil Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                <span class="sidebar-text">Hasil Produksi</span>
+            </a>
+
+            <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Penjualan Produk</span>
+            </a>
+
+            <a href="waste-material.html" class="nav-item " data-title="Waste Material">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span class="sidebar-text">Waste Material</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Stok</p>
+
+            <a href="stok-log.html" class="nav-item " data-title="Stok Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+                <span class="sidebar-text">Stok Log</span>
+            </a>
+
+            <a href="stok-sawtimber.html" class="nav-item " data-title="Stok Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Stok Sawtimber</span>
+            </a>
+
+            <a href="stok-crosscut.html" class="nav-item " data-title="Stok Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="1" y="3" width="15" height="13" rx="2" />
+                    <path d="M16 8h4l3 3v5h-7V8z" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                <span class="sidebar-text">Stok Crosscut</span>
+            </a>
+
+            <a href="stok-bahan-baku.html" class="nav-item " data-title="Stok Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Stok Bahan Baku</span>
+            </a>
+
+            <a href="stok-product.html" class="nav-item " data-title="Stok Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Stok Produk</span>
+            </a>
+
+            <a href="stock-opname.html" class="nav-item active" data-title="Stock Opname">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                <span class="sidebar-text">Stock Opname</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
+
+            <a href="master-log.html" class="nav-item " data-title="Master Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <ellipse cx="12" cy="5" rx="9" ry="3" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                </svg>
+                <span class="sidebar-text">Master Log</span>
+            </a>
+
+            <a href="master-sawtimber.html" class="nav-item " data-title="Master Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Master Sawtimber</span>
+            </a>
+
+            <a href="master-crosscut.html" class="nav-item " data-title="Master Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                <span class="sidebar-text">Master Crosscut</span>
+            </a>
+
+            <a href="master-kaca.html" class="nav-item " data-title="Master Kaca">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                </svg>
+                <span class="sidebar-text">Master Kaca</span>
+            </a>
+
+            <a href="master-bahan-baku.html" class="nav-item " data-title="Master Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Master Bahan Baku</span>
+            </a>
+
+            <a href="master-produk.html" class="nav-item " data-title="Master Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Master Produk</span>
+            </a>
+
+            <a href="master-pengguna.html" class="nav-item " data-title="Master Pengguna">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <span class="sidebar-text">Master Pengguna</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sistem</p>
+
+            <a href="system-log.html" class="nav-item " data-title="System Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span class="sidebar-text">System Log</span>
+            </a>
+
+        </nav>
+    </aside>
+
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <!-- TOP BAR -->
+        <header class="h-16 bg-white flex items-center justify-between px-6 flex-shrink-0 relative z-30" style="border-bottom:1px solid #F0EDE8;">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle-btn" class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all" title="Toggle Sidebar">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight" id="page-title">Stock Opname</h1>
+                    <p class="text-[11px] text-zinc-400 mt-0.5" id="page-parent">Stok · Penyesuaian Fisik</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default hover:bg-zinc-100/80 transition-all select-none">
+                    <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span id="live-datetime">-</span>
+                </div>
+                <div class="w-px h-6 bg-zinc-100 mx-1"></div>
+
+                <!-- Profile Dropdown -->
+                <div class="relative">
+                    <div id="profile-menu-button" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all border border-transparent hover:border-zinc-100">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">A</div>
+                        <div class="text-left hidden md:block">
+                            <p class="text-xs font-bold text-zinc-800 leading-tight">Admin</p>
+                            <p class="text-[10px] text-zinc-400 leading-none mt-0.5">admin@woodtrack.id</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-zinc-400 hidden md:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- ═══════════════════════════ HISTORY VIEW ═══════════════════════════ -->
+            <div id="history-view" class="space-y-6">
+                <!-- Toolbar -->
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-zinc-900 leading-tight">Riwayat Opname</h2>
+                        <p class="text-zinc-500 text-xs mt-0.5">Daftar rekonsiliasi dan penyesuaian stok fisik yang telah selesai dilakukan</p>
+                    </div>
+                    <button onclick="setView('form')" class="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/20">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        Mulai Stock Opname
+                    </button>
+                </div>
+
+                <!-- History Table -->
+                <div class="glass-card rounded-2xl p-6 shadow-sm">
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                                    <th class="py-3 px-4 text-center w-12">No</th>
+                                    <th class="py-3 px-4">Tanggal Audit</th>
+                                    <th class="py-3 px-4">Kategori Audit</th>
+                                    <th class="py-3 px-4">Petugas</th>
+                                    <th class="py-3 px-4 text-right">Total Item Diubah</th>
+                                    <th class="py-3 px-4">Catatan Ringkasan</th>
+                                    <th class="py-3 px-4 text-center w-24">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                        <div id="history-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="9" y="9" width="12" height="12" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada riwayat stock opname</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Lakukan audit fisik pertama Anda dengan mengeklik tombol di atas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════ FORM VIEW ═══════════════════════════ -->
+            <div id="form-view" class="hidden space-y-6">
+                <!-- Header -->
+                <div class="flex items-center gap-4">
+                    <button onclick="setView('history')" class="p-2 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 active:scale-[0.98] transition-all">
+                        <svg class="w-5 h-5 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-zinc-900 text-base">Mulai Audit Fisik Baru</h2>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Pilih kategori material untuk memuat data stock system terbaru</p>
+                    </div>
+                </div>
+
+                <!-- Parameters Card -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Kategori Audit *</label>
+                            <select id="opname-category" onchange="loadCategoryItems(this.value)" class="premium-select w-full">
+                                <option value="" disabled selected>Pilih Kategori...</option>
+                                <option value="Log">Log (Kayu Bulat)</option>
+                                <option value="Sawtimber">Sawtimber (Papan Basah)</option>
+                                <option value="Crosscut">Crosscut</option>
+                                <option value="BahanBaku">Bahan Baku (Papan Oven & Kaca)</option>
+                                <option value="Produk">Produk Jadi</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Audit *</label>
+                            <input type="date" id="opname-date" class="premium-input">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Auditor / Petugas *</label>
+                            <input type="text" id="opname-auditor" value="Admin" placeholder="Nama auditor" class="premium-input">
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Umum / Alasan Audit</label>
+                        <textarea id="opname-notes" rows="2" placeholder="Catatan opsional (e.g. Audit Triwulan Gudang A)" class="premium-input resize-none h-[64px]"></textarea>
+                    </div>
+                </div>
+
+                <!-- Item Selection Checklist Card -->
+                <div id="selection-card" class="hidden glass-card rounded-2xl p-5 shadow-sm space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-zinc-800 text-sm">Pilih Item untuk Audit</h3>
+                            <p class="text-zinc-400 text-xs mt-0.5">Centang spesifikasi produk/material yang ingin Anda sesuaikan saat ini.</p>
+                        </div>
+                        <div class="flex gap-3 text-xs">
+                            <button type="button" onclick="toggleAllSelections(true)" class="text-amber-600 font-bold hover:underline">Pilih Semua</button>
+                            <span class="text-zinc-200">|</span>
+                            <button type="button" onclick="toggleAllSelections(false)" class="text-zinc-500 font-bold hover:underline">Kosongkan</button>
+                        </div>
+                    </div>
+                    
+                    <div id="selection-checkboxes-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[220px] overflow-y-auto p-4 bg-zinc-50/50 rounded-xl border border-zinc-100">
+                        <!-- Checkboxes populated dynamically -->
+                    </div>
+                    
+                    <div class="flex justify-end pt-2">
+                        <button type="button" onclick="proceedToAuditTable()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-sm transition-all">Lanjutkan ke Rincian Audit &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Form Audit Table -->
+                <div id="audit-table-card" class="hidden glass-card rounded-2xl p-6 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-zinc-800 text-sm">Daftar Item Audit</h3>
+                        <span class="text-[11px] bg-amber-50 text-amber-700 px-3 py-1 rounded-lg border border-amber-100 font-semibold">Semua item wajib diisi stok fisiknya</span>
+                    </div>
+
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                                    <th class="py-3 px-4 text-center w-12">No</th>
+                                    <th class="py-3 px-4">Spesifikasi Material / Item</th>
+                                    <th class="py-3 px-4 text-right w-36">Stok Sistem</th>
+                                    <th class="py-3 px-4 text-center w-40">Stok Fisik Aktuil</th>
+                                    <th class="py-3 px-4 text-right w-36">Selisih (Discrepancy)</th>
+                                    <th class="py-3 px-4 w-[280px]">Alasan Penyesuaian</th>
+                                </tr>
+                            </thead>
+                            <tbody id="audit-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                <!-- Loaded dynamically based on category selection -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60">
+                        <button onclick="setView('history')" class="px-6 py-2.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                        <button onclick="submitStockOpname()" class="px-8 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/10 transition-all active:scale-[0.98]">Simpan Penyesuaian Stok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- DETAIL MODAL -->
+    <div id="detail-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeDetailModal()"></div>
+        <div class="modal-content space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Detail Laporan Stock Opname</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5" id="detail-subtitle">Rincian rekonsiliasi audit fisik</p>
+                </div>
+                <button onclick="closeDetailModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1">
+                <div class="grid grid-cols-2 gap-3 bg-zinc-50 p-4 rounded-xl border border-zinc-100 text-xs">
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Tanggal Audit</span>
+                        <span id="detail-tanggal" class="font-bold text-zinc-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Kategori</span>
+                        <span id="detail-kategori" class="font-bold text-zinc-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Auditor</span>
+                        <span id="detail-auditor" class="font-bold text-zinc-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Catatan Ringkasan</span>
+                        <span id="detail-catatan" class="text-zinc-600"></span>
+                    </div>
+                </div>
+
+                <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-zinc-50 border-b border-zinc-100 font-bold text-zinc-400 uppercase tracking-wider">
+                                <th class="py-2.5 px-3">Material / Item</th>
+                                <th class="py-2.5 px-3 text-right">Stok Sistem</th>
+                                <th class="py-2.5 px-3 text-right">Stok Fisik</th>
+                                <th class="py-2.5 px-3 text-right">Selisih</th>
+                                <th class="py-2.5 px-3">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detail-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0">
+                <button onclick="closeDetailModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <script src="shared.js"></script>
+    <script>
+        let opnameHistory = [];
+        let activeOpnameItems = [];
+        let selectedOpnameItems = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load custom script navigation sync
+            const nav = document.querySelector('nav');
+            if (nav && typeof window.getNav === 'function') {
+                nav.innerHTML = window.getNav('stock-opname');
+            }
+
+            // Sync datetime clock
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('opname-date').value = today;
+
+            loadOpnameHistory();
+            renderHistoryTable();
+        });
+
+        function setView(view) {
+            const hView = document.getElementById('history-view');
+            const fView = document.getElementById('form-view');
+            if (view === 'form') {
+                hView.classList.add('hidden');
+                fView.classList.remove('hidden');
+                resetForm();
+            } else {
+                hView.classList.remove('hidden');
+                fView.classList.add('hidden');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('opname-category').value = '';
+            document.getElementById('opname-notes').value = '';
+            document.getElementById('selection-card').classList.add('hidden');
+            document.getElementById('selection-checkboxes-container').innerHTML = '';
+            document.getElementById('audit-table-card').classList.add('hidden');
+            document.getElementById('audit-table-body').innerHTML = '';
+            activeOpnameItems = [];
+            selectedOpnameItems = [];
+        }
+
+        function loadOpnameHistory() {
+            const saved = localStorage.getItem('woodtrack_stock_opname');
+            if (saved) {
+                opnameHistory = JSON.parse(saved);
+            } else {
+                opnameHistory = [
+                    {
+                        id: 1717478400000,
+                        tanggal: '2026-06-03',
+                        kategori: 'Log',
+                        auditor: 'Admin',
+                        catatan: 'Audit rutin awal bulan Juni',
+                        items: [
+                            { spec: 'Sengon - Grade A - A3', system: 50, physical: 48, difference: -2, notes: 'Rusak/busuk 2 batang' },
+                            { spec: 'Jati - Grade A - A5', system: 12, physical: 12, difference: 0, notes: 'Cocok' }
+                        ]
+                    },
+                    {
+                        id: 1717392000000,
+                        tanggal: '2026-06-02',
+                        kategori: 'Produk',
+                        auditor: 'Budi',
+                        catatan: 'Re-check stok pintu jati',
+                        items: [
+                            { spec: 'Pintu Jati Klasik', system: 5, physical: 6, difference: 1, notes: 'Kelebihan input barang jadi' }
+                        ]
+                    }
+                ];
+                localStorage.setItem('woodtrack_stock_opname', JSON.stringify(opnameHistory));
+            }
+        }
+
+        function renderHistoryTable() {
+            const body = document.getElementById('history-table-body');
+            const empty = document.getElementById('history-empty');
+            body.innerHTML = '';
+
+            if (opnameHistory.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            opnameHistory.forEach((op, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-zinc-50';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 text-center text-zinc-400 font-bold">${index + 1}</td>
+                    <td class="py-3 px-4 font-semibold">${op.tanggal}</td>
+                    <td class="py-3 px-4 font-bold text-zinc-800">${op.kategori}</td>
+                    <td class="py-3 px-4 text-zinc-500">${op.auditor}</td>
+                    <td class="py-3 px-4 text-right font-semibold text-indigo-600">${op.items.length} item</td>
+                    <td class="py-3 px-4 text-zinc-400 max-w-[200px] truncate">${op.catatan || '-'}</td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="viewDetail(${op.id})" class="px-2.5 py-1.5 bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 rounded-lg text-zinc-700 font-bold text-[10px] transition-all">Detail</button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        // Dynamically compute system stocks for each category
+        function loadCategoryItems(category) {
+            document.getElementById('audit-table-card').classList.add('hidden');
+            document.getElementById('selection-card').classList.add('hidden');
+            activeOpnameItems = [];
+
+            if (category === 'Log') {
+                // Compute current Log Stock
+                const rawLogs = JSON.parse(localStorage.getItem('woodtrack_penerimaan_log') || '[]');
+                const conversions = JSON.parse(localStorage.getItem('woodtrack_log_conversions') || '[]');
+                const stockMap = {};
+
+                rawLogs.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.jenis} - Grade ${item.grade} - ${item.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                conversions.forEach(conv => {
+                    if (conv.input) {
+                        const spec = `${conv.input.jenis} - Grade ${conv.input.grade} - ${conv.input.size}`;
+                        if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                        stockMap[spec].consumed += parseInt(conv.input.jumlah) || 0;
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    const currentStock = Math.max(0, m.received - m.consumed);
+                    // Deconstruct spec
+                    const parts = m.spec.split(' - ');
+                    activeOpnameItems.push({
+                        spec: m.spec,
+                        meta: { jenis: parts[0], grade: parts[1].replace('Grade ', ''), size: parts[2] },
+                        systemStock: currentStock
+                    });
+                });
+
+            } else if (category === 'Sawtimber') {
+                const rawSawtimber = JSON.parse(localStorage.getItem('woodtrack_penerimaan_sawtimber') || '[]');
+                const ovenBatches = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+                const stockMap = {};
+
+                rawSawtimber.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.jenis} - Grade ${item.grade} - ${item.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                ovenBatches.forEach(batch => {
+                    if (batch.inputs) {
+                        batch.inputs.forEach(input => {
+                            const spec = `${input.jenis} - Grade ${input.grade} - ${input.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].consumed += parseInt(input.jumlah) || 0;
+                        });
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    activeOpnameItems.push({
+                        spec: m.spec,
+                        meta: { jenis: m.spec.split(' - ')[0], grade: m.spec.split(' - ')[1].replace('Grade ', ''), size: m.spec.split(' - ')[2] },
+                        systemStock: Math.max(0, m.received - m.consumed)
+                    });
+                });
+
+            } else if (category === 'Crosscut') {
+                const rawCrosscut = JSON.parse(localStorage.getItem('woodtrack_penerimaan_crosscut') || '[]');
+                const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+                const stockMap = {};
+
+                rawCrosscut.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.jenis} - Grade ${item.grade} - ${item.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                prodRequests.forEach(req => {
+                    if (req.materials) {
+                        req.materials.forEach(mat => {
+                            if (mat.kategori === 'Crosscut') {
+                                const spec = mat.spec;
+                                if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                                stockMap[spec].consumed += parseInt(mat.jumlah) || 0;
+                            }
+                        });
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    activeOpnameItems.push({
+                        spec: m.spec,
+                        meta: { jenis: m.spec.split(' - ')[0], grade: m.spec.split(' - ')[1].replace('Grade ', ''), size: m.spec.split(' - ')[2] },
+                        systemStock: Math.max(0, m.received - m.consumed)
+                    });
+                });
+
+            } else if (category === 'BahanBaku') {
+                const rawGlass = JSON.parse(localStorage.getItem('woodtrack_penerimaan_kaca') || '[]');
+                const dryKiln = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+                const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+                const stockMap = {};
+
+                rawGlass.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.tipe} ${item.tebal}mm - ${item.dimensi}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, kategori: 'Kaca', received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                dryKiln.forEach(batch => {
+                    if (batch.output) {
+                        const spec = `${batch.output.jenis} - ${batch.output.size} - Grade ${batch.output.grade}`;
+                        if (!stockMap[spec]) stockMap[spec] = { spec, kategori: 'Papan Kering', received: 0, consumed: 0 };
+                        stockMap[spec].received += parseInt(batch.output.jumlah) || 0;
+                    }
+                });
+
+                prodRequests.forEach(req => {
+                    if (req.materials) {
+                        req.materials.forEach(mat => {
+                            if (mat.kategori === 'Kaca' || mat.kategori === 'Sawtimber') {
+                                const spec = mat.spec;
+                                if (stockMap[spec]) {
+                                    stockMap[spec].consumed += parseInt(mat.jumlah) || 0;
+                                }
+                            }
+                        });
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    activeOpnameItems.push({
+                        spec: m.spec,
+                        meta: { type: m.kategori },
+                        systemStock: Math.max(0, m.received - m.consumed)
+                    });
+                });
+
+            } else if (category === 'Produk') {
+                const prodLogs = JSON.parse(localStorage.getItem('woodtrack_hasil_produksi_logs') || '[]');
+                const salesLogs = JSON.parse(localStorage.getItem('woodtrack_penjualan_produk') || '[]');
+                const stockMap = {
+                    'Pintu Jati Klasik': { name: 'Pintu Jati Klasik', produced: 0, sold: 0 },
+                    'Pintu Kaca Minimalis Jati': { name: 'Pintu Kaca Minimalis Jati', produced: 0, sold: 0 },
+                    'Kusen Kayu Meranti': { name: 'Kusen Kayu Meranti', produced: 0, sold: 0 },
+                    'Frame Papan Kayu Meranti': { name: 'Frame Papan Kayu Meranti', produced: 0, sold: 0 },
+                    'Daun Jendela Sengon': { name: 'Daun Jendela Sengon', produced: 0, sold: 0 }
+                };
+
+                prodLogs.forEach(entry => {
+                    if (entry.tipe === 'Barang Jadi' && entry.nama) {
+                        const key = entry.nama.trim();
+                        if (!stockMap[key]) stockMap[key] = { name: key, produced: 0, sold: 0 };
+                        stockMap[key].produced += parseInt(entry.jumlah) || 0;
+                    }
+                });
+
+                salesLogs.forEach(sale => {
+                    if (sale.nama) {
+                        const key = sale.nama.trim();
+                        if (!stockMap[key]) stockMap[key] = { name: key, produced: 0, sold: 0 };
+                        stockMap[key].sold += parseInt(sale.jumlah) || 0;
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    activeOpnameItems.push({
+                        spec: m.name,
+                        meta: { name: m.name },
+                        systemStock: Math.max(0, m.produced - m.sold)
+                    });
+                });
+            }
+
+            renderChecklist();
+        }
+
+        function renderChecklist() {
+            const container = document.getElementById('selection-checkboxes-container');
+            container.innerHTML = '';
+            
+            if (activeOpnameItems.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-4 text-center text-zinc-400">Tidak ada item terdaftar untuk kategori ini.</div>`;
+                document.getElementById('selection-card').classList.remove('hidden');
+                return;
+            }
+            
+            activeOpnameItems.forEach((item, index) => {
+                const label = document.createElement('label');
+                label.className = 'flex items-center gap-2.5 p-2.5 rounded-lg hover:bg-zinc-100/60 cursor-pointer transition-colors text-xs font-semibold text-zinc-700 border border-zinc-200/40 bg-white shadow-sm';
+                label.innerHTML = `
+                    <input type="checkbox" id="item-chk-${index}" value="${index}" checked class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-zinc-300">
+                    <div class="flex-1 min-w-0">
+                        <p class="truncate font-bold text-zinc-800">${item.spec}</p>
+                        <p class="text-[10px] text-zinc-400 mt-0.5">Stok Sistem: ${item.systemStock}</p>
+                    </div>
+                `;
+                container.appendChild(label);
+            });
+            
+            document.getElementById('selection-card').classList.remove('hidden');
+        }
+
+        function toggleAllSelections(select) {
+            const checkboxes = document.querySelectorAll('#selection-checkboxes-container input[type="checkbox"]');
+            checkboxes.forEach(chk => chk.checked = select);
+        }
+
+        function proceedToAuditTable() {
+            const checkboxes = document.querySelectorAll('#selection-checkboxes-container input[type="checkbox"]:checked');
+            if (checkboxes.length === 0) {
+                showToast('Mohon pilih minimal 1 item untuk diaudit!', 'error');
+                return;
+            }
+            
+            selectedOpnameItems = [];
+            checkboxes.forEach(chk => {
+                const idx = parseInt(chk.value);
+                selectedOpnameItems.push({
+                    ...activeOpnameItems[idx]
+                });
+            });
+            
+            renderFormTable();
+            document.getElementById('audit-table-card').classList.remove('hidden');
+        }
+
+        function renderFormTable() {
+            const body = document.getElementById('audit-table-body');
+            body.innerHTML = '';
+
+            if (selectedOpnameItems.length === 0) {
+                body.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-zinc-400">Tidak ada item terdaftar untuk kategori ini.</td></tr>`;
+                return;
+            }
+
+            selectedOpnameItems.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-zinc-50';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 text-center font-bold text-zinc-400">${index + 1}</td>
+                    <td class="py-3 px-4 font-bold text-zinc-800">${item.spec}</td>
+                    <td class="py-3 px-4 text-right font-semibold text-zinc-500">${item.systemStock}</td>
+                    <td class="py-3 px-4 text-center">
+                        <input type="number" id="physical-input-${index}" oninput="calcDifference(${index}, this.value)" min="0" placeholder="Akurasi fisik" class="premium-input text-center w-28 mx-auto">
+                    </td>
+                    <td class="py-3 px-4 text-right font-extrabold" id="diff-cell-${index}">-</td>
+                    <td class="py-3 px-4">
+                        <input type="text" id="notes-input-${index}" placeholder="e.g. Lapuk / Penyusutan alam" class="premium-input text-xs">
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function calcDifference(index, val) {
+            const system = selectedOpnameItems[index].systemStock;
+            const diffCell = document.getElementById(`diff-cell-${index}`);
+            
+            if (val === '') {
+                diffCell.innerText = '-';
+                diffCell.className = 'py-3 px-4 text-right font-extrabold text-zinc-400';
+                return;
+            }
+
+            const physical = parseInt(val) || 0;
+            const diff = physical - system;
+
+            if (diff > 0) {
+                diffCell.innerText = `+${diff}`;
+                diffCell.className = 'py-3 px-4 text-right font-extrabold text-emerald-600';
+            } else if (diff < 0) {
+                diffCell.innerText = `${diff}`;
+                diffCell.className = 'py-3 px-4 text-right font-extrabold text-rose-600';
+            } else {
+                diffCell.innerText = '0';
+                diffCell.className = 'py-3 px-4 text-right font-extrabold text-zinc-500';
+            }
+        }
+
+        function submitStockOpname() {
+            const category = document.getElementById('opname-category').value;
+            const date = document.getElementById('opname-date').value;
+            const auditor = document.getElementById('opname-auditor').value.trim();
+            const generalNotes = document.getElementById('opname-notes').value.trim();
+
+            if (!category || !date || !auditor) {
+                showToast('Mohon lengkapi semua parameter audit (Kategori, Tanggal, Auditor)!', 'error');
+                return;
+            }
+
+            const auditBatchItems = [];
+
+            // Read inputs
+            for (let i = 0; i < selectedOpnameItems.length; i++) {
+                const physicalVal = document.getElementById(`physical-input-${i}`).value;
+                if (physicalVal === '') {
+                    showToast(`Stok fisik untuk item #${i + 1} (${selectedOpnameItems[i].spec}) belum diisi!`, 'error');
+                    return;
+                }
+
+                const physical = parseInt(physicalVal) || 0;
+                const system = selectedOpnameItems[i].systemStock;
+                const difference = physical - system;
+                const note = document.getElementById(`notes-input-${i}`).value.trim();
+
+                auditBatchItems.push({
+                    spec: selectedOpnameItems[i].spec,
+                    meta: selectedOpnameItems[i].meta,
+                    system,
+                    physical,
+                    difference,
+                    notes: note
+                });
+            }
+
+            // Perform storage adjustments
+            const opnameId = Date.now();
+            applyStockAdjustments(category, date, opnameId, auditBatchItems);
+
+            // Record Opname History
+            const newAuditReport = {
+                id: opnameId,
+                tanggal: date,
+                kategori: category,
+                auditor,
+                catatan: generalNotes,
+                items: auditBatchItems
+            };
+
+            opnameHistory.unshift(newAuditReport);
+            localStorage.setItem('woodtrack_stock_opname', JSON.stringify(opnameHistory));
+
+            showToast('Stock Opname berhasil disimpan dan penyesuaian stok diterapkan!');
+            loadOpnameHistory();
+            renderHistoryTable();
+            setView('history');
+        }
+
+        function applyStockAdjustments(category, date, opnameId, items) {
+            if (category === 'Log') {
+                const rawLogs = JSON.parse(localStorage.getItem('woodtrack_penerimaan_log') || '[]');
+                items.forEach(item => {
+                    if (item.difference !== 0) {
+                        // Append adjustment log
+                        rawLogs.push({
+                            id: `ADJ-${opnameId}-${Math.floor(Math.random() * 1000)}`,
+                            tanggal: date,
+                            supplier: 'Penyesuaian Opname',
+                            surat: `OPNAME-${opnameId}`,
+                            catatan: item.notes || 'Penyesuaian selisih fisik',
+                            items: [{
+                                jenis: item.meta.jenis,
+                                grade: item.meta.grade,
+                                size: item.meta.size,
+                                jumlah: item.difference
+                            }]
+                        });
+                    }
+                });
+                localStorage.setItem('woodtrack_penerimaan_log', JSON.stringify(rawLogs));
+
+            } else if (category === 'Sawtimber') {
+                const rawSawtimber = JSON.parse(localStorage.getItem('woodtrack_penerimaan_sawtimber') || '[]');
+                items.forEach(item => {
+                    if (item.difference !== 0) {
+                        rawSawtimber.push({
+                            id: `ADJ-${opnameId}-${Math.floor(Math.random() * 1000)}`,
+                            tanggal: date,
+                            supplier: 'Penyesuaian Opname',
+                            surat: `OPNAME-${opnameId}`,
+                            catatan: item.notes || 'Penyesuaian selisih fisik',
+                            items: [{
+                                jenis: item.meta.jenis,
+                                grade: item.meta.grade,
+                                size: item.meta.size,
+                                jumlah: item.difference
+                            }]
+                        });
+                    }
+                });
+                localStorage.setItem('woodtrack_penerimaan_sawtimber', JSON.stringify(rawSawtimber));
+
+            } else if (category === 'Crosscut') {
+                const rawCrosscut = JSON.parse(localStorage.getItem('woodtrack_penerimaan_crosscut') || '[]');
+                items.forEach(item => {
+                    if (item.difference !== 0) {
+                        rawCrosscut.push({
+                            id: `ADJ-${opnameId}-${Math.floor(Math.random() * 1000)}`,
+                            tanggal: date,
+                            supplier: 'Penyesuaian Opname',
+                            surat: `OPNAME-${opnameId}`,
+                            catatan: item.notes || 'Penyesuaian selisih fisik',
+                            items: [{
+                                jenis: item.meta.jenis,
+                                grade: item.meta.grade,
+                                size: item.meta.size,
+                                jumlah: item.difference
+                            }]
+                        });
+                    }
+                });
+                localStorage.setItem('woodtrack_penerimaan_crosscut', JSON.stringify(rawCrosscut));
+
+            } else if (category === 'BahanBaku') {
+                const rawGlass = JSON.parse(localStorage.getItem('woodtrack_penerimaan_kaca') || '[]');
+                const dryKiln = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+
+                items.forEach(item => {
+                    if (item.difference !== 0) {
+                        if (item.meta.type === 'Kaca') {
+                            // Deconstruct glass spec: e.g. "Polos 5mm - 120x240"
+                            const cleanSpec = item.spec.replace('mm', '');
+                            const parts = cleanSpec.split(' - ');
+                            const firstPart = parts[0].split(' ');
+                            const tipe = firstPart[0];
+                            const tebal = firstPart[1];
+                            const dimensi = parts[1];
+
+                            rawGlass.push({
+                                id: `ADJ-${opnameId}-${Math.floor(Math.random() * 1000)}`,
+                                tanggal: date,
+                                supplier: 'Penyesuaian Opname',
+                                surat: `OPNAME-${opnameId}`,
+                                catatan: item.notes || 'Penyesuaian selisih fisik',
+                                items: [{ tipe, tebal, dimensi, jumlah: item.difference }]
+                            });
+                        } else {
+                            // Papan Kering
+                            const parts = item.spec.split(' - ');
+                            const jenis = parts[0];
+                            const size = parts[1];
+                            const grade = parts[2].replace('Grade ', '');
+
+                            dryKiln.push({
+                                id: `ADJ-${opnameId}-${Math.floor(Math.random() * 1000)}`,
+                                tanggal: date,
+                                output: { jenis, size, grade, jumlah: item.difference },
+                                input: null
+                            });
+                        }
+                    }
+                });
+
+                localStorage.setItem('woodtrack_penerimaan_kaca', JSON.stringify(rawGlass));
+                localStorage.setItem('woodtrack_konversi_kiln_dry', JSON.stringify(dryKiln));
+
+            } else if (category === 'Produk') {
+                const prodLogs = JSON.parse(localStorage.getItem('woodtrack_hasil_produksi_logs') || '[]');
+                const salesLogs = JSON.parse(localStorage.getItem('woodtrack_penjualan_produk') || '[]');
+
+                items.forEach(item => {
+                    if (item.difference !== 0) {
+                        if (item.difference > 0) {
+                            // Positive adjustment -> append to produced logs
+                            prodLogs.push({
+                                id: `ADJ-${opnameId}-${Math.floor(Math.random() * 1000)}`,
+                                tanggal: date,
+                                tipe: 'Barang Jadi',
+                                nama: item.spec,
+                                jumlah: item.difference,
+                                keterangan: item.notes || 'Penyesuaian Lebih Opname'
+                            });
+                        } else {
+                            // Negative adjustment -> append to sales log (as checkout loss)
+                            salesLogs.push({
+                                id: `ADJ-${opnameId}-${Math.floor(Math.random() * 1000)}`,
+                                tanggal: date,
+                                buyer: 'Audit Opname (Selisih Kurang)',
+                                nama: item.spec,
+                                jumlah: Math.abs(item.difference),
+                                keterangan: item.notes || 'Penyesuaian Kurang Opname'
+                            });
+                        }
+                    }
+                });
+
+                localStorage.setItem('woodtrack_hasil_produksi_logs', JSON.stringify(prodLogs));
+                localStorage.setItem('woodtrack_penjualan_produk', JSON.stringify(salesLogs));
+            }
+        }
+
+        function viewDetail(opnameId) {
+            const op = opnameHistory.find(x => x.id === opnameId);
+            if (!op) return;
+
+            document.getElementById('detail-tanggal').innerText = op.tanggal;
+            document.getElementById('detail-kategori').innerText = op.kategori;
+            document.getElementById('detail-auditor').innerText = op.auditor;
+            document.getElementById('detail-catatan').innerText = op.catatan || '-';
+
+            const body = document.getElementById('detail-table-body');
+            body.innerHTML = '';
+
+            op.items.forEach(item => {
+                const diffColor = item.difference > 0 ? 'text-emerald-600 font-bold' : item.difference < 0 ? 'text-rose-600 font-bold' : 'text-zinc-500';
+                const diffText = item.difference > 0 ? `+${item.difference}` : `${item.difference}`;
+                
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-zinc-50';
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3 font-semibold text-zinc-800">${item.spec}</td>
+                    <td class="py-2.5 px-3 text-right font-medium text-zinc-400">${item.system}</td>
+                    <td class="py-2.5 px-3 text-right font-bold text-zinc-700">${item.physical}</td>
+                    <td class="py-2.5 px-3 text-right ${diffColor}">${diffText}</td>
+                    <td class="py-2.5 px-3 text-zinc-400 italic">${item.notes || '-'}</td>
+                `;
+                body.appendChild(tr);
+            });
+
+            document.getElementById('detail-modal').classList.add('open');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.remove('open');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = `<svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>`;
+            if (type === 'error') {
+                icon = `<svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>`;
+            }
+
+            toast.innerHTML = `
+                ${icon}
+                <span class="text-zinc-800 font-bold text-xs">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    </script>
+</body>
+
+</html>

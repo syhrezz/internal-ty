@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Waste Material</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+        }
+    </script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4CAC0;
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8AFA5;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .anim {
+            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 0;
+        }
+
+        .d1 { animation-delay: 0.05s; }
+        .d2 { animation-delay: 0.1s; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(240, 237, 232, 0.8);
+        }
+
+        .premium-input {
+            width: 100%;
+            background: #F9F7F4;
+            border: 1px solid #E4E4E7;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #3F3F46;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .premium-input:focus {
+            background: #fff;
+            border-color: #D97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        .premium-select {
+            background: #fff;
+            border: 1px solid #E4E4E7;
+            border-radius: 10px;
+            padding: 8px 32px 8px 12px;
+            font-size: 13px;
+            color: #3F3F46;
+            transition: all 0.2s ease;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2371717a' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+        }
+
+        .premium-select:focus {
+            border-color: #D97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        tbody tr:hover {
+            background: #FEFCFA;
+        }
+
+        /* Toast notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: #fff;
+            border-left: 4px solid #10B981;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .toast.error {
+            border-left-color: #EF4444;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <aside class="w-[260px] flex-shrink-0 h-full bg-white flex flex-col overflow-hidden" style="border-right:1px solid #F0EDE8;">
+        <!-- Logo -->
+        <div class="px-5 py-5" style="border-bottom:1px solid #F0EDE8;">
+            <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0" style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="14" width="4" height="6" rx="1" /><rect x="10" y="10" width="4" height="10" rx="1" />
+                        <rect x="17" y="12" width="4" height="8" rx="1" /><path d="M5 14V8M12 10V4M19 12V6" /><path d="M3 4h18" />
+                    </svg>
+                </div>
+                <div class="sidebar-text">
+                    <p class="font-extrabold text-zinc-900 text-sm leading-tight tracking-tight">WoodTrack</p>
+                    <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.14em]">Pro Edition</p>
+                </div>
+            </a>
+        </div>
+                                                <!-- Nav -->
+        <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+
+            <a href="index.html" class="nav-item " data-title="Dashboard">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                </svg>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
+
+            <!-- Penerimaan accordion -->
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu" data-title="Penerimaan">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                        <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                    </svg>
+                    <span class="sidebar-text">Penerimaan</span>
+                    <svg id="penerimaan-chevron" class="ml-auto w-3.5 h-3.5 chevron  text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div id="penerimaan-menu" class="submenu  ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="penerimaan-log.html" class="submenu-item ">Penerimaan Log</a>
+                    <a href="penerimaan-sawtimber.html" class="submenu-item ">Penerimaan Sawtimber</a>
+                    <a href="penerimaan-crosscut.html" class="submenu-item ">Penerimaan Crosscut</a>
+                    <a href="penerimaan-kaca.html" class="submenu-item ">Penerimaan Kaca</a>
+                </div>
+            </div>
+
+            <a href="konversi-log.html" class="nav-item " data-title="Konversi Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                </svg>
+                <span class="sidebar-text">Konversi Log</span>
+            </a>
+
+            <a href="konversi-kiln-dry.html" class="nav-item " data-title="Konversi Kiln Dry">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20v-6M9 20v-10M6 20v-4M15 20v-8M18 20v-12M21 20V4" />
+                    <path d="M3 20h18" />
+                </svg>
+                <span class="sidebar-text">Konversi Kiln Dry</span>
+            </a>
+
+            <a href="proses-produksi.html" class="nav-item " data-title="Proses Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                    <path d="M9 14h6" />
+                    <path d="M9 18h6" />
+                    <path d="M12 10h3" />
+                </svg>
+                <span class="sidebar-text">Proses Produksi</span>
+            </a>
+
+            <a href="hasil-produksi.html" class="nav-item " data-title="Hasil Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                <span class="sidebar-text">Hasil Produksi</span>
+            </a>
+
+            <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Penjualan Produk</span>
+            </a>
+
+            <a href="waste-material.html" class="nav-item active" data-title="Waste Material">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span class="sidebar-text">Waste Material</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Stok</p>
+
+            <a href="stok-log.html" class="nav-item " data-title="Stok Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+                <span class="sidebar-text">Stok Log</span>
+            </a>
+
+            <a href="stok-sawtimber.html" class="nav-item " data-title="Stok Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Stok Sawtimber</span>
+            </a>
+
+            <a href="stok-crosscut.html" class="nav-item " data-title="Stok Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="1" y="3" width="15" height="13" rx="2" />
+                    <path d="M16 8h4l3 3v5h-7V8z" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                <span class="sidebar-text">Stok Crosscut</span>
+            </a>
+
+            <a href="stok-bahan-baku.html" class="nav-item " data-title="Stok Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Stok Bahan Baku</span>
+            </a>
+
+            <a href="stok-product.html" class="nav-item " data-title="Stok Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Stok Produk</span>
+            </a>
+
+            <a href="stock-opname.html" class="nav-item " data-title="Stock Opname">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                <span class="sidebar-text">Stock Opname</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
+
+            <a href="master-log.html" class="nav-item " data-title="Master Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <ellipse cx="12" cy="5" rx="9" ry="3" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                </svg>
+                <span class="sidebar-text">Master Log</span>
+            </a>
+
+            <a href="master-sawtimber.html" class="nav-item " data-title="Master Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Master Sawtimber</span>
+            </a>
+
+            <a href="master-crosscut.html" class="nav-item " data-title="Master Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                <span class="sidebar-text">Master Crosscut</span>
+            </a>
+
+            <a href="master-kaca.html" class="nav-item " data-title="Master Kaca">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                </svg>
+                <span class="sidebar-text">Master Kaca</span>
+            </a>
+
+            <a href="master-bahan-baku.html" class="nav-item " data-title="Master Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Master Bahan Baku</span>
+            </a>
+
+            <a href="master-produk.html" class="nav-item " data-title="Master Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Master Produk</span>
+            </a>
+
+            <a href="master-pengguna.html" class="nav-item " data-title="Master Pengguna">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <span class="sidebar-text">Master Pengguna</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sistem</p>
+
+            <a href="system-log.html" class="nav-item " data-title="System Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span class="sidebar-text">System Log</span>
+            </a>
+
+        </nav>
+    </aside>
+
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <!-- TOP BAR -->
+        <header class="h-16 bg-white flex items-center justify-between px-6 flex-shrink-0 relative z-30" style="border-bottom:1px solid #F0EDE8;">
+            <div class="flex items-center gap-3">
+                <button id="sidebar-toggle-btn" class="p-2 -ml-2 rounded-xl text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-all" title="Toggle Sidebar">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight" id="page-title">Waste Material</h1>
+                    <p class="text-[11px] text-zinc-400 mt-0.5" id="page-parent">Operasional · Pencatatan Limbah & Bahan Rusak</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="text-xs font-semibold text-zinc-500 flex items-center gap-1.5 bg-zinc-50 border border-zinc-100 px-3 py-1.5 rounded-xl cursor-default hover:bg-zinc-100/80 transition-all select-none">
+                    <svg class="w-3.5 h-3.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span id="live-datetime">-</span>
+                </div>
+                <div class="w-px h-6 bg-zinc-100 mx-1"></div>
+
+                <!-- Profile Dropdown -->
+                <div class="relative">
+                    <div id="profile-menu-button" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all border border-transparent hover:border-zinc-100">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">A</div>
+                        <div class="text-left hidden md:block">
+                            <p class="text-xs font-bold text-zinc-800 leading-tight">Admin</p>
+                            <p class="text-[10px] text-zinc-400 leading-none mt-0.5">admin@woodtrack.id</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-zinc-400 hidden md:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- ═══════════════════════════ HISTORY VIEW ═══════════════════════════ -->
+            <div id="history-view" class="space-y-6">
+                <!-- Toolbar -->
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-zinc-900 leading-tight">Daftar Pencatatan Waste</h2>
+                        <p class="text-zinc-500 text-xs mt-0.5">Log data bahan baku rusak, lapuk, atau pecah yang dikeluarkan dari inventaris aktif</p>
+                    </div>
+                    <button onclick="setView('form')" class="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/20">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        Catat Waste Material
+                    </button>
+                </div>
+
+                <!-- Waste History Table -->
+                <div class="glass-card rounded-2xl p-6 shadow-sm">
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                                    <th class="py-3 px-4 text-center w-12">No</th>
+                                    <th class="py-3 px-4">Tanggal Kejadian</th>
+                                    <th class="py-3 px-4">Kategori Material</th>
+                                    <th class="py-3 px-4">Spesifikasi Material</th>
+                                    <th class="py-3 px-4 text-right">Jumlah Rusak (Waste)</th>
+                                    <th class="py-3 px-4">Alasan / Keterangan</th>
+                                    <th class="py-3 px-4 text-center">Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="waste-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                        <div id="waste-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data waste material</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Gunakan tombol di atas untuk mencatat material yang rusak/terbuang.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════ FORM VIEW ═══════════════════════════ -->
+            <div id="form-view" class="hidden space-y-6">
+                <!-- Header -->
+                <div class="flex items-center gap-4">
+                    <button onclick="setView('history')" class="p-2 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 active:scale-[0.98] transition-all">
+                        <svg class="w-5 h-5 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-zinc-900 text-base">Catat Limbah / Bahan Rusak Baru</h2>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Pengeluaran material dari persediaan aktif untuk dibuang</p>
+                    </div>
+                </div>
+
+                <!-- Form Card -->
+                <div class="glass-card rounded-2xl p-6 shadow-sm max-w-xl mx-auto space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Kategori Material *</label>
+                        <select id="waste-category" onchange="loadCategoryMaterials(this.value)" class="premium-select w-full">
+                            <option value="" disabled selected>Pilih Kategori...</option>
+                            <option value="Log">Log (Kayu Bulat)</option>
+                            <option value="Sawtimber">Sawtimber (Papan Basah)</option>
+                            <option value="Crosscut">Crosscut</option>
+                            <option value="BahanBaku">Bahan Baku (Papan Oven & Kaca)</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Pilih Item / Spesifikasi *</label>
+                        <select id="waste-material-item" class="premium-select w-full" disabled>
+                            <option value="" disabled selected>Pilih Kategori Terlebih Dahulu...</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Kejadian *</label>
+                            <input type="date" id="waste-date" class="premium-input">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Terbuang *</label>
+                            <input type="number" id="waste-qty" min="1" placeholder="Contoh: 10" class="premium-input">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Alasan Pengeluaran / Kondisi *</label>
+                        <select id="waste-reason" class="premium-select w-full">
+                            <option value="" disabled selected>Pilih Alasan...</option>
+                            <option value="Busuk / Lapuk">Busuk / Lapuk / Jamuran</option>
+                            <option value="Pecah / Belah">Pecah / Retak Parah / Belah</option>
+                            <option value="Dimakan Rayap / Serangga">Dimakan Rayap / Hama Kayu</option>
+                            <option value="Cacat Produksi / Salah Ukuran">Cacat Produksi / Salah Potong</option>
+                            <option value="Hilang / Selisih Fisik">Hilang / Tidak Ditemukan</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Detail Tambahan (Opsional)</label>
+                        <textarea id="waste-details" rows="2" placeholder="Catatan tambahan detail kondisi..." class="premium-input resize-none h-[64px]"></textarea>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60 font-semibold">
+                        <button onclick="setView('history')" class="px-5 py-2.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                        <button onclick="submitWasteMaterial()" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/10 transition-all active:scale-[0.98]">Catat Pengeluaran</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <script src="shared.js"></script>
+    <script>
+        let wasteHistory = [];
+        let availableMaterials = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('nav');
+            if (nav && typeof window.getNav === 'function') {
+                nav.innerHTML = window.getNav('waste-material');
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('waste-date').value = today;
+
+            loadWasteHistory();
+            renderWasteTable();
+        });
+
+        function setView(view) {
+            const hView = document.getElementById('history-view');
+            const fView = document.getElementById('form-view');
+            if (view === 'form') {
+                hView.classList.add('hidden');
+                fView.classList.remove('hidden');
+                resetForm();
+            } else {
+                hView.classList.remove('hidden');
+                fView.classList.add('hidden');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('waste-category').value = '';
+            const itemSelect = document.getElementById('waste-material-item');
+            itemSelect.innerHTML = `<option value="" disabled selected>Pilih Kategori Terlebih Dahulu...</option>`;
+            itemSelect.disabled = true;
+            document.getElementById('waste-qty').value = '';
+            document.getElementById('waste-reason').value = '';
+            document.getElementById('waste-details').value = '';
+        }
+
+        function loadWasteHistory() {
+            const saved = localStorage.getItem('woodtrack_waste_material');
+            if (saved) {
+                wasteHistory = JSON.parse(saved);
+            } else {
+                wasteHistory = [
+                    {
+                        id: 1717478400000,
+                        tanggal: '2026-06-03',
+                        kategori: 'BahanBaku',
+                        spec: 'Polos 5mm - 120x240',
+                        jumlah: 4,
+                        alasan: 'Pecah / Belah',
+                        details: 'Pecah saat bongkar muat dari truk armada'
+                    },
+                    {
+                        id: 1717392000000,
+                        tanggal: '2026-06-02',
+                        kategori: 'Log',
+                        spec: 'Sengon - Grade B - A3',
+                        jumlah: 2,
+                        alasan: 'Busuk / Lapuk',
+                        details: 'Menyusut lapuk di area penimbunan terbuka'
+                    }
+                ];
+                localStorage.setItem('woodtrack_waste_material', JSON.stringify(wasteHistory));
+            }
+        }
+
+        function renderWasteTable() {
+            const body = document.getElementById('waste-table-body');
+            const empty = document.getElementById('waste-empty');
+            body.innerHTML = '';
+
+            if (wasteHistory.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            wasteHistory.forEach((ws, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-zinc-50';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 text-center text-zinc-400 font-bold">${index + 1}</td>
+                    <td class="py-3 px-4 font-semibold">${ws.tanggal}</td>
+                    <td class="py-3 px-4 font-bold text-zinc-600">${ws.kategori}</td>
+                    <td class="py-3 px-4 font-bold text-zinc-800">${ws.spec}</td>
+                    <td class="py-3 px-4 text-right font-extrabold text-rose-600">-${ws.jumlah} unit</td>
+                    <td class="py-3 px-4 text-zinc-500">${ws.alasan} ${ws.details ? ' — ' + ws.details : ''}</td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="deleteWasteRecord(${ws.id})" class="text-rose-600 hover:text-rose-800 font-bold text-[10px] hover:bg-rose-50 p-1.5 rounded-lg transition-colors">Hapus</button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function loadCategoryMaterials(category) {
+            const itemSelect = document.getElementById('waste-material-item');
+            itemSelect.innerHTML = `<option value="" disabled selected>Memuat Item...</option>`;
+            itemSelect.disabled = false;
+            availableMaterials = [];
+
+            // Fetch stocks of chosen category
+            if (category === 'Log') {
+                const rawLogs = JSON.parse(localStorage.getItem('woodtrack_penerimaan_log') || '[]');
+                const conversions = JSON.parse(localStorage.getItem('woodtrack_log_conversions') || '[]');
+                const stockMap = {};
+
+                rawLogs.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.jenis} - Grade ${item.grade} - ${item.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                conversions.forEach(conv => {
+                    if (conv.input) {
+                        const spec = `${conv.input.jenis} - Grade ${conv.input.grade} - ${conv.input.size}`;
+                        if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                        stockMap[spec].consumed += parseInt(conv.input.jumlah) || 0;
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    const current = Math.max(0, m.received - m.consumed);
+                    if (current > 0) {
+                        availableMaterials.push({ spec: m.spec, stock: current, meta: { jenis: m.spec.split(' - ')[0], grade: m.spec.split(' - ')[1].replace('Grade ', ''), size: m.spec.split(' - ')[2] } });
+                    }
+                });
+
+            } else if (category === 'Sawtimber') {
+                const rawSawtimber = JSON.parse(localStorage.getItem('woodtrack_penerimaan_sawtimber') || '[]');
+                const ovenBatches = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+                const stockMap = {};
+
+                rawSawtimber.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.jenis} - Grade ${item.grade} - ${item.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                ovenBatches.forEach(batch => {
+                    if (batch.inputs) {
+                        batch.inputs.forEach(input => {
+                            const spec = `${input.jenis} - Grade ${input.grade} - ${input.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].consumed += parseInt(input.jumlah) || 0;
+                        });
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    const current = Math.max(0, m.received - m.consumed);
+                    if (current > 0) {
+                        availableMaterials.push({ spec: m.spec, stock: current, meta: { jenis: m.spec.split(' - ')[0], grade: m.spec.split(' - ')[1].replace('Grade ', ''), size: m.spec.split(' - ')[2] } });
+                    }
+                });
+
+            } else if (category === 'Crosscut') {
+                const rawCrosscut = JSON.parse(localStorage.getItem('woodtrack_penerimaan_crosscut') || '[]');
+                const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+                const stockMap = {};
+
+                rawCrosscut.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.jenis} - Grade ${item.grade} - ${item.size}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                prodRequests.forEach(req => {
+                    if (req.materials) {
+                        req.materials.forEach(mat => {
+                            if (mat.kategori === 'Crosscut') {
+                                const spec = mat.spec;
+                                if (!stockMap[spec]) stockMap[spec] = { spec, received: 0, consumed: 0 };
+                                stockMap[spec].consumed += parseInt(mat.jumlah) || 0;
+                            }
+                        });
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    const current = Math.max(0, m.received - m.consumed);
+                    if (current > 0) {
+                        availableMaterials.push({ spec: m.spec, stock: current, meta: { jenis: m.spec.split(' - ')[0], grade: m.spec.split(' - ')[1].replace('Grade ', ''), size: m.spec.split(' - ')[2] } });
+                    }
+                });
+
+            } else if (category === 'BahanBaku') {
+                const rawGlass = JSON.parse(localStorage.getItem('woodtrack_penerimaan_kaca') || '[]');
+                const dryKiln = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+                const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+                const stockMap = {};
+
+                rawGlass.forEach(entry => {
+                    if (entry.items) {
+                        entry.items.forEach(item => {
+                            const spec = `${item.tipe} ${item.tebal}mm - ${item.dimensi}`;
+                            if (!stockMap[spec]) stockMap[spec] = { spec, kategori: 'Kaca', received: 0, consumed: 0 };
+                            stockMap[spec].received += parseInt(item.jumlah) || 0;
+                        });
+                    }
+                });
+
+                dryKiln.forEach(batch => {
+                    if (batch.output) {
+                        const spec = `${batch.output.jenis} - ${batch.output.size} - Grade ${batch.output.grade}`;
+                        if (!stockMap[spec]) stockMap[spec] = { spec, kategori: 'Papan Kering', received: 0, consumed: 0 };
+                        stockMap[spec].received += parseInt(batch.output.jumlah) || 0;
+                    }
+                });
+
+                prodRequests.forEach(req => {
+                    if (req.materials) {
+                        req.materials.forEach(mat => {
+                            if (mat.kategori === 'Kaca' || mat.kategori === 'Sawtimber') {
+                                const spec = mat.spec;
+                                if (stockMap[spec]) {
+                                    stockMap[spec].consumed += parseInt(mat.jumlah) || 0;
+                                }
+                            }
+                        });
+                    }
+                });
+
+                Object.values(stockMap).forEach(m => {
+                    const current = Math.max(0, m.received - m.consumed);
+                    if (current > 0) {
+                        availableMaterials.push({ spec: m.spec, stock: current, meta: { type: m.kategori } });
+                    }
+                });
+            }
+
+            // Populate select
+            itemSelect.innerHTML = `<option value="" disabled selected>Pilih Item...</option>`;
+            if (availableMaterials.length === 0) {
+                itemSelect.innerHTML = `<option value="" disabled>Stok Kategori Ini Kosong</option>`;
+                itemSelect.disabled = true;
+            } else {
+                availableMaterials.forEach((item, index) => {
+                    itemSelect.innerHTML += `<option value="${index}">${item.spec} (Tersedia: ${item.stock} unit)</option>`;
+                });
+            }
+        }
+
+        function submitWasteMaterial() {
+            const category = document.getElementById('waste-category').value;
+            const itemIndex = document.getElementById('waste-material-item').value;
+            const date = document.getElementById('waste-date').value;
+            const qtyVal = document.getElementById('waste-qty').value;
+            const reason = document.getElementById('waste-reason').value;
+            const details = document.getElementById('waste-details').value.trim();
+
+            if (!category || itemIndex === '' || !date || !qtyVal || !reason) {
+                showToast('Mohon lengkapi seluruh field berbintang *!', 'error');
+                return;
+            }
+
+            const qty = parseInt(qtyVal) || 0;
+            const chosenItem = availableMaterials[itemIndex];
+
+            if (qty <= 0) {
+                showToast('Jumlah terbuang harus lebih besar dari 0!', 'error');
+                return;
+            }
+
+            if (qty > chosenItem.stock) {
+                showToast(`Stok tidak mencukupi! Hanya tersedia ${chosenItem.stock} unit.`, 'error');
+                return;
+            }
+
+            const recordId = Date.now();
+
+            // Deduct from stock logic
+            applyWasteDeduction(category, chosenItem, qty, date, recordId, reason);
+
+            // Record to history
+            const newRecord = {
+                id: recordId,
+                tanggal: date,
+                kategori: category,
+                spec: chosenItem.spec,
+                jumlah: qty,
+                alasan: reason,
+                details
+            };
+
+            wasteHistory.unshift(newRecord);
+            localStorage.setItem('woodtrack_waste_material', JSON.stringify(wasteHistory));
+
+            showToast('Limbah/Bahan rusak berhasil dicatat!');
+            loadWasteHistory();
+            renderWasteTable();
+            setView('history');
+        }
+
+        function applyWasteDeduction(category, item, qty, date, recordId, reason) {
+            if (category === 'Log') {
+                const conversions = JSON.parse(localStorage.getItem('woodtrack_log_conversions') || '[]');
+                conversions.push({
+                    id: `WST-${recordId}`,
+                    tanggal: date,
+                    input: {
+                        jenis: item.meta.jenis,
+                        grade: item.meta.grade,
+                        size: item.meta.size,
+                        jumlah: qty
+                    },
+                    outputs: [],
+                    catatan: `Waste: ${reason}`
+                });
+                localStorage.setItem('woodtrack_log_conversions', JSON.stringify(conversions));
+
+            } else if (category === 'Sawtimber') {
+                const ovenBatches = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+                ovenBatches.push({
+                    id: `WST-${recordId}`,
+                    tanggal: date,
+                    inputs: [{
+                        jenis: item.meta.jenis,
+                        grade: item.meta.grade,
+                        size: item.meta.size,
+                        jumlah: qty
+                    }],
+                    output: null,
+                    catatan: `Waste: ${reason}`
+                });
+                localStorage.setItem('woodtrack_konversi_kiln_dry', JSON.stringify(ovenBatches));
+
+            } else if (category === 'Crosscut' || (category === 'BahanBaku' && item.meta.type === 'Papan Kering')) {
+                const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+                prodRequests.push({
+                    id: `WST-${recordId}`,
+                    tanggal: date,
+                    kategori: category === 'Crosscut' ? 'Crosscut' : 'Sawtimber',
+                    materials: [{
+                        spec: item.spec,
+                        kategori: category === 'Crosscut' ? 'Crosscut' : 'Sawtimber',
+                        jumlah: qty
+                    }],
+                    keterangan: `Bahan Rusak: ${reason}`
+                });
+                localStorage.setItem('woodtrack_produksi_requests', JSON.stringify(prodRequests));
+
+            } else if (category === 'BahanBaku' && item.meta.type === 'Kaca') {
+                const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+                prodRequests.push({
+                    id: `WST-${recordId}`,
+                    tanggal: date,
+                    kategori: 'Kaca',
+                    materials: [{
+                        spec: item.spec,
+                        kategori: 'Kaca',
+                        jumlah: qty
+                    }],
+                    keterangan: `Kaca Pecah/Rusak: ${reason}`
+                });
+                localStorage.setItem('woodtrack_produksi_requests', JSON.stringify(prodRequests));
+            }
+        }
+
+        function deleteWasteRecord(id) {
+            if (confirm('Apakah Anda yakin ingin membatalkan dan menghapus catatan waste ini? Stok akan dikembalikan.')) {
+                // Find record
+                const rec = wasteHistory.find(x => x.id === id);
+                if (!rec) return;
+
+                // Reverse deduction
+                reverseWasteDeduction(rec);
+
+                wasteHistory = wasteHistory.filter(x => x.id !== id);
+                localStorage.setItem('woodtrack_waste_material', JSON.stringify(wasteHistory));
+                showToast('Catatan waste dibatalkan dan dihapus.');
+                loadWasteHistory();
+                renderWasteTable();
+            }
+        }
+
+        function reverseWasteDeduction(rec) {
+            const targetId = `WST-${rec.id}`;
+
+            if (rec.kategori === 'Log') {
+                let conversions = JSON.parse(localStorage.getItem('woodtrack_log_conversions') || '[]');
+                conversions = conversions.filter(x => x.id !== targetId);
+                localStorage.setItem('woodtrack_log_conversions', JSON.stringify(conversions));
+
+            } else if (rec.kategori === 'Sawtimber') {
+                let ovenBatches = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
+                ovenBatches = ovenBatches.filter(x => x.id !== targetId);
+                localStorage.setItem('woodtrack_konversi_kiln_dry', JSON.stringify(ovenBatches));
+
+            } else if (rec.kategori === 'Crosscut' || rec.kategori === 'BahanBaku') {
+                let prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+                prodRequests = prodRequests.filter(x => x.id !== targetId);
+                localStorage.setItem('woodtrack_produksi_requests', JSON.stringify(prodRequests));
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = `<svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>`;
+            if (type === 'error') {
+                icon = `<svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>`;
+            }
+
+            toast.innerHTML = `
+                ${icon}
+                <span class="text-zinc-800 font-bold text-xs">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    </script>
+</body>
+
+</html>

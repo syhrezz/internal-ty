@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoodTrack Pro — Penjualan Produk</title>
+    <title>WoodTrack Pro — Hasil Produksi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -278,7 +278,8 @@
                 </div>
             </a>
         </div>
-                                                                                        <!-- Nav -->
+        <!-- Nav Placeholder (updated dynamically by build_pages.py) -->
+                                                                                                <!-- Nav -->
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
 
             <a href="index.html" class="nav-item " data-title="Dashboard">
@@ -339,7 +340,7 @@
                 <span class="sidebar-text">Proses Produksi</span>
             </a>
 
-            <a href="hasil-produksi.html" class="nav-item " data-title="Hasil Produksi">
+            <a href="hasil-produksi.html" class="nav-item active" data-title="Hasil Produksi">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
@@ -347,7 +348,7 @@
                 <span class="sidebar-text">Hasil Produksi</span>
             </a>
 
-            <a href="penjualan-produk.html" class="nav-item active" data-title="Penjualan Produk">
+            <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
@@ -511,7 +512,7 @@
                     </svg>
                 </button>
                 <div>
-                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Penjualan Produk</h1>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Hasil Produksi</h1>
                     <p class="text-[11px] text-zinc-400 mt-0.5">Operasional</p>
                 </div>
             </div>
@@ -567,48 +568,12 @@
             <div id="dashboard-view" class="space-y-6">
                 <!-- Stat Cards Row -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
-                    <!-- Stat 1: Total Transaksi -->
+                    <!-- Stat 1: Total Outputs logged today -->
                     <div class="hero-stat bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-md shadow-indigo-500/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Total Transaksi</p>
-                                <h3 id="stat-sales-count" class="text-2xl font-extrabold mt-1.5">0 Transaksi</h3>
-                            </div>
-                            <div class="hero-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                    <polyline points="14 2 14 8 20 8"/>
-                                    <line x1="16" y1="13" x2="8" y2="13"/>
-                                    <line x1="16" y1="17" x2="8" y2="17"/>
-                                    <polyline points="10 9 9 9 8 9"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Stat 2: Total Unit Terjual -->
-                    <div class="hero-stat bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-500/10">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Total Terjual (Unit)</p>
-                                <h3 id="stat-sold-units" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
-                            </div>
-                            <div class="hero-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="9" cy="21" r="1" />
-                                    <circle cx="20" cy="21" r="1" />
-                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Stat 3: Unit Terjual Hari Ini -->
-                    <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Terjual Hari Ini</p>
-                                <h3 id="stat-sold-today" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
+                                <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Hasil Dicatat Hari Ini</p>
+                                <h3 id="stat-outputs-today" class="text-2xl font-extrabold mt-1.5">0 Log</h3>
                             </div>
                             <div class="hero-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -619,18 +584,48 @@
                         </div>
                     </div>
 
-                    <!-- Stat 4: Sisa Stok Selesai -->
-                    <div class="hero-stat bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/10">
+                    <!-- Stat 2: Finished Goods produced -->
+                    <div class="hero-stat bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-500/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Total Sisa Stok</p>
-                                <h3 id="stat-remaining-stock" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
+                                <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Total Barang Jadi</p>
+                                <h3 id="stat-finished-total" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3: Half-Finished produced -->
+                    <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Setengah Jadi</p>
+                                <h3 id="stat-half-finished-total" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
                             </div>
                             <div class="hero-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                                     <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4: Total Logged Items -->
+                    <div class="hero-stat bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Jumlah Jenis Produk</p>
+                                <h3 id="stat-unique-products" class="text-2xl font-extrabold mt-1.5">0 Jenis</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                                    <line x1="7" y1="7" x2="7.01" y2="7"/>
                                 </svg>
                             </div>
                         </div>
@@ -658,11 +653,12 @@
                                     <input type="date" id="filter-end-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
                                 </div>
                             </div>
-
-                            <!-- Product Dropdown Filter -->
-                            <select id="filter-product" onchange="applyFiltersAndRender()" class="premium-input py-1.5 text-xs w-[180px] bg-white border border-zinc-200 rounded-xl">
-                                <option value="">Semua Produk</option>
-                                <!-- Dynamic options loaded in JS -->
+                            
+                            <!-- Type Dropdown Filter -->
+                            <select id="filter-type" onchange="applyFiltersAndRender()" class="premium-input py-1.5 text-xs w-[150px] bg-white border border-zinc-200 rounded-xl">
+                                <option value="">Semua Tipe Output</option>
+                                <option value="Barang Jadi">Barang Jadi</option>
+                                <option value="Setengah Jadi">Setengah Jadi</option>
                             </select>
                         </div>
 
@@ -672,14 +668,14 @@
                                     <circle cx="11" cy="11" r="8" />
                                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                 </svg>
-                                <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari nama pembeli, produk..." class="search-input">
+                                <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari nama produk, keterangan..." class="search-input">
                             </div>
-                            <button onclick="openFormModal()" class="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-indigo-600/20 whitespace-nowrap">
+                            <button onclick="openOutputModal()" class="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-indigo-600/20 whitespace-nowrap">
                                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                     <line x1="12" y1="5" x2="12" y2="19" />
                                     <line x1="5" y1="12" x2="19" y2="12" />
                                 </svg>
-                                Catat Penjualan Baru
+                                Catat Hasil Produksi
                             </button>
                         </div>
                     </div>
@@ -690,31 +686,29 @@
                             <thead>
                                 <tr class="bg-zinc-50 border-b border-zinc-100">
                                     <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal Transaksi</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Nomor Invoice</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Nama Pembeli</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Produk Terjual</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal Selesai</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tipe Output</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Nama / Model Produk</th>
                                     <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah (Quantity)</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Keterangan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Operator / Keterangan</th>
                                     <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-24">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
-                                <!-- Dynamic content -->
+                                <!-- Dynamic -->
                             </tbody>
                         </table>
-
+                        
                         <!-- Table Empty State -->
                         <div id="table-empty" class="hidden py-12 text-center">
                             <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
                                 <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="9" cy="21" r="1" />
-                                    <circle cx="20" cy="21" r="1" />
-                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <line x1="9" y1="3" x2="9" y2="21" />
                                 </svg>
                             </div>
-                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penjualan</h4>
-                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Catat Penjualan Baru" untuk merekam transaksi baru.</p>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data hasil produksi</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Catat Hasil Produksi" untuk merekam hasil baru.</p>
                         </div>
                     </div>
 
@@ -740,36 +734,39 @@
             <!-- ═══════════════════════════ FORM VIEW (INLINE PAGE) ═══════════════════════════ -->
             <div id="form-view" class="hidden glass-card rounded-2xl shadow-sm p-6 space-y-6 anim d2">
                 <div class="flex items-center gap-4 border-b border-zinc-100 pb-4">
-                    <button onclick="closeFormModal()" class="p-2 border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-all text-zinc-600" title="Kembali">
+                    <button onclick="closeOutputModal()" class="p-2 border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-all text-zinc-600" title="Kembali">
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
                     </button>
                     <div>
-                        <h3 class="font-extrabold text-zinc-900 text-base">Catat Transaksi Penjualan</h3>
-                        <p class="text-[11px] text-zinc-400 mt-0.5">Input detail penjualan produk jadi untuk mengurangi stok inventaris</p>
+                        <h3 class="font-extrabold text-zinc-900 text-base">Catat Hasil Produksi Manual</h3>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Input detail produk akhir atau setengah jadi yang selesai dirakit/dibuat</p>
                     </div>
                 </div>
 
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1.5">
-                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Transaksi *</label>
-                            <input type="date" id="sales-tanggal" class="premium-input">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Selesai *</label>
+                            <input type="date" id="out-tanggal" class="premium-input">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Nama Pembeli (Buyer) *</label>
-                            <input type="text" id="sales-buyer" placeholder="Masukkan nama pembeli..." class="premium-input">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jenis Output *</label>
+                            <select id="out-type" class="premium-input cursor-pointer">
+                                <option value="Barang Jadi">Barang Jadi (Finished Product)</option>
+                                <option value="Setengah Jadi">Setengah Jadi (WIP)</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1.5 relative">
-                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Pilih Produk *</label>
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Nama / Model Produk *</label>
                             <div class="relative">
-                                <input type="text" id="sales-nama-input" onfocus="showProductDropdown()" oninput="filterProductDropdown(this.value)" placeholder="Cari atau pilih produk..." class="premium-input pr-10" autocomplete="off">
-                                <input type="hidden" id="sales-nama">
+                                <input type="text" id="out-nama-input" onfocus="showProductDropdown()" oninput="filterProductDropdown(this.value)" placeholder="Cari atau pilih model produk..." class="premium-input pr-10" autocomplete="off">
+                                <input type="hidden" id="out-nama">
                                 <button id="clear-product-btn" onclick="clearProductSelection()" class="hidden absolute right-3 top-2.5 text-zinc-400 hover:text-zinc-600 transition-colors">
                                     <svg class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -777,12 +774,6 @@
                                     </svg>
                                 </button>
                             </div>
-
-                            <!-- Product Dropdown Overlay -->
-                            <div id="product-dropdown" class="hidden absolute left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white border border-zinc-200 rounded-xl shadow-xl z-50 divide-y divide-zinc-50">
-                                <!-- Dynamic list -->
-                            </div>
-
                             <!-- Selection Image Preview with Eye button -->
                             <div id="selected-product-preview" class="hidden mt-2 p-2 bg-zinc-50 border border-zinc-200/60 rounded-xl flex items-center justify-between shadow-sm">
                                 <div class="flex items-center gap-2.5">
@@ -807,27 +798,26 @@
                                     </svg>
                                 </button>
                             </div>
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <div class="flex items-center justify-between">
-                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Terjual *</label>
-                                <span id="helper-stock" class="text-[10px] font-bold text-zinc-400">Pilih produk terlebih dahulu</span>
+                            <!-- Dropdown Overlay -->
+                            <div id="product-dropdown" class="hidden absolute left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white border border-zinc-200 rounded-xl shadow-xl z-50 divide-y divide-zinc-50">
+                                <!-- Dynamic Product Items -->
                             </div>
-                            <input type="number" id="sales-jumlah" placeholder="Jumlah unit terjual..." min="1" class="premium-input" oninput="validateQtyInput(this.value)">
-                            <p id="qty-error" class="hidden text-[10px] font-semibold text-rose-500 mt-1"></p>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Hasil (Unit) *</label>
+                            <input type="number" id="out-jumlah" placeholder="Jumlah unit/pcs" min="1" class="premium-input">
                         </div>
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Keterangan / Catatan Tambahan</label>
-                        <input type="text" id="sales-keterangan" placeholder="E.g., Kirim via kurir internal, COD" class="premium-input">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Keterangan / Operator / Shift</label>
+                        <input type="text" id="out-keterangan" placeholder="E.g., Shift Pagi selesai dirakit oleh Budi" class="premium-input">
                     </div>
                 </div>
 
                 <div class="flex items-center justify-end border-t border-zinc-100 pt-4 gap-2">
-                    <button onclick="closeFormModal()" class="px-4 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl border border-zinc-200/60 transition-all">Batal</button>
-                    <button id="save-sales-btn" onclick="saveSalesRecord()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-md transition-all">Simpan Transaksi</button>
+                    <button onclick="closeOutputModal()" class="px-4 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl border border-zinc-200/60 transition-all">Batal</button>
+                    <button onclick="saveProductionOutput()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-md transition-all">Simpan Hasil</button>
                 </div>
             </div>
 
@@ -843,19 +833,19 @@
                         </button>
                         <div>
                             <div class="flex items-center gap-2.5">
-                                <h3 class="font-extrabold text-zinc-900 text-base" id="detail-id">INV-XXXXXX</h3>
-                                <span class="inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-lg border bg-indigo-50 text-indigo-700 border-indigo-200">Terjual</span>
+                                <h3 class="font-extrabold text-zinc-900 text-base" id="detail-id">OUT-XXXXXX</h3>
+                                <span id="detail-tipe-badge" class="inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-lg border">Tipe</span>
                             </div>
-                            <p class="text-[11px] text-zinc-400 mt-0.5">Detail Lengkap Catatan Penjualan</p>
+                            <p class="text-[11px] text-zinc-400 mt-0.5">Detail Lengkap Hasil Produksi</p>
                         </div>
                     </div>
                     <div>
-                        <button onclick="deleteSalesFromDetail()" class="flex items-center gap-2 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-100 font-bold text-xs rounded-xl transition-all">
+                        <button onclick="deleteOutputFromDetail()" class="flex items-center gap-2 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-100 font-bold text-xs rounded-xl transition-all">
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6" />
                                 <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
                             </svg>
-                            Batalkan Penjualan (Pulihkan Stok)
+                            Hapus Log
                         </button>
                     </div>
                 </div>
@@ -865,26 +855,57 @@
                     <div class="md:col-span-2 space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="p-4 bg-zinc-50 border border-zinc-200/50 rounded-xl space-y-1">
-                                <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Nama Pembeli (Buyer)</p>
-                                <p class="text-sm font-bold text-zinc-800" id="detail-buyer">-</p>
-                            </div>
-                            <div class="p-4 bg-zinc-50 border border-zinc-200/50 rounded-xl space-y-1">
                                 <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Nama / Model Produk</p>
-                                <p class="text-sm font-bold text-zinc-800" id="detail-nama">-</p>
+                                <p class="text-sm font-bold text-zinc-800" id="detail-nama">Pintu Jati Klasik</p>
                             </div>
                             <div class="p-4 bg-zinc-50 border border-zinc-200/50 rounded-xl space-y-1">
-                                <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jumlah Terjual (Quantity)</p>
+                                <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Jumlah Hasil (Quantity)</p>
                                 <p class="text-sm font-extrabold text-indigo-600" id="detail-jumlah">0 unit</p>
                             </div>
                             <div class="p-4 bg-zinc-50 border border-zinc-200/50 rounded-xl space-y-1">
-                                <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal Transaksi</p>
+                                <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal Selesai</p>
                                 <p class="text-sm font-bold text-zinc-800" id="detail-tanggal">1 Jan 2026</p>
+                            </div>
+                            <div class="p-4 bg-zinc-50 border border-zinc-200/50 rounded-xl space-y-1">
+                                <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Operator / Keterangan</p>
+                                <p class="text-sm font-medium text-zinc-600" id="detail-keterangan">-</p>
                             </div>
                         </div>
 
-                        <div class="p-4 bg-zinc-50 border border-zinc-200/50 rounded-xl space-y-1">
-                            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Keterangan / Catatan</p>
-                            <p class="text-sm font-medium text-zinc-600" id="detail-keterangan">-</p>
+                        <!-- Status Action Alert Panel -->
+                        <div id="detail-action-panel" class="p-5 bg-amber-50/50 border border-amber-200/60 rounded-xl space-y-3.5 hidden">
+                            <div class="flex items-start gap-3">
+                                <div class="p-2 bg-amber-100 text-amber-700 rounded-lg">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 flex-1">
+                                    <h4 class="text-xs font-bold text-amber-800">Setengah Jadi (Work in Progress)</h4>
+                                    <p class="text-[11px] text-amber-700/90 leading-relaxed">Produk ini saat ini berstatus setengah jadi. Jika proses perakitan, penghalusan, atau pelapisan tambahan telah selesai sepenuhnya, Anda dapat mengubah status log ini menjadi Barang Jadi.</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-end pt-1">
+                                <button onclick="triggerUpgradeConfirmation()" class="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-sm transition-all">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M20 6L9 17l-5-5" />
+                                    </svg>
+                                    Ubah ke Barang Jadi
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Completed Badge Alert Panel -->
+                        <div id="detail-completed-panel" class="p-5 bg-emerald-50/50 border border-emerald-200/60 rounded-xl flex items-center gap-3 hidden">
+                            <div class="p-2 bg-emerald-100 text-emerald-700 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="space-y-0.5">
+                                <h4 class="text-xs font-bold text-emerald-800">Barang Jadi (Selesai Sempurna)</h4>
+                                <p class="text-[11px] text-emerald-600/90 leading-relaxed">Status log ini sudah selesai dan tercatat sebagai produk akhir siap kirim atau jual.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -923,24 +944,126 @@
         </div>
     </div>
 
+    <!-- Confirm Upgrade Status Modal -->
+    <div id="confirm-upgrade-modal" class="hidden fixed inset-0 bg-zinc-950/55 z-[110] flex items-center justify-center p-4 transition-opacity duration-200" onclick="closeUpgradeConfirmation()">
+        <div class="relative max-w-sm w-full bg-white rounded-2xl p-5 shadow-2xl scale-95 transition-transform duration-200 space-y-4" onclick="event.stopPropagation()">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-sm">Konfirmasi Perubahan</h3>
+                    <p class="text-[11px] text-zinc-400">Ubah WIP menjadi Barang Jadi</p>
+                </div>
+            </div>
+            <p class="text-xs text-zinc-600 leading-relaxed">
+                Apakah Anda yakin ingin mengubah status produk ini menjadi <strong>Barang Jadi</strong>? Tindakan ini akan memicu pencatatan persediaan selesai dan tidak dapat dibatalkan.
+            </p>
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button onclick="closeUpgradeConfirmation()" class="px-3.5 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-[11px] rounded-xl border border-zinc-200 transition-all">Batal</button>
+                <button onclick="confirmUpgradeStatus()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-bold text-[11px] rounded-xl shadow-md transition-all">Ya, Ubah Status</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification Container -->
     <div id="toast-container"></div>
 
     <!-- ═══════════════════════════ JAVASCRIPT CODE ═══════════════════════════ -->
     <script>
         // State variables
-        let sales = [];
-        let filteredSales = [];
-        let productionLogs = [];
+        let outputs = [];
+        let filteredOutputs = [];
         let selectedDateFilter = 'All';
         let customStartDate = '';
         let customEndDate = '';
         let searchQuery = '';
-        let productFilter = '';
+        let typeFilter = '';
         let currentPage = 1;
         const rowsPerPage = 10;
         let selectedDetailId = '';
-        let activeStockLimit = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedOutputs = localStorage.getItem('woodtrack_hasil_produksi_logs');
+            if (savedOutputs) {
+                outputs = JSON.parse(savedOutputs);
+                if (outputs.length === 0) {
+                    outputs = getSeedOutputs();
+                    saveToLocalStorage();
+                }
+            } else {
+                outputs = getSeedOutputs();
+                saveToLocalStorage();
+            }
+
+            updateDashboardStats();
+            applyFiltersAndRender();
+        });
+
+        function getSeedOutputs() {
+            return [
+                {
+                    id: 'OUT-20260601-01',
+                    tanggal: '2026-06-01',
+                    tipe: 'Barang Jadi',
+                    nama: 'Kusen Pintu Jati',
+                    jumlah: 10,
+                    keterangan: 'Rakit Selesai - Shift Sore'
+                },
+                {
+                    id: 'OUT-20260602-02',
+                    tanggal: '2026-06-02',
+                    tipe: 'Setengah Jadi',
+                    nama: 'Frame Papan Kayu Meranti',
+                    jumlah: 25,
+                    keterangan: 'Potongan kasar terpasang'
+                },
+                {
+                    id: 'OUT-20260603-03',
+                    tanggal: '2026-06-03',
+                    tipe: 'Barang Jadi',
+                    nama: 'Pintu Kaca Minimalis Jati',
+                    jumlah: 5,
+                    keterangan: 'Sudah dihaluskan & kaca terpasang'
+                }
+            ];
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('woodtrack_hasil_produksi_logs', JSON.stringify(outputs));
+        }
+
+        function updateDashboardStats() {
+            let outputsToday = 0;
+            let finishedTotal = 0;
+            let halfFinishedTotal = 0;
+            let uniqueProductsSet = new Set();
+
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            outputs.forEach(o => {
+                if (o.tanggal === todayStr) {
+                    outputsToday++;
+                }
+
+                if (o.tipe === 'Barang Jadi') {
+                    finishedTotal += parseInt(o.jumlah) || 0;
+                } else if (o.tipe === 'Setengah Jadi') {
+                    halfFinishedTotal += parseInt(o.jumlah) || 0;
+                }
+
+                if (o.nama) {
+                    uniqueProductsSet.add(o.nama.trim().toLowerCase());
+                }
+            });
+
+            document.getElementById('stat-outputs-today').innerText = outputsToday + ' Entry';
+            document.getElementById('stat-finished-total').innerText = finishedTotal + ' unit';
+            document.getElementById('stat-half-finished-total').innerText = halfFinishedTotal + ' unit';
+            document.getElementById('stat-unique-products').innerText = uniqueProductsSet.size + ' Jenis';
+        }
 
         // Master Data Products definition
         const MASTER_PRODUCTS = [
@@ -951,131 +1074,27 @@
             { name: 'Daun Jendela Sengon', image: 'https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?w=80&auto=format&fit=crop&q=60', sku: 'SKU-DJS-005' }
         ];
 
-        window.addEventListener('DOMContentLoaded', () => {
-            // Load production outputs to determine initial stock pool
-            loadProductionLogs();
-
-            // Load sales logs
-            const savedSales = localStorage.getItem('woodtrack_penjualan_produk');
-            if (savedSales) {
-                sales = JSON.parse(savedSales);
-            } else {
-                sales = getSeedSales();
-                saveToLocalStorage();
-            }
-
-            // Populate filters
-            populateProductFilter();
-
-            // Initialize views
-            updateDashboardStats();
-            applyFiltersAndRender();
-        });
-
-        function loadProductionLogs() {
-            const savedProduction = localStorage.getItem('woodtrack_hasil_produksi_logs');
-            if (savedProduction) {
-                productionLogs = JSON.parse(savedProduction);
-            } else {
-                // Default seed production logs
-                productionLogs = [
-                    { id: 'OUT-20260601-01', tanggal: '2026-06-01', tipe: 'Barang Jadi', nama: 'Kusen Kayu Meranti', jumlah: 15, keterangan: 'Rakit Selesai - Shift Sore' },
-                    { id: 'OUT-20260602-02', tanggal: '2026-06-02', tipe: 'Setengah Jadi', nama: 'Frame Papan Kayu Meranti', jumlah: 25, keterangan: 'Potongan kasar terpasang' },
-                    { id: 'OUT-20260603-03', tanggal: '2026-06-03', tipe: 'Barang Jadi', nama: 'Pintu Kaca Minimalis Jati', jumlah: 8, keterangan: 'Sudah dihaluskan & kaca terpasang' },
-                    { id: 'OUT-20260603-04', tanggal: '2026-06-03', tipe: 'Barang Jadi', nama: 'Pintu Jati Klasik', jumlah: 12, keterangan: 'Selesai Finishing melamine' }
-                ];
-                localStorage.setItem('woodtrack_hasil_produksi_logs', JSON.stringify(productionLogs));
-            }
-        }
-
-        function getSeedSales() {
-            return [
-                {
-                    id: 'INV-20260603-01',
-                    tanggal: '2026-06-03',
-                    buyer: 'PD. Harapan Jaya',
-                    nama: 'Pintu Jati Klasik',
-                    jumlah: 3,
-                    keterangan: 'Ambil langsung di pabrik'
-                },
-                {
-                    id: 'INV-20260604-01',
-                    tanggal: '2026-06-04',
-                    buyer: 'Bpk. Hendra Wijaya',
-                    nama: 'Pintu Kaca Minimalis Jati',
-                    jumlah: 2,
-                    keterangan: 'Kirim via ekspedisi pickup'
-                }
-            ];
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('woodtrack_penjualan_produk', JSON.stringify(sales));
-        }
-
-        // Calculate current stock dynamically
-        function calculateProductStock(productName) {
-            // Produced (Barang Jadi only)
-            let totalProduced = 0;
-            productionLogs.forEach(p => {
-                if (p.nama === productName && p.tipe === 'Barang Jadi') {
-                    totalProduced += parseInt(p.jumlah) || 0;
-                }
-            });
-
-            // Sold (All recorded sales)
-            let totalSold = 0;
-            sales.forEach(s => {
-                if (s.nama === productName) {
-                    totalSold += parseInt(s.jumlah) || 0;
-                }
-            });
-
-            return Math.max(0, totalProduced - totalSold);
-        }
-
-        function populateProductFilter() {
-            const filterEl = document.getElementById('filter-product');
-            filterEl.innerHTML = '<option value="">Semua Produk</option>';
-            MASTER_PRODUCTS.forEach(p => {
-                const opt = document.createElement('option');
-                opt.value = p.name;
-                opt.innerText = p.name;
-                filterEl.appendChild(opt);
-            });
-        }
-
-        function updateDashboardStats() {
-            const todayStr = new Date().toISOString().split('T')[0];
-            let soldToday = 0;
-            let totalSold = 0;
-            let transactionCount = sales.length;
-
-            sales.forEach(s => {
-                totalSold += parseInt(s.jumlah) || 0;
-                if (s.tanggal === todayStr) {
-                    soldToday += parseInt(s.jumlah) || 0;
-                }
-            });
-
-            // Calculate overall remaining stock across all products
-            let overallRemaining = 0;
-            MASTER_PRODUCTS.forEach(p => {
-                overallRemaining += calculateProductStock(p.name);
-            });
-
-            document.getElementById('stat-sales-count').innerText = transactionCount + ' Transaksi';
-            document.getElementById('stat-sold-units').innerText = totalSold + ' unit';
-            document.getElementById('stat-sold-today').innerText = soldToday + ' unit';
-            document.getElementById('stat-remaining-stock').innerText = overallRemaining + ' unit';
-        }
-
         // Searchable Dropdown events
         function showProductDropdown() {
             const dropdown = document.getElementById('product-dropdown');
             dropdown.classList.remove('hidden');
             renderProductDropdownList(MASTER_PRODUCTS);
         }
+
+        function hideProductDropdown() {
+            setTimeout(() => {
+                document.getElementById('product-dropdown').classList.add('hidden');
+            }, 200);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('out-nama-input');
+            const dropdown = document.getElementById('product-dropdown');
+            if (container && dropdown && !container.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
 
         function renderProductDropdownList(items) {
             const dropdown = document.getElementById('product-dropdown');
@@ -1087,18 +1106,16 @@
             }
 
             items.forEach(prod => {
-                const currentStock = calculateProductStock(prod.name);
+                const skuText = prod.sku ? `SKU: ${prod.sku}` : 'Tanpa SKU';
+                
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `flex items-center gap-3 p-2.5 hover:bg-zinc-50 cursor-pointer transition-colors ${currentStock === 0 ? 'opacity-65' : ''}`;
+                itemDiv.className = 'flex items-center gap-3 p-2.5 hover:bg-zinc-50 cursor-pointer transition-colors';
                 itemDiv.onclick = () => selectProduct(prod);
                 itemDiv.innerHTML = `
                     <img src="${prod.image}" class="w-10 h-10 object-cover rounded-lg border border-zinc-100 shadow-sm" alt="${prod.name}">
                     <div class="flex-1 min-w-0">
                         <p class="text-xs font-bold text-zinc-800 truncate">${prod.name}</p>
-                        <div class="flex items-center gap-1.5 mt-0.5">
-                            <span class="inline-block px-1.5 py-0.5 text-[9px] font-semibold rounded border bg-zinc-50 text-zinc-500 border-zinc-200">${prod.sku || 'Tanpa SKU'}</span>
-                            <span class="text-[9px] font-bold ${currentStock > 0 ? 'text-emerald-600 bg-emerald-50 border border-emerald-100' : 'text-rose-600 bg-rose-50 border border-rose-100'} px-1.5 py-0.5 rounded">Stok: ${currentStock}</span>
-                        </div>
+                        <span class="inline-block mt-0.5 px-2 py-0.5 text-[9px] font-bold rounded-md border bg-zinc-100 text-zinc-500 border-zinc-200">${skuText}</span>
                     </div>
                 `;
                 dropdown.appendChild(itemDiv);
@@ -1113,23 +1130,22 @@
             );
             renderProductDropdownList(filtered);
             
-            document.getElementById('sales-nama').value = val;
+            // Allow manual text typing as fallback
+            document.getElementById('out-nama').value = val;
             const clearBtn = document.getElementById('clear-product-btn');
             if (val) clearBtn.classList.remove('hidden');
             else clearBtn.classList.add('hidden');
 
+            // Hide preview card since user is typing
             const previewCard = document.getElementById('selected-product-preview');
-            if (previewCard) previewCard.classList.add('hidden');
-
-            activeStockLimit = 0;
-            document.getElementById('helper-stock').innerText = 'Pilih produk terlebih dahulu';
-            document.getElementById('helper-stock').className = 'text-[10px] font-bold text-zinc-400';
-            validateQtyInput(document.getElementById('sales-jumlah').value);
+            if (previewCard) {
+                previewCard.classList.add('hidden');
+            }
         }
 
         function selectProduct(prod) {
-            document.getElementById('sales-nama-input').value = prod.name;
-            document.getElementById('sales-nama').value = prod.name;
+            document.getElementById('out-nama-input').value = prod.name;
+            document.getElementById('out-nama').value = prod.name;
             
             // Show preview card and populate elements
             const previewCard = document.getElementById('selected-product-preview');
@@ -1145,203 +1161,51 @@
                 previewCard.classList.remove('hidden');
             }
 
-            const currentStock = calculateProductStock(prod.name);
-            activeStockLimit = currentStock;
-
-            const helperStock = document.getElementById('helper-stock');
-            helperStock.innerText = `Stok tersedia: ${currentStock} unit`;
-            if (currentStock > 0) {
-                helperStock.className = 'text-[10px] font-bold text-emerald-600';
-            } else {
-                helperStock.className = 'text-[10px] font-bold text-rose-500';
-            }
-
             document.getElementById('clear-product-btn').classList.remove('hidden');
             document.getElementById('product-dropdown').classList.add('hidden');
-
-            validateQtyInput(document.getElementById('sales-jumlah').value);
         }
 
         function clearProductSelection() {
-            document.getElementById('sales-nama-input').value = '';
-            document.getElementById('sales-nama').value = '';
+            document.getElementById('out-nama-input').value = '';
+            document.getElementById('out-nama').value = '';
             document.getElementById('clear-product-btn').classList.add('hidden');
 
+            // Hide preview card
             const previewCard = document.getElementById('selected-product-preview');
-            if (previewCard) previewCard.classList.add('hidden');
-
-            activeStockLimit = 0;
-            document.getElementById('helper-stock').innerText = 'Pilih produk terlebih dahulu';
-            document.getElementById('helper-stock').className = 'text-[10px] font-bold text-zinc-400';
-            validateQtyInput(document.getElementById('sales-jumlah').value);
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            const container = document.getElementById('sales-nama-input');
-            const dropdown = document.getElementById('product-dropdown');
-            if (container && dropdown && !container.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.add('hidden');
-            }
-        });
-
-        function validateQtyInput(val) {
-            const qty = parseInt(val) || 0;
-            const errorEl = document.getElementById('qty-error');
-            const saveBtn = document.getElementById('save-sales-btn');
-            const productName = document.getElementById('sales-nama').value;
-
-            if (!productName) {
-                errorEl.classList.add('hidden');
-                saveBtn.disabled = false;
-                return;
-            }
-
-            if (qty <= 0) {
-                errorEl.innerText = 'Jumlah unit harus lebih besar dari 0';
-                errorEl.classList.remove('hidden');
-                saveBtn.disabled = true;
-                return;
-            }
-
-            if (qty > activeStockLimit) {
-                errorEl.innerText = `Stok tidak mencukupi! Maksimum penjualan: ${activeStockLimit} unit`;
-                errorEl.classList.remove('hidden');
-                saveBtn.disabled = true;
-            } else {
-                errorEl.classList.add('hidden');
-                saveBtn.disabled = false;
+            if (previewCard) {
+                previewCard.classList.add('hidden');
             }
         }
 
-        // View toggle helpers
-        function openFormModal() {
+        // View switcher
+        function openOutputModal() {
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('form-view').classList.remove('hidden');
 
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('sales-tanggal').value = today;
-            document.getElementById('sales-buyer').value = '';
-            document.getElementById('sales-nama').value = '';
-            document.getElementById('sales-nama-input').value = '';
-            document.getElementById('sales-jumlah').value = '';
-            document.getElementById('sales-keterangan').value = '';
-            clearProductSelection();
+            document.getElementById('out-tanggal').value = today;
+            document.getElementById('out-type').value = 'Barang Jadi';
+            document.getElementById('out-nama').value = '';
+            document.getElementById('out-nama-input').value = '';
+            document.getElementById('out-jumlah').value = '';
+            document.getElementById('out-keterangan').value = '';
+            document.getElementById('clear-product-btn').classList.add('hidden');
+
+            // Clear product preview card
+            const previewCard = document.getElementById('selected-product-preview');
+            if (previewCard) {
+                previewCard.classList.add('hidden');
+            }
         }
 
-        function closeFormModal() {
+        function closeOutputModal() {
             document.getElementById('dashboard-view').classList.remove('hidden');
             document.getElementById('form-view').classList.add('hidden');
         }
 
-        function openDetailView(id) {
-            selectedDetailId = id;
-            const sale = sales.find(item => item.id === id);
-            if (!sale) return;
-
-            document.getElementById('detail-id').innerText = sale.id;
-            document.getElementById('detail-buyer').innerText = sale.buyer;
-            document.getElementById('detail-nama').innerText = sale.nama;
-            document.getElementById('detail-jumlah').innerText = sale.jumlah + ' unit';
-            document.getElementById('detail-tanggal').innerText = formatIndoDate(sale.tanggal);
-            document.getElementById('detail-keterangan').innerText = sale.keterangan || '-';
-
-            // Find matching product image from MASTER_PRODUCTS
-            const prod = MASTER_PRODUCTS.find(p => p.name.trim().toLowerCase() === sale.nama.trim().toLowerCase());
-            const detailImg = document.getElementById('detail-image');
-            if (detailImg) {
-                detailImg.src = (prod && prod.image) ? prod.image : 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300&auto=format&fit=crop&q=60';
-            }
-
-            document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('form-view').classList.add('hidden');
-            document.getElementById('detail-view').classList.remove('hidden');
-        }
-
-        function closeDetailView() {
-            selectedDetailId = '';
-            document.getElementById('detail-view').classList.add('hidden');
-            document.getElementById('dashboard-view').classList.remove('hidden');
-        }
-
-        function saveSalesRecord() {
-            const tanggal = document.getElementById('sales-tanggal').value;
-            const buyer = document.getElementById('sales-buyer').value.trim();
-            const nama = document.getElementById('sales-nama').value.trim();
-            const jumlah = parseInt(document.getElementById('sales-jumlah').value) || 0;
-            const keterangan = document.getElementById('sales-keterangan').value.trim();
-
-            if (!tanggal || !buyer || !nama || jumlah <= 0) {
-                showToast('Lengkapi semua field bertanda * dengan benar!', 'error');
-                return;
-            }
-
-            if (jumlah > activeStockLimit) {
-                showToast('Jumlah melebihi stok yang tersedia!', 'error');
-                return;
-            }
-
-            const cleanDate = tanggal.replace(/-/g, '');
-            const rand = Math.floor(10 + Math.random() * 90);
-            const id = `INV-${cleanDate}-${rand}`;
-
-            const newSale = {
-                id,
-                tanggal,
-                buyer,
-                nama,
-                jumlah,
-                keterangan: keterangan || '-'
-            };
-
-            sales.unshift(newSale);
-            saveToLocalStorage();
-            closeFormModal();
-            showToast('Transaksi penjualan berhasil direkam!');
-            updateDashboardStats();
-            applyFiltersAndRender();
-        }
-
-        function deleteSalesRecord(id) {
-            if (!confirm('Apakah Anda yakin ingin membatalkan/menghapus transaksi penjualan ini? Tindakan ini akan mengembalikan stok produk.')) return;
-            
-            sales = sales.filter(s => s.id !== id);
-            saveToLocalStorage();
-            showToast('Transaksi penjualan berhasil dibatalkan & stok dipulihkan.');
-            updateDashboardStats();
-            applyFiltersAndRender();
-
-            if (selectedDetailId === id) {
-                closeDetailView();
-            }
-        }
-
-        function deleteSalesFromDetail() {
-            if (selectedDetailId) {
-                deleteSalesRecord(selectedDetailId);
-            }
-        }
-
-        // Image zooming & preview lightbox
+        // Lightbox functions
         function previewSelectedImage() {
             const imgEl = document.getElementById('selected-product-img');
-            const lightbox = document.getElementById('lightbox-modal');
-            const lightboxImg = document.getElementById('lightbox-img');
-            if (imgEl && imgEl.src && lightbox && lightboxImg) {
-                lightboxImg.src = imgEl.src;
-                lightbox.classList.remove('hidden');
-                setTimeout(() => {
-                    const relativeDiv = lightbox.querySelector('.relative');
-                    if (relativeDiv) {
-                        relativeDiv.classList.remove('scale-95');
-                        relativeDiv.classList.add('scale-100');
-                    }
-                }, 10);
-            }
-        }
-
-        function previewDetailImage() {
-            const imgEl = document.getElementById('detail-image');
             const lightbox = document.getElementById('lightbox-modal');
             const lightboxImg = document.getElementById('lightbox-img');
             if (imgEl && imgEl.src && lightbox && lightboxImg) {
@@ -1371,7 +1235,170 @@
             }
         }
 
-        // Filter and Search Actions
+        function saveProductionOutput() {
+            const tanggal = document.getElementById('out-tanggal').value;
+            const tipe = document.getElementById('out-type').value;
+            const nama = document.getElementById('out-nama').value.trim();
+            const jumlah = parseInt(document.getElementById('out-jumlah').value) || 0;
+            const keterangan = document.getElementById('out-keterangan').value.trim();
+
+            if (!tanggal || !nama || jumlah <= 0) {
+                showToast('Lengkapi semua field bertanda * dengan benar!', 'error');
+                return;
+            }
+
+            const cleanDate = tanggal.replace(/-/g, '');
+            const rand = Math.floor(10 + Math.random() * 90);
+            const id = `OUT-${cleanDate}-${rand}`;
+
+            const newLog = {
+                id,
+                tanggal,
+                tipe,
+                nama,
+                jumlah,
+                keterangan: keterangan || '-'
+            };
+
+            outputs.unshift(newLog);
+            saveToLocalStorage();
+            closeOutputModal();
+            showToast('Hasil produksi berhasil direkam!');
+            updateDashboardStats();
+            applyFiltersAndRender();
+        }
+
+        function changeToFinishedProduct(id) {
+            const o = outputs.find(item => item.id === id);
+            if (!o) return;
+            o.tipe = 'Barang Jadi';
+            o.keterangan = o.keterangan === '-' ? 'Dirakit ke Barang Jadi' : o.keterangan + ' (Dirakit ke Barang Jadi)';
+            saveToLocalStorage();
+            showToast(`Status '${o.name}' berhasil diubah ke Barang Jadi!`);
+            updateDashboardStats();
+            applyFiltersAndRender();
+        }
+
+        function deleteOutput(id) {
+            if (!confirm('Apakah Anda yakin ingin menghapus data hasil produksi ini?')) return;
+            outputs = outputs.filter(o => o.id !== id);
+            saveToLocalStorage();
+            showToast('Hasil produksi berhasil dihapus!');
+            updateDashboardStats();
+            applyFiltersAndRender();
+            
+            // If the deleted output is currently viewed in detail page, close the detail page
+            if (selectedDetailId === id) {
+                closeDetailView();
+            }
+        }
+
+        // Details page implementation functions
+        function openDetailView(id) {
+            selectedDetailId = id;
+            const o = outputs.find(item => item.id === id);
+            if (!o) return;
+
+            document.getElementById('detail-id').innerText = o.id;
+            document.getElementById('detail-nama').innerText = o.nama;
+            document.getElementById('detail-jumlah').innerText = o.jumlah + ' unit';
+            document.getElementById('detail-tanggal').innerText = formatIndoDate(o.tanggal);
+            document.getElementById('detail-keterangan').innerText = o.keterangan || '-';
+
+            // Find matching product image from MASTER_PRODUCTS
+            const prod = MASTER_PRODUCTS.find(p => p.name.trim().toLowerCase() === o.nama.trim().toLowerCase());
+            const detailImg = document.getElementById('detail-image');
+            if (detailImg) {
+                detailImg.src = (prod && prod.image) ? prod.image : 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300&auto=format&fit=crop&q=60';
+            }
+
+            // Render type badge
+            const typeBadge = document.getElementById('detail-tipe-badge');
+            if (typeBadge) {
+                typeBadge.innerText = o.tipe;
+                if (o.tipe === 'Barang Jadi') {
+                    typeBadge.className = 'inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-lg border bg-emerald-50 text-emerald-700 border-emerald-200';
+                    document.getElementById('detail-action-panel').classList.add('hidden');
+                    document.getElementById('detail-completed-panel').classList.remove('hidden');
+                } else {
+                    typeBadge.className = 'inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-lg border bg-amber-50 text-amber-700 border-amber-200';
+                    document.getElementById('detail-action-panel').classList.remove('hidden');
+                    document.getElementById('detail-completed-panel').classList.add('hidden');
+                }
+            }
+
+            // Toggle views
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('form-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+        }
+
+        function closeDetailView() {
+            selectedDetailId = '';
+            document.getElementById('detail-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+        }
+
+        function deleteOutputFromDetail() {
+            if (selectedDetailId) {
+                deleteOutput(selectedDetailId);
+            }
+        }
+
+        function triggerUpgradeConfirmation() {
+            const modal = document.getElementById('confirm-upgrade-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    const relativeDiv = modal.querySelector('.relative');
+                    if (relativeDiv) {
+                        relativeDiv.classList.remove('scale-95');
+                        relativeDiv.classList.add('scale-100');
+                    }
+                }, 10);
+            }
+        }
+
+        function closeUpgradeConfirmation() {
+            const modal = document.getElementById('confirm-upgrade-modal');
+            if (modal) {
+                const relativeDiv = modal.querySelector('.relative');
+                if (relativeDiv) {
+                    relativeDiv.classList.remove('scale-100');
+                    relativeDiv.classList.add('scale-95');
+                }
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 150);
+            }
+        }
+
+        function confirmUpgradeStatus() {
+            if (selectedDetailId) {
+                changeToFinishedProduct(selectedDetailId);
+                closeUpgradeConfirmation();
+                openDetailView(selectedDetailId); // refresh detail page contents & state
+            }
+        }
+
+        function previewDetailImage() {
+            const imgEl = document.getElementById('detail-image');
+            const lightbox = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            if (imgEl && imgEl.src && lightbox && lightboxImg) {
+                lightboxImg.src = imgEl.src;
+                lightbox.classList.remove('hidden');
+                setTimeout(() => {
+                    const relativeDiv = lightbox.querySelector('.relative');
+                    if (relativeDiv) {
+                        relativeDiv.classList.remove('scale-95');
+                        relativeDiv.classList.add('scale-100');
+                    }
+                }, 10);
+            }
+        }
+
+        // Filters and Formatting
         function setDateFilter(filter) {
             selectedDateFilter = filter;
             const pills = document.querySelectorAll('#date-filter-pills .filter-pill');
@@ -1412,32 +1439,33 @@
         }
 
         function filterData() {
-            productFilter = document.getElementById('filter-product').value;
+            typeFilter = document.getElementById('filter-type').value;
 
-            filteredSales = sales.filter(s => {
-                const matchesSearch = s.buyer.toLowerCase().includes(searchQuery) ||
-                                       s.nama.toLowerCase().includes(searchQuery) ||
-                                       s.id.toLowerCase().includes(searchQuery);
+            filteredOutputs = outputs.filter(o => {
+                const matchesSearch = o.nama.toLowerCase().includes(searchQuery) ||
+                                       o.keterangan.toLowerCase().includes(searchQuery);
 
                 if (!matchesSearch) return false;
 
-                if (productFilter && s.nama !== productFilter) return false;
+                if (typeFilter && o.tipe !== typeFilter) return false;
 
                 if (selectedDateFilter === 'All') return true;
 
-                const sDate = new Date(s.tanggal);
+                const rDate = new Date(o.tanggal);
                 const today = new Date();
                 today.setHours(0,0,0,0);
 
                 if (selectedDateFilter === 'Today') {
-                    return s.tanggal === today.toISOString().split('T')[0];
+                    const rDateStr = o.tanggal;
+                    const todayStr = today.toISOString().split('T')[0];
+                    return rDateStr === todayStr;
                 }
 
                 if (selectedDateFilter === 'Week') {
                     const dayOfWeek = today.getDay();
                     const startOfWeek = new Date(today);
                     startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-                    return sDate >= startOfWeek;
+                    return rDate >= startOfWeek;
                 }
 
                 if (selectedDateFilter === 'Custom') {
@@ -1447,9 +1475,9 @@
                     if (customEndDate) {
                         const end = new Date(customEndDate);
                         end.setHours(23,59,59,999);
-                        return sDate >= start && sDate <= end;
+                        return rDate >= start && rDate <= end;
                     } else {
-                        return s.tanggal === customStartDate;
+                        return o.tanggal === customStartDate;
                     }
                 }
 
@@ -1461,7 +1489,7 @@
             const tableBody = document.getElementById('table-body');
             const emptyState = document.getElementById('table-empty');
 
-            if (filteredSales.length === 0) {
+            if (filteredOutputs.length === 0) {
                 tableBody.innerHTML = '';
                 emptyState.classList.remove('hidden');
                 document.getElementById('table-pagination-info').innerText = 'Menampilkan 0-0 dari 0 entries';
@@ -1474,30 +1502,37 @@
             tableBody.innerHTML = '';
 
             const startIndex = (currentPage - 1) * rowsPerPage;
-            const endIndex = Math.min(startIndex + rowsPerPage, filteredSales.length);
-            const pageData = filteredSales.slice(startIndex, endIndex);
+            const endIndex = Math.min(startIndex + rowsPerPage, filteredOutputs.length);
+            const pageData = filteredOutputs.slice(startIndex, endIndex);
 
-            pageData.forEach((s, idx) => {
+            pageData.forEach((o, idx) => {
                 const rowNo = startIndex + idx + 1;
+                
+                const typeColor = o.tipe === 'Barang Jadi' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+                const typeBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg border ${typeColor}">${o.tipe}</span>`;
+
+                const actionBtns = `
+                    <button onclick="openDetailView('${o.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-500 hover:text-indigo-600 hover:bg-indigo-50 transition-all" title="Lihat Detail">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                `;
+
                 const tr = document.createElement('tr');
                 tr.className = 'border-b border-zinc-50';
                 tr.innerHTML = `
                     <td class="py-3.5 px-4 text-center text-zinc-400 font-bold">${rowNo}</td>
-                    <td class="py-3.5 px-4 font-semibold text-zinc-800">${formatIndoDate(s.tanggal)}</td>
-                    <td class="py-3.5 px-4 font-mono font-bold text-zinc-600">${s.id}</td>
-                    <td class="py-3.5 px-4 font-semibold text-zinc-800">${s.buyer}</td>
-                    <td class="py-3.5 px-4 font-bold text-zinc-800">${s.nama}</td>
-                    <td class="py-3.5 px-4 text-right font-bold text-indigo-600 text-[14px]">${s.jumlah} unit</td>
-                    <td class="py-3.5 px-4 text-zinc-500 font-medium">${s.keterangan}</td>
+                    <td class="py-3.5 px-4 font-semibold text-zinc-800">${formatIndoDate(o.tanggal)}</td>
+                    <td class="py-3.5 px-4">${typeBadge}</td>
+                    <td class="py-3.5 px-4 font-bold text-zinc-800">${o.nama}</td>
+                    <td class="py-3.5 px-4 text-right font-bold text-zinc-800 text-[14px]">${o.jumlah} unit</td>
+                    <td class="py-3.5 px-4 text-zinc-500 font-medium">${o.keterangan}</td>
                     <td class="py-3.5 px-4 text-center">
                         <div class="flex items-center justify-center gap-1.5">
-                            <button onclick="openDetailView('${s.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-500 hover:text-indigo-600 hover:bg-indigo-50 transition-all" title="Lihat Detail">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                            </button>
-                            <button onclick="deleteSalesRecord('${s.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-all" title="Batalkan Penjualan">
+                            ${actionBtns}
+                            <button onclick="deleteOutput('${o.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-all" title="Hapus">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <polyline points="3 6 5 6 21 6" />
                                     <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
@@ -1509,9 +1544,9 @@
                 tableBody.appendChild(tr);
             });
 
-            document.getElementById('table-pagination-info').innerText = `Menampilkan ${startIndex + 1}-${endIndex} dari ${filteredSales.length} entries`;
+            document.getElementById('table-pagination-info').innerText = `Menampilkan ${startIndex + 1}-${endIndex} dari ${filteredOutputs.length} entries`;
             document.getElementById('btn-prev').disabled = currentPage === 1;
-            document.getElementById('btn-next').disabled = endIndex >= filteredSales.length;
+            document.getElementById('btn-next').disabled = endIndex >= filteredOutputs.length;
         }
 
         function prevPage() {
@@ -1522,13 +1557,13 @@
         }
 
         function nextPage() {
-            if (currentPage * rowsPerPage < filteredSales.length) {
+            if (currentPage * rowsPerPage < filteredOutputs.length) {
                 currentPage++;
                 renderTable();
             }
         }
 
-        // Utility formatting
+        // Utils
         function formatIndoDate(dateStr) {
             if (!dateStr) return '-';
             const parts = dateStr.split('-');
@@ -1564,3 +1599,4 @@
     <script src="shared.js"></script>
 </body>
 </html>
+

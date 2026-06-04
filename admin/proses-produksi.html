@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoodTrack Pro — Produksi</title>
+    <title>WoodTrack Pro — Proses Produksi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,6 @@
             background: #B8AFA5;
         }
 
-        /* ── Animations ── */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -74,10 +73,7 @@
         .d1 { animation-delay: 0.05s; }
         .d2 { animation-delay: 0.1s; }
         .d3 { animation-delay: 0.15s; }
-        .d4 { animation-delay: 0.2s; }
-        .d5 { animation-delay: 0.25s; }
 
-        /* ── Card Styles ── */
         .glass-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
@@ -126,7 +122,6 @@
             animation: float 2s ease-in-out infinite;
         }
 
-        /* ── Input Premium Styles ── */
         .premium-input {
             background: #FDFDFD;
             border: 1px solid #E4E4E7;
@@ -145,7 +140,6 @@
             box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
         }
 
-        /* ── Modal Styles ── */
         .modal-container {
             position: fixed;
             top: 0;
@@ -197,7 +191,6 @@
             transform: scale(1);
         }
 
-        /* ── Toast Notifications ── */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -226,7 +219,6 @@
             animation: toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* ── Search & Filters ── */
         .search-input {
             background: #fff;
             border: 1px solid #E4E4E7;
@@ -294,7 +286,8 @@
                 </div>
             </a>
         </div>
-        <!-- Nav -->
+        <!-- Nav Placeholder (updated dynamically by build_pages.py) -->
+                                                                                                <!-- Nav -->
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
 
             <a href="index.html" class="nav-item " data-title="Dashboard">
@@ -336,12 +329,31 @@
                 <span class="sidebar-text">Konversi Log</span>
             </a>
 
-            <a href="produksi.html" class="nav-item active" data-title="Produksi">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M19.07 4.93l-1.41 1.41M5.34 17.66l-1.41 1.41M21 12h-2M5 12H3M19.07 19.07l-1.41-1.41M5.34 6.34L3.93 4.93M12 19v2M12 3V1" />
+            <a href="konversi-kiln-dry.html" class="nav-item " data-title="Konversi Kiln Dry">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20v-6M9 20v-10M6 20v-4M15 20v-8M18 20v-12M21 20V4" />
+                    <path d="M3 20h18" />
                 </svg>
-                <span class="sidebar-text">Produksi</span>
+                <span class="sidebar-text">Konversi Kiln Dry</span>
+            </a>
+
+            <a href="proses-produksi.html" class="nav-item active" data-title="Proses Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                    <path d="M9 14h6" />
+                    <path d="M9 18h6" />
+                    <path d="M12 10h3" />
+                </svg>
+                <span class="sidebar-text">Proses Produksi</span>
+            </a>
+
+            <a href="hasil-produksi.html" class="nav-item " data-title="Hasil Produksi">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                <span class="sidebar-text">Hasil Produksi</span>
             </a>
 
             <a href="penjualan-produk.html" class="nav-item " data-title="Penjualan Produk">
@@ -353,26 +365,143 @@
                 <span class="sidebar-text">Penjualan Produk</span>
             </a>
 
-            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Inventaris</p>
+            <a href="waste-material.html" class="nav-item " data-title="Waste Material">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span class="sidebar-text">Waste Material</span>
+            </a>
 
-            <a href="manajemen-stok.html" class="nav-item " data-title="Manajemen Stok">
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Stok</p>
+
+            <a href="stok-log.html" class="nav-item " data-title="Stok Log">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                     <line x1="12" y1="22.08" x2="12" y2="12" />
                 </svg>
-                <span class="sidebar-text">Manajemen Stok</span>
+                <span class="sidebar-text">Stok Log</span>
+            </a>
+
+            <a href="stok-sawtimber.html" class="nav-item " data-title="Stok Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Stok Sawtimber</span>
+            </a>
+
+            <a href="stok-crosscut.html" class="nav-item " data-title="Stok Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="1" y="3" width="15" height="13" rx="2" />
+                    <path d="M16 8h4l3 3v5h-7V8z" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                <span class="sidebar-text">Stok Crosscut</span>
+            </a>
+
+            <a href="stok-bahan-baku.html" class="nav-item " data-title="Stok Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Stok Bahan Baku</span>
+            </a>
+
+            <a href="stok-product.html" class="nav-item " data-title="Stok Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Stok Produk</span>
+            </a>
+
+            <a href="stock-opname.html" class="nav-item " data-title="Stock Opname">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                <span class="sidebar-text">Stock Opname</span>
             </a>
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
 
-            <a href="data-material.html" class="nav-item " data-title="Data Material">
+            <a href="master-log.html" class="nav-item " data-title="Master Log">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <ellipse cx="12" cy="5" rx="9" ry="3" />
                     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
                     <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
                 </svg>
-                <span class="sidebar-text">Data Material</span>
+                <span class="sidebar-text">Master Log</span>
+            </a>
+
+            <a href="master-sawtimber.html" class="nav-item " data-title="Master Sawtimber">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                </svg>
+                <span class="sidebar-text">Master Sawtimber</span>
+            </a>
+
+            <a href="master-crosscut.html" class="nav-item " data-title="Master Crosscut">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                <span class="sidebar-text">Master Crosscut</span>
+            </a>
+
+            <a href="master-kaca.html" class="nav-item " data-title="Master Kaca">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                </svg>
+                <span class="sidebar-text">Master Kaca</span>
+            </a>
+
+            <a href="master-bahan-baku.html" class="nav-item " data-title="Master Bahan Baku">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="sidebar-text">Master Bahan Baku</span>
+            </a>
+
+            <a href="master-produk.html" class="nav-item " data-title="Master Produk">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="sidebar-text">Master Produk</span>
+            </a>
+
+            <a href="master-pengguna.html" class="nav-item " data-title="Master Pengguna">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <span class="sidebar-text">Master Pengguna</span>
+            </a>
+
+            <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sistem</p>
+
+            <a href="system-log.html" class="nav-item " data-title="System Log">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span class="sidebar-text">System Log</span>
             </a>
 
         </nav>
@@ -391,7 +520,7 @@
                     </svg>
                 </button>
                 <div>
-                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Produksi & Progress</h1>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Proses Produksi (Pickup Bahan Baku)</h1>
                     <p class="text-[11px] text-zinc-400 mt-0.5">Operasional</p>
                 </div>
             </div>
@@ -447,12 +576,12 @@
             <div id="dashboard-view" class="space-y-6">
                 <!-- Stat Cards Row -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
-                    <!-- Stat 1: Active Batches -->
+                    <!-- Stat 1: Pending Requests -->
                     <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Proses Aktif (WIP)</p>
-                                <h3 id="stat-active-wip" class="text-2xl font-extrabold mt-1.5">0 Batch</h3>
+                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Request Pickup</p>
+                                <h3 id="stat-pending-pick" class="text-2xl font-extrabold mt-1.5">0 Request</h3>
                             </div>
                             <div class="hero-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -463,12 +592,12 @@
                         </div>
                     </div>
 
-                    <!-- Stat 2: Materials Picked -->
+                    <!-- Stat 2: Pickups Today -->
                     <div class="hero-stat bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Permintaan Hari Ini</p>
-                                <h3 id="stat-requests-today" class="text-2xl font-extrabold mt-1.5">0</h3>
+                                <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Pickup Hari Ini</p>
+                                <h3 id="stat-pickups-today" class="text-2xl font-extrabold mt-1.5">0 Pickup</h3>
                             </div>
                             <div class="hero-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -476,18 +605,17 @@
                                     <polyline points="14 2 14 8 20 8"/>
                                     <line x1="16" y1="13" x2="8" y2="13"/>
                                     <line x1="16" y1="17" x2="8" y2="17"/>
-                                    <polyline points="10 9 9 9 8 9"/>
                                 </svg>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Stat 3: Half-Finished Produced -->
+                    <!-- Stat 3: Logs Picked -->
                     <div class="hero-stat bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-md shadow-indigo-500/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Produk Setengah Jadi</p>
-                                <h3 id="stat-half-finished" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
+                                <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Total Log Kayu Diambil</p>
+                                <h3 id="stat-logs-picked" class="text-2xl font-extrabold mt-1.5">0 pcs</h3>
                             </div>
                             <div class="hero-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -498,12 +626,12 @@
                         </div>
                     </div>
 
-                    <!-- Stat 4: Finished Goods Produced -->
+                    <!-- Stat 4: Sawtimber Picked -->
                     <div class="hero-stat bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-500/10">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Produk Jadi Selesai</p>
-                                <h3 id="stat-finished" class="text-2xl font-extrabold mt-1.5">0 unit</h3>
+                                <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Total Papan Diambil</p>
+                                <h3 id="stat-sawtimber-picked" class="text-2xl font-extrabold mt-1.5">0 pcs</h3>
                             </div>
                             <div class="hero-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -536,14 +664,7 @@
                                 </div>
                             </div>
                             
-                            <!-- Status Dropdown Filter -->
-                            <select id="filter-status" onchange="applyFiltersAndRender()" class="premium-input py-1.5 text-xs w-[140px] bg-white border border-zinc-200 rounded-xl">
-                                <option value="">Semua Status</option>
-                                <option value="Diajukan">Diajukan</option>
-                                <option value="Diambil">Diambil (Mulai)</option>
-                                <option value="Selesai Sebagian">Selesai Sebagian</option>
-                                <option value="Selesai">Selesai</option>
-                            </select>
+
                         </div>
 
                         <div class="flex items-center gap-3 w-full sm:w-auto">
@@ -573,10 +694,7 @@
                                     <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal Request</th>
                                     <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Request/Batch ID</th>
                                     <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Bahan Baku Yang Diambil</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Status</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Hasil Setengah Jadi</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Hasil Jadi (Selesai)</th>
-                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-36">Aksi</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-24">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
@@ -616,130 +734,64 @@
                 </div>
             </div>
 
+            <!-- ═══════════════════════════ FORM VIEW (INLINE PAGE) ═══════════════════════════ -->
+            <div id="form-view" class="hidden glass-card rounded-2xl shadow-sm p-6 space-y-6 anim d2">
+                <div class="flex items-center gap-4 border-b border-zinc-100 pb-4">
+                    <button onclick="closeRequestModal()" class="p-2 border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-all text-zinc-600" title="Kembali">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
+                    <div>
+                        <h3 class="font-extrabold text-zinc-900 text-base">Permintaan Pick Bahan Baku</h3>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Catat pengambilan bahan baku dari gudang untuk proses produksi</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Pick *</label>
+                            <input type="date" id="req-tanggal" class="premium-input" onchange="generateRequestId()">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Request / Batch ID</label>
+                            <input type="text" id="req-id" class="premium-input bg-zinc-50 font-mono" readonly>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan / Rencana Produksi</label>
+                        <textarea id="req-catatan" rows="2" placeholder="E.g., Untuk Produksi Pintu Jati Utama Pesanan..." class="premium-input resize-none h-[64px]"></textarea>
+                    </div>
+
+                    <!-- Materials Section -->
+                    <div class="border-t border-zinc-100 pt-4 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-zinc-800 text-xs">Pilih Bahan Baku Yang Diambil</h4>
+                            <button onclick="addMaterialRow()" class="flex items-center gap-1 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-lg shadow-sm">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Tambah Item
+                            </button>
+                        </div>
+
+                        <div id="material-rows-container" class="space-y-3 max-h-[40vh] overflow-y-auto pr-1">
+                            <!-- Dynamic Material Rows -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end border-t border-zinc-100 pt-4 gap-2">
+                    <button onclick="closeRequestModal()" class="px-4 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl border border-zinc-200/60 transition-all">Batal</button>
+                    <button onclick="saveProductionRequest()" class="px-5 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-md transition-all">Kirim & Rekam Permintaan</button>
+                </div>
+            </div>
+
         </div>
     </main>
-
-    <!-- ═══════════════════════════ MODAL: TAMBAH REQUEST BAHAN BAKU ═══════════════════════════ -->
-    <div id="request-modal" class="modal-container">
-        <div class="modal-backdrop" onclick="closeRequestModal()"></div>
-        <div class="modal-content wide space-y-4 max-h-[90vh] overflow-y-auto flex flex-col">
-            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
-                <div>
-                    <h3 class="font-extrabold text-zinc-900 text-base">Permintaan Pick Bahan Baku</h3>
-                    <p class="text-[11px] text-zinc-400 mt-0.5">Catat pengambilan bahan baku dari gudang untuk proses produksi</p>
-                </div>
-                <button onclick="closeRequestModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="space-y-4 flex-1 overflow-y-auto pr-1 py-1">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Pick *</label>
-                        <input type="date" id="req-tanggal" class="premium-input" onchange="generateRequestId()">
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Request / Batch ID</label>
-                        <input type="text" id="req-id" class="premium-input bg-zinc-50 font-mono" readonly>
-                    </div>
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan / Rencana Produksi</label>
-                    <textarea id="req-catatan" rows="2" placeholder="E.g., Batch Pintu Utama Pesanan PT. Sejahtera, shift pagi..." class="premium-input resize-none h-[64px]"></textarea>
-                </div>
-
-                <!-- Materials Section -->
-                <div class="border-t border-zinc-100 pt-4 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <h4 class="font-bold text-zinc-800 text-xs">Pilih Bahan Baku Yang Diambil</h4>
-                        <button onclick="addMaterialRow()" class="flex items-center gap-1 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-lg shadow-sm">
-                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-                            </svg>
-                            Tambah Item
-                        </button>
-                    </div>
-
-                    <div id="material-rows-container" class="space-y-3 max-h-[30vh] overflow-y-auto pr-1">
-                        <!-- Dynamic Material Rows -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0 gap-2">
-                <button onclick="closeRequestModal()" class="px-4 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl border border-zinc-200/60 transition-all">Batal</button>
-                <button onclick="saveProductionRequest()" class="px-5 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-md transition-all">Kirim & Rekam Permintaan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════ MODAL: UPDATE PROGRESS & LOG OUTPUT ═══════════════════════════ -->
-    <div id="output-modal" class="modal-container">
-        <div class="modal-backdrop" onclick="closeOutputModal()"></div>
-        <div class="modal-content space-y-4 max-h-[90vh] overflow-y-auto flex flex-col">
-            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
-                <div>
-                    <h3 class="font-extrabold text-zinc-900 text-base">Log Progress & Output</h3>
-                    <p class="text-[11px] text-zinc-400 mt-0.5">Catat barang setengah jadi/jadi yang selesai diproduksi</p>
-                </div>
-                <button onclick="closeOutputModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="space-y-4 flex-1 overflow-y-auto pr-1 py-1">
-                <input type="hidden" id="output-batch-id">
-
-                <div class="space-y-1.5 bg-zinc-50 p-3.5 rounded-xl border border-zinc-100">
-                    <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">ID Batch Produksi</span>
-                    <span id="output-display-batch-id" class="text-xs font-bold text-zinc-800 font-mono"></span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Selesai *</label>
-                        <input type="date" id="out-tanggal" class="premium-input">
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jenis Output *</label>
-                        <select id="out-type" class="premium-input cursor-pointer">
-                            <option value="Setengah Jadi">Setengah Jadi (WIP)</option>
-                            <option value="Barang Jadi">Barang Jadi (Finished Product)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Nama / Model Produk *</label>
-                        <input type="text" id="out-nama" placeholder="E.g., Papan Kering, Kusen Pintu Jati" class="premium-input">
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Hasil (Unit) *</label>
-                        <input type="number" id="out-jumlah" placeholder="Jumlah unit/pcs" min="1" class="premium-input">
-                    </div>
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Keterangan / Shift</label>
-                    <input type="text" id="out-keterangan" placeholder="E.g., Shift 2 selesai diampelas" class="premium-input">
-                </div>
-            </div>
-
-            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0 gap-2">
-                <button onclick="closeOutputModal()" class="px-4 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl border border-zinc-200/60 transition-all">Batal</button>
-                <button onclick="saveProductionOutput()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-md transition-all">Simpan Output</button>
-            </div>
-        </div>
-    </div>
 
     <!-- ═══════════════════════════ DETAIL MODAL ═══════════════════════════ -->
     <div id="detail-modal" class="modal-container">
@@ -747,8 +799,8 @@
         <div class="modal-content wide space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
             <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
                 <div>
-                    <h3 class="font-extrabold text-zinc-900 text-base">Detail & History Batch Produksi</h3>
-                    <p class="text-[11px] text-zinc-400 mt-0.5">Rincian pengambilan bahan baku dan history penyelesaian produk</p>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Detail Batch Pengambilan Bahan Baku</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Rincian pengambilan bahan baku dari gudang</p>
                 </div>
                 <button onclick="closeDetailModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -769,10 +821,6 @@
                         <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Batch ID</span>
                         <span id="detail-batch-id" class="text-xs font-bold text-zinc-800 font-mono"></span>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Status Produksi</span>
-                        <span id="detail-status" class="text-xs font-bold text-amber-700"></span>
-                    </div>
                     <div class="md:col-span-3">
                         <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Catatan / Rencana Produksi</span>
                         <span id="detail-catatan" class="text-xs text-zinc-600 block max-h-[60px] overflow-y-auto"></span>
@@ -791,34 +839,10 @@
                                     <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah Diambil</th>
                                 </tr>
                             </thead>
-                            <tbody id="detail-materials-body" class="divide-y divide-zinc-50 text-zinc-700 font-medium">
+                            <tbody id="detail-materials-body" class="divide-y divide-zinc-50 text-zinc-700">
                                 <!-- Dynamic -->
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <!-- History of Production Outputs -->
-                <div class="space-y-2">
-                    <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">History Log Output Hasil Produksi</h4>
-                    <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
-                        <table class="w-full text-left border-collapse text-xs">
-                            <thead>
-                                <tr class="bg-zinc-50 border-b border-zinc-100">
-                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Tanggal Hasil</th>
-                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Jenis Output</th>
-                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Nama Produk</th>
-                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah (Unit)</th>
-                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="detail-outputs-body" class="divide-y divide-zinc-50 text-zinc-700">
-                                <!-- Dynamic -->
-                            </tbody>
-                        </table>
-                        <div id="detail-outputs-empty" class="hidden py-6 text-center text-zinc-400 text-xs">
-                            Belum ada output yang dicatat untuk batch ini.
-                        </div>
                     </div>
                 </div>
             </div>
@@ -850,6 +874,7 @@
         let logsStock = {};
         let sawtimberStock = {};
         let glassStock = {};
+        let crosscutStock = {};
 
         window.addEventListener('DOMContentLoaded', () => {
             // Load production data
@@ -877,14 +902,11 @@
                     id: 'REQ-20260601-001',
                     tanggal: '2026-06-01',
                     catatan: 'Produksi Papan Kering Jati batch A',
-                    status: 'Selesai',
+                    status: 'Diambil',
                     materials: [
                         { kategori: 'Log', spec: 'Jati - Grade A - Size A3', jumlah: 8 }
                     ],
-                    outputs: [
-                        { tanggal: '2026-06-02', tipe: 'Setengah Jadi', nama: 'Papan Kasar Jati', jumlah: 120, keterangan: 'Shift sore' },
-                        { tanggal: '2026-06-03', tipe: 'Barang Jadi', nama: 'Kusen Pintu Jati', jumlah: 10, keterangan: 'Selesai serah terima ke gudang barang jadi' }
-                    ]
+                    outputs: []
                 },
                 {
                     id: 'REQ-20260602-002',
@@ -895,9 +917,7 @@
                         { kategori: 'Sawtimber', spec: 'Meranti - 5×15×200 - Grade A', jumlah: 25 },
                         { kategori: 'Kaca', spec: 'Clear 5mm - 122×244', jumlah: 10 }
                     ],
-                    outputs: [
-                        { tanggal: '2026-06-03', tipe: 'Setengah Jadi', nama: 'Frame Kayu Pintu', jumlah: 25, keterangan: 'Rangka pintu kayu terpasang' }
-                    ]
+                    outputs: []
                 },
                 {
                     id: 'REQ-20260604-003',
@@ -952,46 +972,54 @@
                     });
                 }
             });
+
+            // Load crosscut stock
+            crosscutStock = {};
+            const rawCrosscut = JSON.parse(localStorage.getItem('woodtrack_penerimaan_crosscut') || '[]');
+            rawCrosscut.forEach(entry => {
+                if (entry.items) {
+                    entry.items.forEach(item => {
+                        const key = item.sumber;
+                        crosscutStock[key] = (crosscutStock[key] || 0) + (parseFloat(item.volume) || 0);
+                    });
+                }
+            });
         }
 
         function updateDashboardStats() {
-            let activeWip = 0;
-            let reqToday = 0;
-            let totalHalfFinished = 0;
-            let totalFinished = 0;
+            let totalRequests = requests.length;
+            let pickupsToday = 0;
+            let logsPicked = 0;
+            let sawtimberPicked = 0;
 
             const todayStr = new Date().toISOString().split('T')[0];
 
             requests.forEach(r => {
-                if (r.status === 'Diambil' || r.status === 'Selesai Sebagian') {
-                    activeWip++;
-                }
-
                 if (r.tanggal === todayStr) {
-                    reqToday++;
+                    pickupsToday++;
                 }
 
-                if (r.outputs) {
-                    r.outputs.forEach(out => {
-                        if (out.tipe === 'Setengah Jadi') {
-                            totalHalfFinished += parseInt(out.jumlah) || 0;
-                        } else if (out.tipe === 'Barang Jadi') {
-                            totalFinished += parseInt(out.jumlah) || 0;
+                if (r.materials) {
+                    r.materials.forEach(m => {
+                        if (m.kategori === 'Log') {
+                            logsPicked += parseInt(m.jumlah) || 0;
+                        } else if (m.kategori === 'Sawtimber') {
+                            sawtimberPicked += parseInt(m.jumlah) || 0;
                         }
                     });
                 }
             });
 
-            document.getElementById('stat-active-wip').innerText = activeWip + ' Batch';
-            document.getElementById('stat-requests-today').innerText = reqToday + ' Request';
-            document.getElementById('stat-half-finished').innerText = totalHalfFinished + ' unit';
-            document.getElementById('stat-finished').innerText = totalFinished + ' unit';
+            document.getElementById('stat-pending-pick').innerText = totalRequests + ' Request';
+            document.getElementById('stat-pickups-today').innerText = pickupsToday + ' Pickup';
+            document.getElementById('stat-logs-picked').innerText = logsPicked + ' pcs';
+            document.getElementById('stat-sawtimber-picked').innerText = sawtimberPicked + ' pcs';
         }
 
-        // Modals Management
+        // View switcher
         function openRequestModal() {
-            const modal = document.getElementById('request-modal');
-            modal.classList.add('open');
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('form-view').classList.remove('hidden');
             
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('req-tanggal').value = today;
@@ -1004,7 +1032,8 @@
         }
 
         function closeRequestModal() {
-            document.getElementById('request-modal').classList.remove('open');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('form-view').classList.add('hidden');
         }
 
         function generateRequestId() {
@@ -1039,6 +1068,7 @@
                         <option value="" disabled selected>Pilih Kategori...</option>
                         <option value="Log">Wood Log (Bulat)</option>
                         <option value="Sawtimber">Sawtimber (Papan)</option>
+                        <option value="Crosscut">Crosscut (Sisa Belahan/Kupasan)</option>
                         <option value="Kaca">Kaca (Glass)</option>
                     </select>
                 </div>
@@ -1092,6 +1122,7 @@
             let pool = {};
             if (kat === 'Log') pool = logsStock;
             else if (kat === 'Sawtimber') pool = sawtimberStock;
+            else if (kat === 'Crosscut') pool = crosscutStock;
             else if (kat === 'Kaca') pool = glassStock;
 
             Object.keys(pool).forEach(key => {
@@ -1115,8 +1146,14 @@
                 let stock = 0;
                 if (row.kategori === 'Log') stock = logsStock[val] || 0;
                 else if (row.kategori === 'Sawtimber') stock = sawtimberStock[val] || 0;
+                else if (row.kategori === 'Crosscut') stock = crosscutStock[val] || 0;
                 else if (row.kategori === 'Kaca') stock = glassStock[val] || 0;
-                stockBadge.innerText = `Stok: ${stock}`;
+                
+                if (row.kategori === 'Crosscut') {
+                    stockBadge.innerText = `Stok: ${stock.toFixed(2)} m³`;
+                } else {
+                    stockBadge.innerText = `Stok: ${stock} pcs`;
+                }
             } else if (field === 'jumlah') {
                 row.jumlah = parseInt(val) || 0;
             }
@@ -1138,14 +1175,14 @@
                     showToast(`Lengkapi item ke-${i+1} dengan benar!`, 'error');
                     return;
                 }
-                // Check stock limits
                 let limit = 0;
                 if (r.kategori === 'Log') limit = logsStock[r.spec] || 0;
                 else if (r.kategori === 'Sawtimber') limit = sawtimberStock[r.spec] || 0;
+                else if (r.kategori === 'Crosscut') limit = crosscutStock[r.spec] || 0;
                 else if (r.kategori === 'Kaca') limit = glassStock[r.spec] || 0;
 
-                if (r.jumlah > limit) {
-                    showToast(`Jumlah untuk ${r.spec} melebihi stok yang tersedia (${limit})!`, 'error');
+                if (parseFloat(r.jumlah) > limit) {
+                    showToast(`Jumlah untuk ${r.spec} melebihi stok yang tersedia (${r.kategori === 'Crosscut' ? limit.toFixed(2) + ' m³' : limit + ' pcs'})!`, 'error');
                     return;
                 }
             }
@@ -1158,7 +1195,7 @@
                 materials: activeMaterials.map(r => ({
                     kategori: r.kategori,
                     spec: r.spec,
-                    jumlah: r.jumlah
+                    jumlah: r.kategori === 'Crosscut' ? parseFloat(r.jumlah) || 0.0 : parseInt(r.jumlah) || 0
                 })),
                 outputs: []
             };
@@ -1172,83 +1209,7 @@
             applyFiltersAndRender();
         }
 
-        // Advance lifecycle status
-        function advanceStatus(id) {
-            const r = requests.find(req => req.id === id);
-            if (!r) return;
 
-            if (r.status === 'Diajukan') {
-                r.status = 'Diambil';
-                showToast(`Batch ${id} telah dimulai (Status: Diambil)`);
-            } else if (r.status === 'Diambil') {
-                r.status = 'Selesai Sebagian';
-                showToast(`Batch ${id} diupdate ke status Selesai Sebagian`);
-            } else if (r.status === 'Selesai Sebagian') {
-                r.status = 'Selesai';
-                showToast(`Batch ${id} telah dinyatakan Selesai`);
-            }
-            saveToLocalStorage();
-            updateDashboardStats();
-            applyFiltersAndRender();
-        }
-
-        // Output Logging Modal
-        function openOutputModal(batchId) {
-            const r = requests.find(req => req.id === batchId);
-            if (!r) return;
-
-            document.getElementById('output-batch-id').value = batchId;
-            document.getElementById('output-display-batch-id').innerText = batchId;
-            document.getElementById('out-tanggal').value = new Date().toISOString().split('T')[0];
-            document.getElementById('out-nama').value = '';
-            document.getElementById('out-jumlah').value = '';
-            document.getElementById('out-keterangan').value = '';
-
-            const modal = document.getElementById('output-modal');
-            modal.classList.add('open');
-        }
-
-        function closeOutputModal() {
-            document.getElementById('output-modal').classList.remove('open');
-        }
-
-        function saveProductionOutput() {
-            const batchId = document.getElementById('output-batch-id').value;
-            const r = requests.find(req => req.id === batchId);
-            if (!r) return;
-
-            const tanggal = document.getElementById('out-tanggal').value;
-            const tipe = document.getElementById('out-type').value;
-            const nama = document.getElementById('out-nama').value.trim();
-            const jumlah = parseInt(document.getElementById('out-jumlah').value) || 0;
-            const keterangan = document.getElementById('out-keterangan').value.trim();
-
-            if (!tanggal || !nama || jumlah <= 0) {
-                showToast('Lengkapi semua field bertanda * dengan benar!', 'error');
-                return;
-            }
-
-            const outputLog = {
-                tanggal,
-                tipe,
-                nama,
-                jumlah,
-                keterangan: keterangan || '-'
-            };
-
-            r.outputs.push(outputLog);
-            
-            // Auto advance status to Selesai Sebagian if it was in Diambil state
-            if (r.status === 'Diambil' || r.status === 'Diajukan') {
-                r.status = 'Selesai Sebagian';
-            }
-
-            saveToLocalStorage();
-            closeOutputModal();
-            showToast('Output hasil produksi berhasil ditambahkan!');
-            updateDashboardStats();
-            applyFiltersAndRender();
-        }
 
         // Details Modal
         function openDetailModal(id) {
@@ -1257,10 +1218,8 @@
 
             document.getElementById('detail-tanggal').innerText = formatIndoDate(r.tanggal);
             document.getElementById('detail-batch-id').innerText = r.id;
-            document.getElementById('detail-status').innerText = r.status;
             document.getElementById('detail-catatan').innerText = r.catatan;
 
-            // Load Materials table
             const mBody = document.getElementById('detail-materials-body');
             mBody.innerHTML = '';
             r.materials.forEach(m => {
@@ -1274,30 +1233,6 @@
                 mBody.appendChild(tr);
             });
 
-            // Load Outputs table
-            const oBody = document.getElementById('detail-outputs-body');
-            const oEmpty = document.getElementById('detail-outputs-empty');
-            oBody.innerHTML = '';
-
-            if (!r.outputs || r.outputs.length === 0) {
-                oEmpty.classList.remove('hidden');
-            } else {
-                oEmpty.classList.add('hidden');
-                r.outputs.forEach(o => {
-                    const typeColor = o.tipe === 'Barang Jadi' ? 'bg-emerald-50 text-emerald-700' : 'bg-indigo-50 text-indigo-700';
-                    const tr = document.createElement('tr');
-                    tr.className = 'border-b border-zinc-50';
-                    tr.innerHTML = `
-                        <td class="py-2.5 px-3 text-zinc-500 font-semibold">${formatIndoDate(o.tanggal)}</td>
-                        <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${typeColor}">${o.tipe}</span></td>
-                        <td class="py-2.5 px-3 font-bold text-zinc-800">${o.nama}</td>
-                        <td class="py-2.5 px-3 text-right font-bold text-zinc-800">${o.jumlah} unit</td>
-                        <td class="py-2.5 px-3 text-zinc-500">${o.keterangan}</td>
-                    `;
-                    oBody.appendChild(tr);
-                });
-            }
-
             const modal = document.getElementById('detail-modal');
             modal.classList.add('open');
         }
@@ -1306,7 +1241,6 @@
             document.getElementById('detail-modal').classList.remove('open');
         }
 
-        // Delete production request batch
         function deleteRequest(id) {
             if (!confirm('Apakah Anda yakin ingin membatalkan & menghapus data batch request produksi ini?')) return;
             requests = requests.filter(r => r.id !== id);
@@ -1358,21 +1292,16 @@
         }
 
         function filterData() {
-            statusFilter = document.getElementById('filter-status').value;
-
             filteredRequests = requests.filter(r => {
-                // 1. Search filter
                 let materialsText = r.materials.map(m => m.spec).join(' ').toLowerCase();
                 const matchesSearch = r.id.toLowerCase().includes(searchQuery) ||
-                                      r.catatan.toLowerCase().includes(searchQuery) ||
-                                      materialsText.includes(searchQuery);
+                                       r.catatan.toLowerCase().includes(searchQuery) ||
+                                       materialsText.includes(searchQuery);
 
                 if (!matchesSearch) return false;
 
-                // 2. Status filter
-                if (statusFilter && r.status !== statusFilter) return false;
 
-                // 3. Date filter
+
                 if (selectedDateFilter === 'All') return true;
 
                 const rDate = new Date(r.tanggal);
@@ -1431,30 +1360,7 @@
 
             pageData.forEach((r, idx) => {
                 const rowNo = startIndex + idx + 1;
-                
-                // Status badge logic
-                let statusBadge = '';
-                if (r.status === 'Diajukan') {
-                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-amber-50 text-amber-700 border border-amber-200">Diajukan</span>`;
-                } else if (r.status === 'Diambil') {
-                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-teal-50 text-teal-700 border border-teal-200">Diambil / Mulai</span>`;
-                } else if (r.status === 'Selesai Sebagian') {
-                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200">Selesai Sebagian</span>`;
-                } else if (r.status === 'Selesai') {
-                    statusBadge = `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">Selesai</span>`;
-                }
 
-                // Cumulative calculations
-                let qtyHalfFinished = 0;
-                let qtyFinished = 0;
-                if (r.outputs) {
-                    r.outputs.forEach(o => {
-                        if (o.tipe === 'Setengah Jadi') qtyHalfFinished += o.jumlah;
-                        else if (o.tipe === 'Barang Jadi') qtyFinished += o.jumlah;
-                    });
-                }
-
-                // Render materials text list
                 let materialsHtml = r.materials.map(m => `
                     <div class="text-[12px] text-zinc-700 font-semibold flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
@@ -1469,9 +1375,6 @@
                     <td class="py-3.5 px-4 font-semibold text-zinc-800">${formatIndoDate(r.tanggal)}</td>
                     <td class="py-3.5 px-4 font-mono font-bold text-amber-700 text-xs">${r.id}</td>
                     <td class="py-3.5 px-4 space-y-0.5">${materialsHtml}</td>
-                    <td class="py-3.5 px-4 text-center">${statusBadge}</td>
-                    <td class="py-3.5 px-4 text-center font-bold text-indigo-600">${qtyHalfFinished} unit</td>
-                    <td class="py-3.5 px-4 text-center font-bold text-emerald-600">${qtyFinished} unit</td>
                     <td class="py-3.5 px-4 text-center">
                         <div class="flex items-center justify-center gap-1.5">
                             <button onclick="openDetailModal('${r.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50 transition-all" title="Detail & History">
@@ -1480,21 +1383,6 @@
                                     <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
                             </button>
-                            
-                            ${r.status !== 'Selesai' ? `
-                                <button onclick="openOutputModal('${r.id}')" class="p-1.5 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 hover:text-indigo-800 rounded-lg text-indigo-600 transition-all" title="Log Output/Hasil">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <line x1="12" y1="5" x2="12" y2="19" />
-                                        <line x1="5" y1="12" x2="19" y2="12" />
-                                    </svg>
-                                </button>
-                                <button onclick="advanceStatus('${r.id}')" class="p-1.5 bg-amber-50 border border-amber-100 hover:bg-amber-100 hover:text-amber-800 rounded-lg text-amber-600 transition-all" title="Advance Status">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <polyline points="13 17 18 12 13 7" />
-                                        <polyline points="6 17 11 12 6 7" />
-                                    </svg>
-                                </button>
-                            ` : ''}
 
                             <button onclick="deleteRequest('${r.id}')" class="p-1.5 bg-white border border-zinc-200 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-all" title="Hapus">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -1508,7 +1396,6 @@
                 tableBody.appendChild(tr);
             });
 
-            // Pagination Controls
             document.getElementById('table-pagination-info').innerText = `Menampilkan ${startIndex + 1}-${endIndex} dari ${filteredRequests.length} entries`;
             document.getElementById('btn-prev').disabled = currentPage === 1;
             document.getElementById('btn-next').disabled = endIndex >= filteredRequests.length;
@@ -1564,3 +1451,4 @@
     <script src="shared.js"></script>
 </body>
 </html>
+
