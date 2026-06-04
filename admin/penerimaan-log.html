@@ -695,12 +695,25 @@
                 <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
                     <!-- Search & Filters Toolbar -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div class="flex items-center gap-2">
-                            <span class="filter-pill active" onclick="filterGrade('All')">Semua Grade</span>
-                            <span class="filter-pill" onclick="filterGrade('A')">Grade A</span>
-                            <span class="filter-pill" onclick="filterGrade('B')">Grade B</span>
-                            <span class="filter-pill" onclick="filterGrade('C')">Grade C</span>
-                            <span class="filter-pill" onclick="filterGrade('D')">Grade D</span>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- Date Filter Pills -->
+                            <div class="flex items-center gap-2" id="date-filter-pills">
+                                <span class="filter-pill active" onclick="setDateFilter('All')">Semua</span>
+                                <span class="filter-pill" onclick="setDateFilter('Today')">Hari Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Week')">Minggu Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Month')">Bulan Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Custom')">Pilih Tanggal / Range</span>
+                            </div>
+
+                            <!-- Collapsible Custom Date Range Selector -->
+                            <div id="custom-date-container" class="hidden items-center gap-2 transition-all duration-300">
+                                <div class="flex items-center gap-1.5 bg-white border border-zinc-200 rounded-xl p-1 px-2.5 shadow-sm">
+                                    <input type="date" id="filter-start-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                    <span class="text-zinc-400 text-[10px] font-bold uppercase mx-1">s/d</span>
+                                    <input type="date" id="filter-end-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                </div>
+                                <span class="text-[10px] text-zinc-400 font-semibold italic">(Kosongkan tanggal kedua untuk tanggal spesifik)</span>
+                            </div>
                         </div>
 
                         <div class="flex items-center gap-3 w-full sm:w-auto">
@@ -965,7 +978,9 @@
         // Local Storage State
         let logEntries = [];
         let filteredEntries = [];
-        let selectedGradeFilter = 'All';
+        let selectedDateFilter = 'All'; // 'All', 'Today', 'Week', 'Month', 'Custom'
+        let customStartDate = '';
+        let customEndDate = '';
         let searchQuery = '';
         let currentPage = 1;
         const rowsPerPage = 10;
@@ -1429,7 +1444,7 @@
 
             saveToLocalStorage();
             updateDashboard();
-            applyFiltersAndRender();
+            setDateFilter('All');
             
             setView('dashboard');
         }
@@ -1568,17 +1583,73 @@
             document.getElementById('stat-bulan-ini').innerText = bulanIniCount;
         }
 
+        // Timezone-safe local date string (YYYY-MM-DD)
+        function getLocalDateString(d = new Date()) {
+            const offset = d.getTimezoneOffset();
+            const local = new Date(d.getTime() - (offset * 60 * 1000));
+            return local.toISOString().split('T')[0];
+        }
+
+        // Get calendar week (Monday to Sunday) date range
+        function getWeekRange() {
+            const today = new Date();
+            const day = today.getDay(); // 0 is Sunday, 1 is Monday...
+            const diffToMonday = today.getDate() - day + (day === 0 ? -6 : 1);
+            
+            const monday = new Date(today.setDate(diffToMonday));
+            monday.setHours(0,0,0,0);
+            
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            sunday.setHours(23,59,59,999);
+            
+            return {
+                start: getLocalDateString(monday),
+                end: getLocalDateString(sunday)
+            };
+        }
+
         // Filters & Search logic
-        function filterGrade(grade) {
-            selectedGradeFilter = grade;
-            const pills = document.querySelectorAll('.filter-pill');
+        function setDateFilter(filterType) {
+            selectedDateFilter = filterType;
+            
+            // Update active pill styling
+            const pills = document.querySelectorAll('#date-filter-pills .filter-pill');
             pills.forEach(pill => {
-                if (pill.innerText.includes(grade) || (grade === 'All' && pill.innerText.includes('Semua'))) {
+                const isMatch = (filterType === 'All' && pill.innerText.includes('Semua')) ||
+                                (filterType === 'Today' && pill.innerText.includes('Hari Ini')) ||
+                                (filterType === 'Week' && pill.innerText.includes('Minggu Ini')) ||
+                                (filterType === 'Month' && pill.innerText.includes('Bulan Ini')) ||
+                                (filterType === 'Custom' && pill.innerText.includes('Pilih Tanggal'));
+                if (isMatch) {
                     pill.classList.add('active');
                 } else {
                     pill.classList.remove('active');
                 }
             });
+
+            // Toggle custom date range inputs visibility
+            const customContainer = document.getElementById('custom-date-container');
+            if (filterType === 'Custom') {
+                customContainer.classList.remove('hidden');
+                customContainer.classList.add('flex');
+            } else {
+                customContainer.classList.add('hidden');
+                customContainer.classList.remove('flex');
+                // Reset inputs
+                document.getElementById('filter-start-date').value = '';
+                document.getElementById('filter-end-date').value = '';
+                customStartDate = '';
+                customEndDate = '';
+            }
+
+            currentPage = 1;
+            applyFiltersAndRender();
+        }
+
+        function applyCustomDateFilter() {
+            customStartDate = document.getElementById('filter-start-date').value;
+            customEndDate = document.getElementById('filter-end-date').value;
             currentPage = 1;
             applyFiltersAndRender();
         }
@@ -1592,8 +1663,27 @@
 
         function applyFiltersAndRender() {
             filteredEntries = logEntries.filter(entry => {
-                const matchesGrade = selectedGradeFilter === 'All' || 
-                    (entry.items && entry.items.some(item => item.grade === selectedGradeFilter));
+                let matchesDate = true;
+                const entryDate = entry.tanggal; // format YYYY-MM-DD
+                
+                if (selectedDateFilter === 'Today') {
+                    const today = getLocalDateString();
+                    matchesDate = (entryDate === today);
+                } else if (selectedDateFilter === 'Week') {
+                    const week = getWeekRange();
+                    matchesDate = (entryDate >= week.start && entryDate <= week.end);
+                } else if (selectedDateFilter === 'Month') {
+                    const currentMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
+                    matchesDate = (entryDate && entryDate.substring(0, 7) === currentMonth);
+                } else if (selectedDateFilter === 'Custom') {
+                    if (customStartDate && customEndDate) {
+                        matchesDate = (entryDate >= customStartDate && entryDate <= customEndDate);
+                    } else if (customStartDate) {
+                        matchesDate = (entryDate === customStartDate); // Single specific date!
+                    } else if (customEndDate) {
+                        matchesDate = (entryDate <= customEndDate);
+                    }
+                }
                 
                 const matchesSearch = searchQuery === '' || 
                     (entry.supplier && entry.supplier.toLowerCase().includes(searchQuery)) ||
@@ -1604,7 +1694,7 @@
                         (item.size && item.size.toLowerCase().includes(searchQuery)) ||
                         (item.grade && item.grade.toLowerCase().includes(searchQuery))
                     ));
-                return matchesGrade && matchesSearch;
+                return matchesDate && matchesSearch;
             });
 
             renderTable();
