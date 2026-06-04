@@ -606,316 +606,246 @@
         <!-- Page body -->
         <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
-            <!-- Stat Cards Row -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
-                <!-- Stat 1 -->
-                <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Batang Log</p>
-                            <h3 id="stat-total-batang" class="text-2xl font-extrabold mt-1.5">0</h3>
+            <!-- ═══════════════════════════ DASHBOARD VIEW ═══════════════════════════ -->
+            <div id="dashboard-view" class="space-y-6">
+                <!-- Stat Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+                    <!-- Stat 1 -->
+                    <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Batang Log</p>
+                                <h3 id="stat-total-batang" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 3v18M3 12h18" />
+                                </svg>
+                            </div>
                         </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 3v18M3 12h18" />
-                            </svg>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="hero-stat bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-orange-100 uppercase tracking-wider">Total Surat Jalan</p>
+                                <h3 id="stat-total-surat" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="hero-stat bg-gradient-to-br from-yellow-500 to-amber-500 text-white shadow-md shadow-yellow-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-yellow-100 uppercase tracking-wider">Variasi Jenis Kayu</p>
+                                <h3 id="stat-jenis-kayu" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Terima Bulan Ini</p>
+                                <h3 id="stat-bulan-ini" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon bg-zinc-700/50">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Stat 2 -->
-                <div class="hero-stat bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-orange-100 uppercase tracking-wider">Total Volume (m³)</p>
-                            <h3 id="stat-total-volume" class="text-2xl font-extrabold mt-1.5">0.00</h3>
+                <!-- Main Data Card -->
+                <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
+                    <!-- Search & Filters Toolbar -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="filter-pill active" onclick="filterGrade('All')">Semua Grade</span>
+                            <span class="filter-pill" onclick="filterGrade('A')">Grade A</span>
+                            <span class="filter-pill" onclick="filterGrade('B')">Grade B</span>
+                            <span class="filter-pill" onclick="filterGrade('C')">Grade C</span>
+                            <span class="filter-pill" onclick="filterGrade('D')">Grade D</span>
                         </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                            </svg>
+
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="relative w-full sm:w-auto">
+                                <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                                <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari jenis, surat jalan..." class="search-input">
+                            </div>
+                            <button onclick="setView('form')" class="flex items-center justify-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-amber-600/20 whitespace-nowrap">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Tambah Log
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <!-- Stat 3 -->
-                <div class="hero-stat bg-gradient-to-br from-yellow-500 to-amber-500 text-white shadow-md shadow-yellow-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-yellow-100 uppercase tracking-wider">Variasi Jenis Kayu</p>
-                            <h3 id="stat-jenis-kayu" class="text-2xl font-extrabold mt-1.5">0</h3>
-                        </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                            </svg>
+                    <!-- Table Container -->
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-zinc-50 border-bottom border-zinc-100">
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Jenis Kayu</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-16">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Table Empty State -->
+                        <div id="table-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <line x1="9" y1="3" x2="9" y2="21" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penerimaan</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Tambah Log" untuk menambahkan data baru.</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Stat 4 -->
-                <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Terima Bulan Ini</p>
-                            <h3 id="stat-bulan-ini" class="text-2xl font-extrabold mt-1.5">0</h3>
-                        </div>
-                        <div class="hero-icon bg-zinc-700/50">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg>
+                    <!-- Table Footer Pagination -->
+                    <div class="flex items-center justify-between pt-2">
+                        <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
+                        <div class="flex gap-2">
+                            <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+                            <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Data Card -->
-            <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
-                <!-- Search & Filters Toolbar -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-2">
-                        <span class="filter-pill active" onclick="filterGrade('All')">Semua Grade</span>
-                        <span class="filter-pill" onclick="filterGrade('A')">Grade A</span>
-                        <span class="filter-pill" onclick="filterGrade('B')">Grade B</span>
-                        <span class="filter-pill" onclick="filterGrade('C')">Grade C</span>
-                        <span class="filter-pill" onclick="filterGrade('D')">Grade D</span>
+            <!-- ═══════════════════════════ FORM VIEW ═══════════════════════════ -->
+            <div id="form-view" class="hidden space-y-6">
+                <!-- Form Subheader -->
+                <div class="flex items-center gap-4 mb-2">
+                    <button onclick="setView('dashboard')" class="p-2 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 active:scale-[0.98] transition-all">
+                        <svg class="w-5 h-5 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-zinc-900 text-base">Catat Penerimaan Baru</h2>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Input data pengiriman log per surat jalan dengan multi-item jenis kayu</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Top Full Row Card: Informasi Pengiriman & Ringkasan -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+                            <!-- Date -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Terima *</label>
+                                <input type="date" id="form-tanggal" class="premium-input">
+                            </div>
+                            
+                            <!-- No Surat Jalan -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan *</label>
+                                <input type="text" id="form-surat" placeholder="Contoh: SJ-2026/06/004" class="premium-input">
+                            </div>
+                            
+                            <!-- Catatan -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                                <input type="text" id="form-catatan" placeholder="Catatan supplier, lokasi hutan..." class="premium-input">
+                            </div>
+                            
+                            <!-- Ringkasan Penerimaan styled inside the row -->
+                            <div class="bg-gradient-to-br from-amber-500/10 to-amber-600/10 border border-amber-500/20 rounded-xl p-3 flex items-center justify-center h-[42px] min-h-[42px]">
+                                <div class="text-center">
+                                    <span class="text-zinc-500 block text-[8px] uppercase font-bold tracking-wider leading-none">Ringkasan Pengiriman</span>
+                                    <span class="font-extrabold text-xs text-zinc-800"><span id="summary-total-items">0</span> Item &nbsp;·&nbsp; <span id="summary-total-batang">0</span> Batang</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <div class="relative w-full sm:w-auto">
-                            <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            </svg>
-                            <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari jenis, surat jalan..." class="search-input">
+                    <!-- Under: Daftar Item Kayu -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-zinc-800 text-sm">Daftar Item Kayu dalam Surat Jalan</h3>
+                            <button onclick="addWoodItemRow()" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-amber-600/10">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Tambah Item Kayu
+                            </button>
                         </div>
-                        <button onclick="openForm()" class="flex items-center justify-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-amber-600/20 whitespace-nowrap">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        
+                        <!-- Items Grid Container (2 items in a row on desktop) -->
+                        <div id="wood-items-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Dynamic Rows of wood items go here -->
+                        </div>
+                        
+                        <!-- Big Add Item Button -->
+                        <button onclick="addWoodItemRow()" class="w-full py-4 border-2 border-dashed border-zinc-200 hover:border-amber-500 rounded-2xl flex items-center justify-center gap-2 text-zinc-400 hover:text-amber-600 transition-all bg-white/50 hover:bg-amber-50/10">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <line x1="12" y1="5" x2="12" y2="19" />
                                 <line x1="5" y1="12" x2="19" y2="12" />
                             </svg>
-                            Tambah Log
+                            <span class="font-bold text-sm">Tambah Item Kayu Baru</span>
                         </button>
-                    </div>
-                </div>
-
-                <!-- Table Container -->
-                <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-zinc-50 border-bottom border-zinc-100">
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Jenis Kayu</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Volume</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-16">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                    
-                    <!-- Table Empty State -->
-                    <div id="table-empty" class="hidden py-12 text-center">
-                        <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
-                            <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" />
-                                <line x1="9" y1="3" x2="9" y2="21" />
-                            </svg>
+                        
+                        <!-- Form Action Buttons -->
+                        <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60">
+                            <button onclick="setView('dashboard')" class="px-6 py-2.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                            <button onclick="saveAllItems()" class="px-8 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/10 transition-all active:scale-[0.98]">Simpan Semua & Selesai</button>
                         </div>
-                        <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penerimaan</h4>
-                        <p class="text-zinc-400 text-xs mt-1">Silakan klik "Tambah Log" untuk menambahkan data baru.</p>
-                    </div>
-                </div>
-
-                <!-- Table Footer Pagination -->
-                <div class="flex items-center justify-between pt-2">
-                    <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
-                    <div class="flex gap-2">
-                        <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
-                            <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6" />
-                            </svg>
-                        </button>
-                        <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
-                            <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6" />
-                            </svg>
-                        </button>
                     </div>
                 </div>
             </div>
 
         </div>
     </main>
-
-    <!-- ═══════════════════════════ SLIDE OVER PANEL (FORM) ═══════════════════════════ -->
-    <div id="backdrop" class="backdrop" onclick="closeForm()"></div>
-    <div id="slide-over" class="slide-over">
-        <!-- Form Header -->
-        <div class="px-6 py-5 border-b border-zinc-100 flex items-center justify-between">
-            <div>
-                <h2 class="font-extrabold text-zinc-900 text-base">Input Penerimaan Log</h2>
-                <p class="text-[11px] text-zinc-400 mt-0.5">Lengkapi formulir pencatatan raw log</p>
-            </div>
-            <button onclick="closeForm()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-zinc-100 text-zinc-400 hover:text-zinc-600 transition-colors">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Form Body -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-5">
-            <!-- Tanggal & Jenis -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Tanggal Terima</label>
-                    <input type="date" id="input-tanggal" class="premium-input">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Jenis Kayu</label>
-                    <input type="text" id="input-jenis" list="wood-types" placeholder="Contoh: Sengon" class="premium-input">
-                    <datalist id="wood-types">
-                        <option value="Sengon"></option>
-                        <option value="Jati"></option>
-                        <option value="Meranti"></option>
-                        <option value="Mahoni"></option>
-                        <option value="Pinus"></option>
-                    </datalist>
-                </div>
-            </div>
-
-            <!-- Grade Selection Card Row -->
-            <div class="space-y-1.5">
-                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Kualitas / Grade</label>
-                <div class="grid grid-cols-4 gap-2.5">
-                    <!-- Grade A -->
-                    <div onclick="selectGrade('A')" id="grade-card-A" data-grade="A" class="grade-card border-emerald-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
-                        <p class="font-extrabold text-[15px] text-zinc-800">A</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Ekspor/Super</p>
-                    </div>
-                    <!-- Grade B -->
-                    <div onclick="selectGrade('B')" id="grade-card-B" data-grade="B" class="grade-card border-blue-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
-                        <p class="font-extrabold text-[15px] text-zinc-800">B</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 1</p>
-                    </div>
-                    <!-- Grade C -->
-                    <div onclick="selectGrade('C')" id="grade-card-C" data-grade="C" class="grade-card border-indigo-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-indigo-500"></div>
-                        <p class="font-extrabold text-[15px] text-zinc-800">C</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 2</p>
-                    </div>
-                    <!-- Grade D -->
-                    <div onclick="selectGrade('D')" id="grade-card-D" data-grade="D" class="grade-card border-red-200">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-red-500"></div>
-                        <p class="font-extrabold text-[15px] text-zinc-800">D</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Reject/Palet</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Size Selection Chips -->
-            <div class="space-y-1.5">
-                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ukuran Diameter Log</label>
-                <div class="grid grid-cols-5 gap-2" id="size-chips-container">
-                    <div onclick="selectSize('A1')" id="size-chip-A1" class="size-chip">
-                        <p class="font-extrabold text-xs">A1</p>
-                        <p class="text-[9px] text-zinc-400 mt-0.5">10-19 cm</p>
-                    </div>
-                    <div onclick="selectSize('A2')" id="size-chip-A2" class="size-chip">
-                        <p class="font-extrabold text-xs">A2</p>
-                        <p class="text-[9px] text-zinc-400 mt-0.5">20-29 cm</p>
-                    </div>
-                    <div onclick="selectSize('A3')" id="size-chip-A3" class="size-chip">
-                        <p class="font-extrabold text-xs">A3</p>
-                        <p class="text-[9px] text-zinc-400 mt-0.5">30-39 cm</p>
-                    </div>
-                    <div onclick="selectSize('A4')" id="size-chip-A4" class="size-chip">
-                        <p class="font-extrabold text-xs">A4</p>
-                        <p class="text-[9px] text-zinc-400 mt-0.5">40-49 cm</p>
-                    </div>
-                    <div onclick="selectSize('A5')" id="size-chip-A5" class="size-chip">
-                        <p class="font-extrabold text-xs">A5</p>
-                        <p class="text-[9px] text-zinc-400 mt-0.5">&ge; 50 cm</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Jumlah & Volume -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Jumlah Batang</label>
-                    <input type="number" id="input-jumlah" oninput="calculateVolume()" placeholder="Contoh: 25" min="1" class="premium-input">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Volume Estimasi (m³)</label>
-                    <input type="number" id="input-volume" step="0.01" placeholder="0.00" class="premium-input bg-zinc-50 font-bold text-zinc-600" readonly>
-                </div>
-            </div>
-
-            <!-- No Surat Jalan & Catatan -->
-            <div class="space-y-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">No. Surat Jalan</label>
-                    <input type="text" id="input-surat" placeholder="Contoh: SJ-2026/06/004" class="premium-input">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Catatan Tambahan</label>
-                    <textarea id="input-catatan" rows="2" placeholder="Catatan supplier, lokasi hutan, dll..." class="premium-input resize-none"></textarea>
-                </div>
-            </div>
-
-            <!-- Real-Time Entry Preview Card -->
-            <div class="rounded-xl border border-dashed border-amber-300 bg-amber-50/40 p-4 space-y-2">
-                <p class="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Live Entry Preview</p>
-                <div class="grid grid-cols-3 gap-y-2 text-xs">
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Tanggal</span>
-                        <span id="preview-tanggal" class="font-bold text-zinc-800">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Jenis Kayu</span>
-                        <span id="preview-jenis" class="font-bold text-zinc-800">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Grade & Size</span>
-                        <span id="preview-grade-size" class="font-bold text-zinc-800">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Jumlah</span>
-                        <span id="preview-jumlah" class="font-bold text-zinc-800">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Volume</span>
-                        <span id="preview-volume" class="font-bold text-amber-700 font-extrabold">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">No. Surat</span>
-                        <span id="preview-surat" class="font-bold text-zinc-800">-</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Form Footer -->
-        <div class="px-6 py-4 border-t border-zinc-100 flex gap-3">
-            <button onclick="closeForm()" class="flex-1 py-2.5 border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-colors">Batal</button>
-            <button onclick="saveEntry()" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/10 active:scale-[0.98] transition-all">Simpan Log</button>
-        </div>
-    </div>
 
     <!-- Toast Notification Container -->
     <div id="toast-container"></div>
@@ -940,15 +870,10 @@
         const rowsPerPage = 10;
 
         // Current Form State
-        let formGrade = '';
-        let formSize = '';
+        let currentFormItems = [];
 
         // Initial setup on load
         window.addEventListener('DOMContentLoaded', () => {
-            // Setup default date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('input-tanggal').value = today;
-
             // Load from LocalStorage or seed dummy data
             const saved = localStorage.getItem('woodtrack_penerimaan_log');
             if (saved) {
@@ -967,12 +892,6 @@
                 saveToLocalStorage();
             }
 
-            // Bind live preview listeners
-            const inputs = ['input-tanggal', 'input-jenis', 'input-jumlah', 'input-surat'];
-            inputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', updateLivePreview);
-            });
-
             // Init UI
             updateDashboard();
             applyFiltersAndRender();
@@ -986,85 +905,233 @@
             chevron.classList.toggle('open');
         }
 
-        // Slide over handling
-        function openForm() {
-            document.getElementById('slide-over').classList.add('open');
-            document.getElementById('backdrop').classList.add('open');
-            // reset form grade & size highlights
-            selectGrade('');
-            selectSize('');
-            document.getElementById('input-jumlah').value = '';
-            document.getElementById('input-volume').value = '';
-            document.getElementById('input-surat').value = '';
-            document.getElementById('input-catatan').value = '';
-            document.getElementById('input-jenis').value = '';
+        // View Toggling
+        function setView(view) {
+            const dashboard = document.getElementById('dashboard-view');
+            const form = document.getElementById('form-view');
+            const headerTitle = document.querySelector('header h1');
+            const headerSubtitle = document.querySelector('header p');
             
-            // Set default date to today
+            if (view === 'form') {
+                dashboard.classList.add('hidden');
+                form.classList.remove('hidden');
+                headerTitle.innerText = "Input Penerimaan Log";
+                headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan &nbsp;·&nbsp; Input Baru";
+                resetFormPage();
+            } else {
+                dashboard.classList.remove('hidden');
+                form.classList.add('hidden');
+                headerTitle.innerText = "Penerimaan Log";
+                headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan";
+            }
+        }
+
+        // Reset form to default states
+        function resetFormPage() {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('input-tanggal').value = today;
-
-            updateLivePreview();
+            document.getElementById('form-tanggal').value = today;
+            document.getElementById('form-surat').value = '';
+            document.getElementById('form-catatan').value = '';
+            
+            currentFormItems = [];
+            document.getElementById('wood-items-container').innerHTML = '';
+            addWoodItemRow();
         }
 
-        function closeForm() {
-            document.getElementById('slide-over').classList.remove('open');
-            document.getElementById('backdrop').classList.remove('open');
+        // Add wood item row to the form
+        function addWoodItemRow() {
+            const tempId = Date.now() + Math.random().toString(36).substr(2, 5);
+            
+            const newItem = {
+                tempId: tempId,
+                jenis: '',
+                grade: '',
+                size: '',
+                jumlah: 0,
+                volume: 0.0
+            };
+            
+            currentFormItems.push(newItem);
+            
+            const container = document.getElementById('wood-items-container');
+            const itemCard = document.createElement('div');
+            itemCard.id = `item-row-${tempId}`;
+            itemCard.className = `glass-card rounded-2xl p-5 relative border border-zinc-100 hover:border-zinc-200 transition-all shadow-sm bg-white space-y-4 anim d1`;
+            
+            itemCard.innerHTML = `
+                <div class="flex items-center justify-between border-b border-zinc-100 pb-3">
+                    <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest font-mono">Item #${currentFormItems.length}</span>
+                    <button onclick="removeWoodItemRow('${tempId}')" class="text-zinc-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Hapus Item">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jenis Kayu *</label>
+                        <select id="item-jenis-${tempId}" onchange="updateItemField('${tempId}', 'jenis', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer">
+                            <option value="" disabled selected>Pilih Jenis...</option>
+                            <option value="Sengon">Sengon</option>
+                            <option value="Jati">Jati</option>
+                            <option value="Meranti">Meranti</option>
+                            <option value="Mahoni">Mahoni</option>
+                            <option value="Pinus">Pinus</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Batang *</label>
+                        <input type="number" id="item-jumlah-${tempId}" oninput="updateItemField('${tempId}', 'jumlah', this.value)" placeholder="Contoh: 25" min="1" class="premium-input">
+                    </div>
+                </div>
+                
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Kualitas / Grade *</label>
+                    <div class="grid grid-cols-4 gap-2.5">
+                        <div onclick="selectItemGrade('${tempId}', 'A')" id="item-grade-${tempId}-A" data-grade="A" class="grade-card border-emerald-200 relative">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
+                            <p class="font-extrabold text-[13.5px] text-zinc-800">A</p>
+                            <p class="text-[8px] text-zinc-400 font-semibold mt-0.5">Ekspor/Super</p>
+                        </div>
+                        <div onclick="selectItemGrade('${tempId}', 'B')" id="item-grade-${tempId}-B" data-grade="B" class="grade-card border-blue-200 relative">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
+                            <p class="font-extrabold text-[13.5px] text-zinc-800">B</p>
+                            <p class="text-[8px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 1</p>
+                        </div>
+                        <div onclick="selectItemGrade('${tempId}', 'C')" id="item-grade-${tempId}-C" data-grade="C" class="grade-card border-indigo-200 relative">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-indigo-500"></div>
+                            <p class="font-extrabold text-[13.5px] text-zinc-800">C</p>
+                            <p class="text-[8px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 2</p>
+                        </div>
+                        <div onclick="selectItemGrade('${tempId}', 'D')" id="item-grade-${tempId}-D" data-grade="D" class="grade-card border-red-200 relative">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-red-500"></div>
+                            <p class="font-extrabold text-[13.5px] text-zinc-800">D</p>
+                            <p class="text-[8px] text-zinc-400 font-semibold mt-0.5">Reject/Palet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ukuran Diameter Log *</label>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div onclick="selectItemSize('${tempId}', 'A1')" id="item-size-${tempId}-A1" class="size-chip">
+                            <p class="font-extrabold text-xs">A1</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">10-19 cm</p>
+                        </div>
+                        <div onclick="selectItemSize('${tempId}', 'A2')" id="item-size-${tempId}-A2" class="size-chip">
+                            <p class="font-extrabold text-xs">A2</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">20-29 cm</p>
+                        </div>
+                        <div onclick="selectItemSize('${tempId}', 'A3')" id="item-size-${tempId}-A3" class="size-chip">
+                            <p class="font-extrabold text-xs">A3</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">30-39 cm</p>
+                        </div>
+                        <div onclick="selectItemSize('${tempId}', 'A4')" id="item-size-${tempId}-A4" class="size-chip">
+                            <p class="font-extrabold text-xs">A4</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">40-49 cm</p>
+                        </div>
+                        <div onclick="selectItemSize('${tempId}', 'A5')" id="item-size-${tempId}-A5" class="size-chip">
+                            <p class="font-extrabold text-xs">A5</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">&ge; 50 cm</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(itemCard);
+            updateFormSummary();
         }
 
-        // Form Grade Selection
-        function selectGrade(grade) {
-            formGrade = grade;
+        // Delete wood item row
+        function removeWoodItemRow(tempId) {
+            if (currentFormItems.length <= 1) {
+                showToast('Minimal harus ada 1 item kayu dalam pengiriman!', 'error');
+                return;
+            }
+            
+            currentFormItems = currentFormItems.filter(item => item.tempId !== tempId);
+            
+            const row = document.getElementById(`item-row-${tempId}`);
+            if (row) row.remove();
+            
+            // Recalculate numbering labels
+            const labels = document.querySelectorAll('#wood-items-container span.font-mono');
+            labels.forEach((label, idx) => {
+                label.innerText = `Item #${idx + 1}`;
+            });
+            
+            updateFormSummary();
+        }
+
+        // Update single field inside an item row
+        function updateItemField(tempId, field, value) {
+            const item = currentFormItems.find(item => item.tempId === tempId);
+            if (!item) return;
+            
+            if (field === 'jenis') {
+                item.jenis = value;
+            } else if (field === 'jumlah') {
+                item.jumlah = parseInt(value) || 0;
+            }
+            
+            updateFormSummary();
+        }
+
+        // Select grade for a specific item row
+        function selectItemGrade(tempId, grade) {
+            const item = currentFormItems.find(item => item.tempId === tempId);
+            if (!item) return;
+            
+            item.grade = grade;
+            
             const grades = ['A', 'B', 'C', 'D'];
             grades.forEach(g => {
-                const card = document.getElementById(`grade-card-${g}`);
-                if (g === grade) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
+                const el = document.getElementById(`item-grade-${tempId}-${g}`);
+                if (el) {
+                    if (g === grade) {
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                    }
                 }
             });
-            updateLivePreview();
         }
 
-        // Form Size Selection
-        function selectSize(size) {
-            formSize = size;
+        // Select size for a specific item row
+        function selectItemSize(tempId, size) {
+            const item = currentFormItems.find(item => item.tempId === tempId);
+            if (!item) return;
+            
+            item.size = size;
+            
             const sizes = ['A1', 'A2', 'A3', 'A4', 'A5'];
             sizes.forEach(s => {
-                const chip = document.getElementById(`size-chip-${s}`);
-                if (s === size) {
-                    chip.classList.add('active');
-                } else {
-                    chip.classList.remove('active');
+                const el = document.getElementById(`item-size-${tempId}-${s}`);
+                if (el) {
+                    if (s === size) {
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                    }
                 }
             });
-            calculateVolume();
-            updateLivePreview();
+            
+            updateFormSummary();
         }
 
-        // Calculate Volume
-        function calculateVolume() {
-            const qty = parseFloat(document.getElementById('input-jumlah').value) || 0;
-            const coef = sizeCoefs[formSize] || 0;
-            const vol = qty * coef;
-            document.getElementById('input-volume').value = vol > 0 ? vol.toFixed(2) : '';
-            updateLivePreview();
-        }
-
-        // Live Preview update
-        function updateLivePreview() {
-            const tgl = document.getElementById('input-tanggal').value || '-';
-            const jns = document.getElementById('input-jenis').value || '-';
-            const qty = document.getElementById('input-jumlah').value || '0';
-            const vol = document.getElementById('input-volume').value || '0.00';
-            const srt = document.getElementById('input-surat').value || '-';
-
-            document.getElementById('preview-tanggal').innerText = tgl;
-            document.getElementById('preview-jenis').innerText = jns;
-            document.getElementById('preview-grade-size').innerText = (formGrade || '-') + ' / ' + (formSize || '-');
-            document.getElementById('preview-jumlah').innerText = qty + ' btg';
-            document.getElementById('preview-volume').innerText = vol + ' m³';
-            document.getElementById('preview-surat').innerText = srt;
+        // Aggregate totals for the summary card
+        function updateFormSummary() {
+            let totalItems = currentFormItems.length;
+            let totalBatang = 0;
+            
+            currentFormItems.forEach(item => {
+                totalBatang += item.jumlah;
+            });
+            
+            document.getElementById('summary-total-items').innerText = totalItems;
+            document.getElementById('summary-total-batang').innerText = totalBatang + ' btg';
         }
 
         // LocalStorage save
@@ -1096,40 +1163,52 @@
             }, 3000);
         }
 
-        // Save Entry
-        function saveEntry() {
-            const tanggal = document.getElementById('input-tanggal').value;
-            const jenis = document.getElementById('input-jenis').value;
-            const jumlah = parseInt(document.getElementById('input-jumlah').value);
-            const volume = parseFloat(document.getElementById('input-volume').value);
-            const surat = document.getElementById('input-surat').value;
-            const catatan = document.getElementById('input-catatan').value;
+        // Save Batch Entries
+        function saveAllItems() {
+            const tanggal = document.getElementById('form-tanggal').value;
+            const surat = document.getElementById('form-surat').value.trim();
+            const catatan = document.getElementById('form-catatan').value.trim();
 
-            if (!tanggal || !jenis || !formGrade || !formSize || isNaN(jumlah) || jumlah <= 0 || !surat) {
-                showToast('Lengkapi semua data bertanda bintang/penting!', 'error');
+            if (!tanggal || !surat) {
+                showToast('Lengkapi data Tanggal dan No. Surat Jalan!', 'error');
                 return;
             }
 
-            const newEntry = {
-                id: Date.now(),
-                tanggal,
-                jenis,
-                grade: formGrade,
-                size: formSize,
-                jumlah,
-                volume,
-                surat,
-                catatan
-            };
+            if (currentFormItems.length === 0) {
+                showToast('Harap tambahkan minimal 1 item kayu!', 'error');
+                return;
+            }
 
-            logEntries.unshift(newEntry); // Prepend to show immediately
+            // Validate all items
+            for (let i = 0; i < currentFormItems.length; i++) {
+                const item = currentFormItems[i];
+                if (!item.jenis || !item.grade || !item.size || isNaN(item.jumlah) || item.jumlah <= 0) {
+                    showToast(`Lengkapi semua data Item #${i + 1} (Jenis, Grade, Size, Jumlah)!`, 'error');
+                    return;
+                }
+            }
+
+            // Create log entry records
+            currentFormItems.forEach((item, idx) => {
+                const newEntry = {
+                    id: Date.now() + idx, // Ensure unique IDs
+                    tanggal,
+                    jenis: item.jenis,
+                    grade: item.grade,
+                    size: item.size,
+                    jumlah: item.jumlah,
+                    surat,
+                    catatan
+                };
+                logEntries.unshift(newEntry);
+            });
+
             saveToLocalStorage();
-            
             updateDashboard();
             applyFiltersAndRender();
             
-            closeForm();
-            showToast('Penerimaan Log berhasil disimpan!');
+            setView('dashboard');
+            showToast(`Berhasil menyimpan ${currentFormItems.length} item penerimaan log!`, 'success');
         }
 
         // Delete Entry
@@ -1146,23 +1225,23 @@
         // Update Dashboard Stats Card
         function updateDashboard() {
             let totalBatang = 0;
-            let totalVolume = 0;
             const uniqueJenis = new Set();
+            const uniqueSurat = new Set();
             let bulanIniCount = 0;
 
             const currentMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
 
             logEntries.forEach(entry => {
                 totalBatang += entry.jumlah;
-                totalVolume += entry.volume;
                 if (entry.jenis) uniqueJenis.add(entry.jenis.toLowerCase().trim());
+                if (entry.surat) uniqueSurat.add(entry.surat.toLowerCase().trim());
                 if (entry.tanggal && entry.tanggal.substring(0, 7) === currentMonth) {
                     bulanIniCount += entry.jumlah;
                 }
             });
 
             document.getElementById('stat-total-batang').innerText = totalBatang;
-            document.getElementById('stat-total-volume').innerText = totalVolume.toFixed(2);
+            document.getElementById('stat-total-surat').innerText = uniqueSurat.size;
             document.getElementById('stat-jenis-kayu').innerText = uniqueJenis.size;
             document.getElementById('stat-bulan-ini').innerText = bulanIniCount;
         }
@@ -1255,7 +1334,6 @@
                     <td class="py-3.5 px-4 text-center">${gradeBadge}</td>
                     <td class="py-3.5 px-4 text-center"><span class="px-1.5 py-0.5 font-bold text-xs bg-zinc-100 text-zinc-600 rounded">${entry.size}</span></td>
                     <td class="py-3.5 px-4 text-right font-bold text-zinc-800">${entry.jumlah} btg</td>
-                    <td class="py-3.5 px-4 text-right font-extrabold text-amber-700">${entry.volume.toFixed(2)} m³</td>
                     <td class="py-3.5 px-4 font-mono text-[11.5px] text-zinc-500">${entry.surat}</td>
                     <td class="py-3.5 px-4 text-zinc-500 truncate max-w-[180px]" title="${entry.catatan || ''}">${entry.catatan || '-'}</td>
                     <td class="py-3.5 px-4 text-center">
@@ -1302,12 +1380,15 @@
         document.addEventListener('keydown', (e) => {
             // Esc to close form
             if (e.key === 'Escape') {
-                closeForm();
+                const formView = document.getElementById('form-view');
+                if (formView && !formView.classList.contains('hidden')) {
+                    setView('dashboard');
+                }
             }
             // Ctrl + N to open form
             if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
                 e.preventDefault();
-                openForm();
+                setView('form');
             }
         });
     </script>
