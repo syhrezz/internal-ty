@@ -1013,85 +1013,18 @@
                         migrated = true;
                     }
                 });
+
+                // Auto-seed if empty
+                if (logEntries.length === 0) {
+                    logEntries = getSeedData();
+                    migrated = true;
+                }
+
                 if (migrated) {
                     saveToLocalStorage();
                 }
             } else {
-                // Seed some beautiful transaction-grouped dummy data
-                logEntries = [
-                    {
-                        id: 1,
-                        tanggal: '2026-06-01',
-                        supplier: 'CV. Utama Mandiri',
-                        surat: 'SJ-2601/SNG/01',
-                        catatan: 'Kayu lurus mulus dari supplier Utama',
-                        items: [
-                            { jenis: 'Sengon', grade: 'A', size: 'A3', jumlah: 50 }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        tanggal: '2026-06-01',
-                        supplier: 'PT. Kayu Makmur',
-                        surat: 'SJ-2601/JAT/04',
-                        catatan: 'Kayu jati gelondongan diameter besar',
-                        items: [
-                            { jenis: 'Jati', grade: 'A', size: 'A5', jumlah: 12 }
-                        ]
-                    },
-                    {
-                        id: 3,
-                        tanggal: '2026-06-02',
-                        supplier: 'CV. Lestari Alam',
-                        surat: 'SJ-2602/MER/11',
-                        catatan: 'Penerimaan bertahap area barat',
-                        items: [
-                            { jenis: 'Meranti', grade: 'B', size: 'A4', jumlah: 35 },
-                            { jenis: 'Sengon', grade: 'B', size: 'A3', jumlah: 20 }
-                        ]
-                    },
-                    {
-                        id: 4,
-                        tanggal: '2026-06-02',
-                        supplier: 'UD. Jaya Sentosa',
-                        surat: 'SJ-2602/MAH/09',
-                        catatan: 'Agak basah, simpan di gudang C',
-                        items: [
-                            { jenis: 'Mahoni', grade: 'C', size: 'A2', jumlah: 80 }
-                        ]
-                    },
-                    {
-                        id: 5,
-                        tanggal: '2026-06-03',
-                        supplier: 'CV. Utama Mandiri',
-                        surat: 'SJ-2603/SNG/02',
-                        catatan: 'Grade A super',
-                        items: [
-                            { jenis: 'Sengon', grade: 'A', size: 'A4', jumlah: 45 }
-                        ]
-                    },
-                    {
-                        id: 6,
-                        tanggal: '2026-06-03',
-                        supplier: 'PT. Hutan Raya',
-                        surat: 'SJ-2603/PIN/07',
-                        catatan: 'Untuk palet/reject',
-                        items: [
-                            { jenis: 'Pinus', grade: 'D', size: 'A1', jumlah: 120 },
-                            { jenis: 'Mahoni', grade: 'C', size: 'A2', jumlah: 40 }
-                        ]
-                    },
-                    {
-                        id: 7,
-                        tanggal: '2026-06-04',
-                        supplier: 'CV. Lestari Alam',
-                        surat: 'SJ-2604/MER/15',
-                        catatan: 'Volume pas',
-                        items: [
-                            { jenis: 'Meranti', grade: 'B', size: 'A3', jumlah: 40 }
-                        ]
-                    }
-                ];
+                logEntries = getSeedData();
                 saveToLocalStorage();
             }
 
@@ -1099,6 +1032,84 @@
             updateDashboard();
             applyFiltersAndRender();
         });
+
+        // Helper to get log seed data
+        function getSeedData() {
+            return [
+                {
+                    id: 1,
+                    tanggal: '2026-06-01',
+                    supplier: 'CV. Utama Mandiri',
+                    surat: 'SJ-2601/SNG/01',
+                    catatan: 'Kayu lurus mulus dari supplier Utama',
+                    items: [
+                        { jenis: 'Sengon', grade: 'A', size: 'A3', jumlah: 50 }
+                    ]
+                },
+                {
+                    id: 2,
+                    tanggal: '2026-06-01',
+                    supplier: 'PT. Kayu Makmur',
+                    surat: 'SJ-2601/JAT/04',
+                    catatan: 'Kayu jati gelondongan diameter besar',
+                    items: [
+                        { jenis: 'Jati', grade: 'A', size: 'A5', jumlah: 12 }
+                    ]
+                },
+                {
+                    id: 3,
+                    tanggal: '2026-06-02',
+                    supplier: 'CV. Lestari Alam',
+                    surat: 'SJ-2602/MER/11',
+                    catatan: 'Penerimaan bertahap area barat',
+                    items: [
+                        { jenis: 'Meranti', grade: 'B', size: 'A4', jumlah: 35 },
+                        { jenis: 'Sengon', grade: 'B', size: 'A3', jumlah: 20 }
+                    ]
+                },
+                {
+                    id: 4,
+                    tanggal: '2026-06-02',
+                    supplier: 'UD. Jaya Sentosa',
+                    surat: 'SJ-2602/MAH/09',
+                    catatan: 'Agak basah, simpan di gudang C',
+                    items: [
+                        { jenis: 'Mahoni', grade: 'C', size: 'A2', jumlah: 80 }
+                    ]
+                },
+                {
+                    id: 5,
+                    tanggal: '2026-06-03',
+                    supplier: 'CV. Utama Mandiri',
+                    surat: 'SJ-2603/SNG/02',
+                    catatan: 'Grade A super',
+                    items: [
+                        { jenis: 'Sengon', grade: 'A', size: 'A4', jumlah: 45 }
+                    ]
+                },
+                {
+                    id: 6,
+                    tanggal: '2026-06-03',
+                    supplier: 'PT. Hutan Raya',
+                    surat: 'SJ-2603/PIN/07',
+                    catatan: 'Untuk palet/reject',
+                    items: [
+                        { jenis: 'Pinus', grade: 'D', size: 'A1', jumlah: 120 },
+                        { jenis: 'Mahoni', grade: 'C', size: 'A2', jumlah: 40 }
+                    ]
+                },
+                {
+                    id: 7,
+                    tanggal: '2026-06-04',
+                    supplier: 'CV. Lestari Alam',
+                    surat: 'SJ-2604/MER/15',
+                    catatan: 'Volume pas',
+                    items: [
+                        { jenis: 'Meranti', grade: 'B', size: 'A3', jumlah: 40 }
+                    ]
+                }
+            ];
+        }
 
         // Toggle Sidebar submenus
         function toggleMenu(id) {

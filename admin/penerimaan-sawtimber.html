@@ -312,45 +312,6 @@
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
         }
 
-        /* ── Slide-Over Panel ── */
-        .slide-over {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 480px;
-            z-index: 50;
-            background: #fff;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .slide-over.open {
-            transform: translateX(0);
-        }
-
-        .backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(24, 24, 27, 0.4);
-            backdrop-filter: blur(4px);
-            z-index: 40;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .backdrop.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
         /* ── Modal Styles ── */
         .modal-container {
             position: fixed;
@@ -378,8 +339,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(24, 24, 27, 0.5);
-            backdrop-filter: blur(3px);
+            background: rgba(24, 24, 27, 0.4);
+            backdrop-filter: blur(4px);
         }
 
         .modal-content {
@@ -387,12 +348,16 @@
             background: #fff;
             border-radius: 16px;
             width: 380px;
-            max-width: 90%;
+            max-width: 95%;
             padding: 24px;
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
             transform: scale(0.95);
             transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
             z-index: 70;
+        }
+
+        .modal-content.wide {
+            width: 580px;
         }
 
         .modal-container.open .modal-content {
@@ -620,153 +585,270 @@
         <!-- Page body -->
         <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
-            <!-- Stat Cards Row -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
-                <!-- Stat 1 -->
-                <div class="hero-stat bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Total Lembar Sawtimber</p>
-                            <h3 id="stat-total-lembar" class="text-2xl font-extrabold mt-1.5">0</h3>
+            <!-- ═══════════════════════════ DASHBOARD VIEW ═══════════════════════════ -->
+            <div id="dashboard-view" class="space-y-6">
+                <!-- Stat Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+                    <!-- Stat 1 -->
+                    <div class="hero-stat bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Total Lembar Sawtimber</p>
+                                <h3 id="stat-total-lembar" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <line x1="9" y1="3" x2="9" y2="21" />
+                                </svg>
+                            </div>
                         </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2" />
-                                <line x1="9" y1="3" x2="9" y2="21" />
-                            </svg>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="hero-stat bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-md shadow-teal-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Total Volume (m³)</p>
+                                <h3 id="stat-total-volume" class="text-2xl font-extrabold mt-1.5">0.0000</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="hero-stat bg-gradient-to-br from-green-500 to-teal-500 text-white shadow-md shadow-green-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-green-100 uppercase tracking-wider">Variasi Ukuran</p>
+                                <h3 id="stat-ukuran-variasi" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Terima Bulan Ini</p>
+                                <h3 id="stat-bulan-ini" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon bg-zinc-700/50">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Stat 2 -->
-                <div class="hero-stat bg-gradient-to-br from-teal-500 to-emerald-600 text-white shadow-md shadow-teal-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Total Volume (m³)</p>
-                            <h3 id="stat-total-volume" class="text-2xl font-extrabold mt-1.5">0.0000</h3>
+                <!-- Main Data Card -->
+                <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
+                    <!-- Search & Filters Toolbar -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- Date Filter Pills -->
+                            <div class="flex items-center gap-2" id="date-filter-pills">
+                                <span class="filter-pill active" onclick="setDateFilter('All')">Semua</span>
+                                <span class="filter-pill" onclick="setDateFilter('Today')">Hari Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Week')">Minggu Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Month')">Bulan Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Custom')">Pilih Tanggal / Range</span>
+                            </div>
+
+                            <!-- Collapsible Custom Date Range Selector -->
+                            <div id="custom-date-container" class="hidden items-center gap-2 transition-all duration-300">
+                                <div class="flex items-center gap-1.5 bg-white border border-zinc-200 rounded-xl p-1 px-2.5 shadow-sm">
+                                    <input type="date" id="filter-start-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                    <span class="text-zinc-400 text-[10px] font-bold uppercase mx-1">s/d</span>
+                                    <input type="date" id="filter-end-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                </div>
+                                <span class="text-[10px] text-zinc-400 font-semibold italic">(Kosongkan tanggal kedua untuk tanggal spesifik)</span>
+                            </div>
                         </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                            </svg>
+
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="relative w-full sm:w-auto">
+                                <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                                <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari jenis, surat jalan..." class="search-input">
+                            </div>
+                            <button onclick="setView('form')" class="flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-emerald-600/20 whitespace-nowrap">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Tambah Sawtimber
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <!-- Stat 3 -->
-                <div class="hero-stat bg-gradient-to-br from-green-500 to-teal-500 text-white shadow-md shadow-green-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-green-100 uppercase tracking-wider">Variasi Ukuran</p>
-                            <h3 id="stat-ukuran-variasi" class="text-2xl font-extrabold mt-1.5">0</h3>
-                        </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                            </svg>
+                    <!-- Table Container -->
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Supplier</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Rincian Item Sawtimber</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Total Lembar</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Total Volume</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-28">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Table Empty State -->
+                        <div id="table-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <line x1="9" y1="3" x2="9" y2="21" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penerimaan</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Tambah Sawtimber" untuk menambahkan data baru.</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Stat 4 -->
-                <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Terima Bulan Ini</p>
-                            <h3 id="stat-bulan-ini" class="text-2xl font-extrabold mt-1.5">0</h3>
-                        </div>
-                        <div class="hero-icon bg-zinc-700/50">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg>
+                    <!-- Table Footer Pagination -->
+                    <div class="flex items-center justify-between pt-2">
+                        <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
+                        <div class="flex gap-2">
+                            <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+                            <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Data Card -->
-            <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
-                <!-- Search & Filters Toolbar -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-2">
-                        <span class="filter-pill active" onclick="filterGrade('All')">Semua Grade</span>
-                        <span class="filter-pill" onclick="filterGrade('A')">Grade A</span>
-                        <span class="filter-pill" onclick="filterGrade('B')">Grade B</span>
-                        <span class="filter-pill" onclick="filterGrade('C')">Grade C</span>
-                        <span class="filter-pill" onclick="filterGrade('D')">Grade D</span>
+            <!-- ═══════════════════════════ FORM VIEW ═══════════════════════════ -->
+            <div id="form-view" class="hidden space-y-6">
+                <!-- Form Subheader -->
+                <div class="flex items-center gap-4 mb-2">
+                    <button onclick="setView('dashboard')" class="p-2 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 active:scale-[0.98] transition-all">
+                        <svg class="w-5 h-5 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-zinc-900 text-base">Catat Penerimaan Baru</h2>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Input data pengiriman sawtimber per surat jalan dengan multi-item papan</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Top Full Row Card: Informasi Pengiriman & Ringkasan -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm">
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+                            <!-- Left Side: Inputs (col-span-3) -->
+                            <div class="lg:col-span-3 space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <!-- Date -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Terima *</label>
+                                        <input type="date" id="form-tanggal" class="premium-input">
+                                    </div>
+                                    
+                                    <!-- No Surat Jalan -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
+                                        <input type="text" id="form-surat" placeholder="Contoh: SJ-2026/06/009" class="premium-input">
+                                    </div>
+
+                                    <!-- Supplier -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
+                                        <input type="text" id="form-supplier" placeholder="Contoh: CV. Lestari Kayu" class="premium-input">
+                                    </div>
+                                </div>
+                                
+                                <!-- Catatan -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                                    <textarea id="form-catatan" rows="2" placeholder="Tulis catatan pengiriman di sini (armada, penumpukan di gudang, dll)..." class="premium-input resize-none h-[64px]"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Side: Ringkasan (col-span-1) -->
+                            <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/20 rounded-xl p-4 flex flex-col justify-center items-center text-center gap-3">
+                                <span class="text-zinc-500 block text-[9px] uppercase font-bold tracking-wider leading-none">Ringkasan Pengiriman</span>
+                                <div class="space-y-1">
+                                    <div class="text-[11px] font-semibold text-zinc-500">
+                                        <span id="summary-total-items" class="font-extrabold text-zinc-800 text-lg">0</span> Item
+                                    </div>
+                                    <div class="text-[11px] font-semibold text-zinc-500">
+                                        <span id="summary-total-lembar" class="font-extrabold text-zinc-800 text-lg">0</span> Lembar
+                                    </div>
+                                    <div class="text-[11px] font-semibold text-zinc-500">
+                                        <span id="summary-total-volume" class="font-extrabold text-emerald-700 text-lg">0.0000</span> m³
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <div class="relative w-full sm:w-auto">
-                            <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            </svg>
-                            <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari jenis, surat jalan..." class="search-input">
+                    <!-- Under: Daftar Item Kayu -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-zinc-800 text-sm">Daftar Papan Sawtimber dalam Surat Jalan</h3>
+                            <button onclick="addWoodItemRow()" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-emerald-600/10">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Tambah Item
+                            </button>
                         </div>
-                        <button onclick="openForm()" class="flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-emerald-600/20 whitespace-nowrap">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        
+                        <!-- Items Grid Container (1 item in a row) -->
+                        <div id="wood-items-container" class="grid grid-cols-1 gap-6">
+                            <!-- Dynamic Rows of wood items go here -->
+                        </div>
+                        
+                        <!-- Big Add Item Button -->
+                        <button onclick="addWoodItemRow()" class="w-full py-4 border-2 border-dashed border-zinc-200 hover:border-emerald-500 rounded-2xl flex items-center justify-center gap-2 text-zinc-400 hover:text-emerald-600 transition-all bg-white/50 hover:bg-emerald-50/10">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <line x1="12" y1="5" x2="12" y2="19" />
                                 <line x1="5" y1="12" x2="19" y2="12" />
                             </svg>
-                            Tambah Sawtimber
+                            <span class="font-bold text-sm">Tambah Item Papan Baru</span>
                         </button>
-                    </div>
-                </div>
-
-                <!-- Table Container -->
-                <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-zinc-50 border-bottom border-zinc-100">
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Jenis Kayu</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran (TxLxP)</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Volume</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Supplier</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-16">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                    
-                    <!-- Table Empty State -->
-                    <div id="table-empty" class="hidden py-12 text-center">
-                        <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
-                            <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" />
-                                <line x1="9" y1="3" x2="9" y2="21" />
-                            </svg>
+                        
+                        <!-- Form Action Buttons -->
+                        <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60">
+                            <button onclick="setView('dashboard')" class="px-6 py-2.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                            <button onclick="saveAllItems()" class="px-8 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/10 transition-all active:scale-[0.98]">Simpan Semua & Selesai</button>
                         </div>
-                        <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penerimaan</h4>
-                        <p class="text-zinc-400 text-xs mt-1">Silakan klik "Tambah Sawtimber" untuk menambahkan data baru.</p>
-                    </div>
-                </div>
-
-                <!-- Table Footer Pagination -->
-                <div class="flex items-center justify-between pt-2">
-                    <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
-                    <div class="flex gap-2">
-                        <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
-                            <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6" />
-                            </svg>
-                        </button>
-                        <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
-                            <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6" />
-                            </svg>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -774,152 +856,76 @@
         </div>
     </main>
 
-    <!-- ═══════════════════════════ SLIDE OVER PANEL (FORM) ═══════════════════════════ -->
-    <div id="backdrop" class="backdrop" onclick="closeForm()"></div>
-    <div id="slide-over" class="slide-over">
-        <!-- Form Header -->
-        <div class="px-6 py-5 border-b border-zinc-100 flex items-center justify-between">
-            <div>
-                <h2 class="font-extrabold text-zinc-900 text-base">Input Penerimaan Sawtimber</h2>
-                <p class="text-[11px] text-zinc-400 mt-0.5">Lengkapi data penerimaan papan sawtimber</p>
+    <!-- ═══════════════════════════ DETAIL MODAL ═══════════════════════════ -->
+    <div id="detail-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeDetailModal()"></div>
+        <div class="modal-content wide space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Detail Penerimaan Sawtimber</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Rincian lengkap pengiriman papan masuk</p>
+                </div>
+                <button onclick="closeDetailModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
-            <button onclick="closeForm()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-zinc-100 text-zinc-400 hover:text-zinc-600 transition-colors">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Form Body -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-5">
-            <!-- Tanggal & Jenis -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Tanggal Terima</label>
-                    <input type="date" id="input-tanggal" class="premium-input">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Jenis Kayu</label>
-                    <input type="text" id="input-jenis" list="wood-types" placeholder="Contoh: Sengon" class="premium-input">
-                    <datalist id="wood-types">
-                        <option value="Sengon"></option>
-                        <option value="Jati"></option>
-                        <option value="Meranti"></option>
-                        <option value="Mahoni"></option>
-                        <option value="Pinus"></option>
-                    </datalist>
-                </div>
-            </div>
-
-            <!-- Grade Selection Chips Row -->
-            <div class="space-y-1.5">
-                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Quality Grade</label>
-                <div class="grid grid-cols-4 gap-2.5">
-                    <!-- Grade A -->
-                    <div onclick="selectGrade('A')" id="grade-card-A" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">A</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Ekspor/Super</p>
-                    </div>
-                    <!-- Grade B -->
-                    <div onclick="selectGrade('B')" id="grade-card-B" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">B</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 1</p>
-                    </div>
-                    <!-- Grade C -->
-                    <div onclick="selectGrade('C')" id="grade-card-C" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">C</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Lokal Kelas 2</p>
-                    </div>
-                    <!-- Grade D -->
-                    <div onclick="selectGrade('D')" id="grade-card-D" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">D</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Reject/Palet</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Size Selection Chips -->
-            <div class="space-y-1.5">
-                <div class="flex items-center justify-between">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ukuran Sawtimber</label>
-                    <button onclick="openCustomSizeModal()" class="text-[11.5px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors">+ Ukuran Baru</button>
-                </div>
-                <div class="grid grid-cols-2 gap-2" id="sizes-container">
-                    <!-- Loaded dynamically -->
-                </div>
-            </div>
-
-            <!-- Jumlah & Volume -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Jumlah (Lembar)</label>
-                    <input type="number" id="input-jumlah" oninput="calculateVolume()" placeholder="Contoh: 150" min="1" class="premium-input">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Volume (m³)</label>
-                    <input type="number" id="input-volume" step="0.0001" placeholder="0.0000" class="premium-input bg-zinc-50 font-bold text-zinc-600" readonly>
-                </div>
-            </div>
-
-            <!-- Supplier & No Surat Jalan & Catatan -->
-            <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
-                        <input type="text" id="input-supplier" placeholder="Contoh: CV. Kayu Abadi" class="premium-input">
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
-                        <input type="text" id="input-surat" placeholder="Contoh: SJ-2026/06/009" class="premium-input">
-                    </div>
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
-                    <textarea id="input-catatan" rows="2" placeholder="Catatan supplier, lokasi tumpukan gudang, dll..." class="premium-input resize-none h-[64px]"></textarea>
-                </div>
-            </div>
-
-            <!-- Real-Time Entry Preview Card -->
-            <div class="rounded-xl border border-dashed border-emerald-300 bg-emerald-50/40 p-4 space-y-2">
-                <p class="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Live Entry Preview</p>
-                <div class="grid grid-cols-3 gap-y-2 text-xs">
+            
+            <!-- Modal Body -->
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1">
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-zinc-50/50 p-4 rounded-xl border border-zinc-100">
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Tanggal</span>
-                        <span id="preview-tanggal" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Tanggal Terima</span>
+                        <span id="detail-tanggal" class="text-xs font-bold text-zinc-800"></span>
                     </div>
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Jenis Kayu</span>
-                        <span id="preview-jenis" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">No. Surat Jalan</span>
+                        <span id="detail-surat" class="text-xs font-bold text-zinc-800 font-mono"></span>
                     </div>
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Grade & Ukuran</span>
-                        <span id="preview-grade-size" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Supplier</span>
+                        <span id="detail-supplier" class="text-xs font-bold text-zinc-800"></span>
                     </div>
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Jumlah</span>
-                        <span id="preview-jumlah" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Catatan</span>
+                        <span id="detail-catatan" class="text-xs text-zinc-600 block max-h-[60px] overflow-y-auto"></span>
                     </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Volume</span>
-                        <span id="preview-volume" class="font-bold text-emerald-700 font-extrabold">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Supplier</span>
-                        <span id="preview-supplier" class="font-bold text-zinc-800">-</span>
-                    </div>
-                    <div class="col-span-3">
-                        <span class="text-zinc-400 block text-[10px]">No. Surat</span>
-                        <span id="preview-surat" class="font-bold text-zinc-800">-</span>
+                </div>
+                
+                <!-- Items Table -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">Daftar Item Sawtimber</h4>
+                    <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider w-10 text-center">No</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Jenis Kayu</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran (TxLxP)</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Volume</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Form Footer -->
-        <div class="px-6 py-4 border-t border-zinc-100 flex gap-3">
-            <button onclick="closeForm()" class="flex-1 py-2.5 border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-colors">Batal</button>
-            <button onclick="saveEntry()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/10 active:scale-[0.98] transition-all">Simpan Sawtimber</button>
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-between border-t border-zinc-100 pt-3 flex-shrink-0">
+                <div class="text-[11px] font-semibold text-zinc-500">
+                    Total: <span id="detail-total-lembar" class="font-extrabold text-zinc-800 text-sm">0</span> lembar | <span id="detail-total-volume" class="font-extrabold text-emerald-700 text-sm">0.0000</span> m³
+                </div>
+                <button onclick="closeDetailModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
+            </div>
         </div>
     </div>
 
@@ -944,26 +950,7 @@
                 <div class="space-y-1">
                     <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Panjang (cm)</label>
                     <input type="number" id="custom-panjang" oninput="calculateCustomVolume()" placeholder="Contoh: 200" class="premium-input text-center">
-                </div>
-            </div>
-
-            <div class="rounded-lg bg-zinc-50 border border-zinc-200 p-3 text-center">
-                <span class="text-[10px] text-zinc-400 block uppercase tracking-wider">Volume per Lembar (m³)</span>
-                <span id="custom-volume-preview" class="font-extrabold text-sm text-zinc-800">0.0000 m³</span>
-            </div>
-
-            <div class="flex gap-2.5 justify-end">
-                <button onclick="closeCustomSizeModal()" class="px-4 py-2 border border-zinc-200 rounded-xl text-zinc-700 font-bold text-[11.5px] hover:bg-zinc-50 transition-colors">Batal</button>
-                <button onclick="saveCustomSize()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11.5px] rounded-xl shadow-sm transition-all active:scale-[0.98]">Tambah</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification Container -->
-    <div id="toast-container"></div>
-
-    <!-- ═══════════════════════════ JAVASCRIPT CODE ═══════════════════════════ -->
-    <script>
+<script>
         // Default size variations (dimensions in cm, volume in m³)
         const defaultSizes = [
             { code: '5×10×200', tebal: 5, lebar: 10, panjang: 200, volume: 0.0100 },
@@ -976,20 +963,20 @@
         let sizes = [];
         let logEntries = [];
         let filteredEntries = [];
-        let selectedGradeFilter = 'All';
+        let selectedDateFilter = 'All'; // 'All', 'Today', 'Week', 'Month', 'Custom'
+        let customStartDate = '';
+        let customEndDate = '';
         let searchQuery = '';
         let currentPage = 1;
         const rowsPerPage = 10;
 
-        let formGrade = '';
-        let formSize = '';
+        // Current Form State
+        let currentFormItems = [];
+        let editingId = null;
+        let customSizeTriggerTempId = null; // Temp ID of card that launched the modal
 
         // Initial setup on load
         window.addEventListener('DOMContentLoaded', () => {
-            // Setup default date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('input-tanggal').value = today;
-
             // Load sizes from localStorage or seed defaults
             const savedSizes = localStorage.getItem('woodtrack_sawtimber_sizes');
             if (savedSizes) {
@@ -1000,49 +987,104 @@
             }
 
             // Load entries from localStorage or seed defaults
+            // Load entries from localStorage or seed defaults
             const savedEntries = localStorage.getItem('woodtrack_penerimaan_sawtimber');
             if (savedEntries) {
                 logEntries = JSON.parse(savedEntries);
+                
+                // Migrate legacy flat data format to nested transaction format
+                let migrated = false;
+                logEntries.forEach(entry => {
+                    if (!entry.items) {
+                        entry.items = [{
+                            jenis: entry.jenis || 'Sengon',
+                            grade: entry.grade || 'A',
+                            size: entry.size || '5×15×200',
+                            jumlah: entry.jumlah || 0,
+                            volume: entry.volume || 0
+                        }];
+                        delete entry.jenis;
+                        delete entry.grade;
+                        delete entry.size;
+                        delete entry.jumlah;
+                        delete entry.volume;
+                        migrated = true;
+                    }
+                });
+
+                // Auto-seed if empty
+                if (logEntries.length === 0) {
+                    logEntries = getSeedData();
+                    migrated = true;
+                }
+
+                if (migrated) {
+                    saveToLocalStorage();
+                }
             } else {
-                logEntries = [
-                    { id: 1, tanggal: '2026-06-01', jenis: 'Sengon', grade: 'A', size: '5×15×200', jumlah: 200, volume: 3.0000, surat: 'SJ-2601/SNG/12', supplier: 'CV. Lestari Kayu', catatan: 'Sawtimber super mulus' },
-                    { id: 2, tanggal: '2026-06-01', jenis: 'Jati', grade: 'A', size: '7×15×400', jumlah: 50, volume: 2.1000, surat: 'SJ-2601/JAT/06', supplier: 'PT. Hutan Makmur', catatan: 'Papan jati tebal lurus' },
-                    { id: 3, tanggal: '2026-06-02', jenis: 'Meranti', grade: 'B', size: '4×10×400', jumlah: 150, volume: 2.4000, surat: 'SJ-2602/MER/19', supplier: 'CV. Lestari Kayu', catatan: 'Meranti merah lurus' },
-                    { id: 4, tanggal: '2026-06-03', jenis: 'Mahoni', grade: 'C', size: '3×7×300', jumlah: 300, volume: 1.8900, surat: 'SJ-2603/MAH/15', supplier: 'UD. Prima Wood', catatan: 'Untuk rangka mebel' },
-                    { id: 5, tanggal: '2026-06-04', jenis: 'Pinus', grade: 'D', size: '5×10×200', jumlah: 400, volume: 4.0000, surat: 'SJ-2604/PIN/09', supplier: 'PT. Rimba Raya', catatan: 'Reject untuk palet kemasan' }
-                ];
+                logEntries = getSeedData();
                 saveToLocalStorage();
             }
-
-            // Populate Sizes selector in form
-            renderSizesSelector();
-
-            // Bind live preview listeners
-            const inputs = ['input-tanggal', 'input-jenis', 'input-jumlah', 'input-surat', 'input-supplier'];
-            inputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', updateLivePreview);
-            });
 
             // Init UI
             updateDashboard();
             applyFiltersAndRender();
         });
 
-        // Render size chips in slide-over form
-        function renderSizesSelector() {
-            const container = document.getElementById('sizes-container');
-            container.innerHTML = '';
-            sizes.forEach(s => {
-                const chip = document.createElement('div');
-                chip.onclick = () => selectSize(s.code);
-                chip.id = `size-chip-${s.code}`;
-                chip.className = `size-chip ${formSize === s.code ? 'active' : ''}`;
-                chip.innerHTML = `
-                    <p class="font-extrabold text-xs text-zinc-800">${s.code}</p>
-                    <p class="text-[9px] text-zinc-400 mt-0.5">${s.volume.toFixed(4)} m³</p>
-                `;
-                container.appendChild(chip);
-            });
+        // Helper to get sawtimber seed data
+        function getSeedData() {
+            return [
+                {
+                    id: 1,
+                    tanggal: '2026-06-01',
+                    supplier: 'CV. Lestari Kayu',
+                    surat: 'SJ-2601/SNG/12',
+                    catatan: 'Sawtimber super mulus',
+                    items: [
+                        { jenis: 'Sengon', grade: 'A', size: '5×15×200', jumlah: 200, volume: 3.0000 }
+                    ]
+                },
+                {
+                    id: 2,
+                    tanggal: '2026-06-01',
+                    supplier: 'PT. Hutan Makmur',
+                    surat: 'SJ-2601/JAT/06',
+                    catatan: 'Papan jati tebal lurus',
+                    items: [
+                        { jenis: 'Jati', grade: 'A', size: '7×15×400', jumlah: 50, volume: 2.1000 }
+                    ]
+                },
+                {
+                    id: 3,
+                    tanggal: '2026-06-02',
+                    supplier: 'CV. Lestari Kayu',
+                    surat: 'SJ-2602/MER/19',
+                    catatan: 'Meranti merah lurus',
+                    items: [
+                        { jenis: 'Meranti', grade: 'B', size: '4×10×400', jumlah: 150, volume: 2.4000 }
+                    ]
+                },
+                {
+                    id: 4,
+                    tanggal: '2026-06-03',
+                    supplier: 'UD. Prima Wood',
+                    surat: 'SJ-2603/MAH/15',
+                    catatan: 'Untuk rangka mebel',
+                    items: [
+                        { jenis: 'Mahoni', grade: 'C', size: '3×7×300', jumlah: 300, volume: 1.8900 }
+                    ]
+                },
+                {
+                    id: 5,
+                    tanggal: '2026-06-04',
+                    supplier: 'PT. Rimba Raya',
+                    surat: 'SJ-2604/PIN/09',
+                    catatan: 'Reject untuk palet kemasan',
+                    items: [
+                        { jenis: 'Pinus', grade: 'D', size: '5×10×200', jumlah: 400, volume: 4.0000 }
+                    ]
+                }
+            ];
         }
 
         // Toggle Sidebar submenus
@@ -1053,65 +1095,248 @@
             chevron.classList.toggle('open');
         }
 
-        // Slide over handling
-        function openForm() {
-            document.getElementById('slide-over').classList.add('open');
-            document.getElementById('backdrop').classList.add('open');
+        // View Toggling
+        function setView(view) {
+            const dashboard = document.getElementById('dashboard-view');
+            const form = document.getElementById('form-view');
+            const headerTitle = document.querySelector('header h1');
+            const headerSubtitle = document.querySelector('header p');
+            const formTitle = document.querySelector('#form-view h2');
+            const formSubtitle = document.querySelector('#form-view p');
             
-            selectGrade('');
-            selectSize('');
-            document.getElementById('input-jumlah').value = '';
-            document.getElementById('input-volume').value = '';
-            document.getElementById('input-surat').value = '';
-            document.getElementById('input-supplier').value = '';
-            document.getElementById('input-catatan').value = '';
-            document.getElementById('input-jenis').value = '';
-            
-            // Set default date to today
+            if (view === 'form') {
+                editingId = null;
+                dashboard.classList.add('hidden');
+                form.classList.remove('hidden');
+                headerTitle.innerText = "Input Penerimaan Sawtimber";
+                headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan &nbsp;·&nbsp; Input Baru";
+                formTitle.innerText = "Catat Penerimaan Baru";
+                formSubtitle.innerText = "Input data pengiriman sawtimber per surat jalan dengan multi-item papan";
+                resetFormPage();
+            } else {
+                editingId = null;
+                dashboard.classList.remove('hidden');
+                form.classList.add('hidden');
+                headerTitle.innerText = "Penerimaan Sawtimber";
+                headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan";
+            }
+        }
+
+        // Reset form to default states
+        function resetFormPage() {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('input-tanggal').value = today;
-
-            updateLivePreview();
+            document.getElementById('form-tanggal').value = today;
+            document.getElementById('form-surat').value = '';
+            document.getElementById('form-supplier').value = '';
+            document.getElementById('form-catatan').value = '';
+            
+            currentFormItems = [];
+            document.getElementById('wood-items-container').innerHTML = '';
+            addWoodItemRow();
         }
 
-        function closeForm() {
-            document.getElementById('slide-over').classList.remove('open');
-            document.getElementById('backdrop').classList.remove('open');
+        // Get sizes options HTML content
+        function getSizeOptionsHTML() {
+            let html = '<option value="" disabled selected>Pilih Ukuran...</option>';
+            sizes.forEach(s => {
+                html += `<option value="${s.code}">${s.code} (${s.volume.toFixed(4)} m³)</option>`;
+            });
+            return html;
         }
 
-        // Form Grade Selection
-        function selectGrade(grade) {
-            formGrade = grade;
+        // Refresh select options in all form cards
+        function repopulateAllSizeSelects() {
+            currentFormItems.forEach(item => {
+                const selectEl = document.getElementById(`item-size-${item.tempId}`);
+                if (selectEl) {
+                    const currentSelectedVal = selectEl.value;
+                    selectEl.innerHTML = getSizeOptionsHTML();
+                    if (currentSelectedVal) {
+                        selectEl.value = currentSelectedVal;
+                    }
+                }
+            });
+        }
+
+        // Add wood item row to the form (supports populating data for editing)
+        function addWoodItemRow(itemData = null) {
+            const tempId = (Date.now() + Math.random()).toString(36).substring(2, 9);
+            
+            const newItem = {
+                tempId: tempId,
+                jenis: itemData ? itemData.jenis : '',
+                grade: itemData ? itemData.grade : '',
+                size: itemData ? itemData.size : '',
+                jumlah: itemData ? itemData.jumlah : 0,
+                volume: itemData ? (itemData.volume || 0.0) : 0.0
+            };
+            
+            currentFormItems.push(newItem);
+            
+            const container = document.getElementById('wood-items-container');
+            const itemCard = document.createElement('div');
+            itemCard.id = `item-row-${tempId}`;
+            itemCard.className = `glass-card rounded-2xl p-5 relative border border-zinc-100 hover:border-zinc-200 transition-all shadow-sm bg-white space-y-4 anim d1`;
+            
+            itemCard.innerHTML = `
+                <div class="flex items-center justify-between border-b border-zinc-100 pb-3">
+                    <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest font-mono">Item #${currentFormItems.length}</span>
+                    <button onclick="removeWoodItemRow('${tempId}')" class="text-zinc-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Hapus Item">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jenis Kayu *</label>
+                        <select id="item-jenis-${tempId}" onchange="updateItemField('${tempId}', 'jenis', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer">
+                            <option value="" disabled selected>Pilih Jenis...</option>
+                            <option value="Sengon">Sengon</option>
+                            <option value="Jati">Jati</option>
+                            <option value="Meranti">Meranti</option>
+                            <option value="Mahoni">Mahoni</option>
+                            <option value="Pinus">Pinus</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ukuran Sawtimber *</label>
+                            <button type="button" onclick="openCustomSizeModal('${tempId}')" class="text-[10px] font-bold text-emerald-600 hover:text-emerald-700 hover:underline transition-all font-sans">+ Ukuran Baru</button>
+                        </div>
+                        <select id="item-size-${tempId}" onchange="updateItemField('${tempId}', 'size', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer">
+                            ${getSizeOptionsHTML()}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah (Lembar) *</label>
+                        <input type="number" id="item-jumlah-${tempId}" oninput="updateItemField('${tempId}', 'jumlah', this.value)" placeholder="Contoh: 50" min="1" class="premium-input">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Volume (m³)</label>
+                        <input type="text" id="item-volume-${tempId}" readonly placeholder="0.0000" class="premium-input bg-zinc-50 text-zinc-500 font-bold border-zinc-200">
+                    </div>
+                </div>
+                
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Kualitas / Grade *</label>
+                    <div class="flex flex-wrap gap-2.5">
+                        <div onclick="selectItemGrade('${tempId}', 'A')" id="item-grade-${tempId}-A" class="size-chip w-[100px] flex-shrink-0">
+                            <p class="font-extrabold text-xs">A</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">Ekspor/Super</p>
+                        </div>
+                        <div onclick="selectItemGrade('${tempId}', 'B')" id="item-grade-${tempId}-B" class="size-chip w-[100px] flex-shrink-0">
+                            <p class="font-extrabold text-xs">B</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">Lokal Kelas 1</p>
+                        </div>
+                        <div onclick="selectItemGrade('${tempId}', 'C')" id="item-grade-${tempId}-C" class="size-chip w-[100px] flex-shrink-0">
+                            <p class="font-extrabold text-xs">C</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">Lokal Kelas 2</p>
+                        </div>
+                        <div onclick="selectItemGrade('${tempId}', 'D')" id="item-grade-${tempId}-D" class="size-chip w-[100px] flex-shrink-0">
+                            <p class="font-extrabold text-xs">D</p>
+                            <p class="text-[8px] text-zinc-400 mt-0.5">Reject/Palet</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(itemCard);
+            
+            // Populate element values if editing
+            if (itemData) {
+                document.getElementById(`item-jenis-${tempId}`).value = itemData.jenis;
+                document.getElementById(`item-size-${tempId}`).value = itemData.size;
+                document.getElementById(`item-jumlah-${tempId}`).value = itemData.jumlah;
+                document.getElementById(`item-volume-${tempId}`).value = itemData.volume ? itemData.volume.toFixed(4) : '';
+                selectItemGrade(tempId, itemData.grade);
+            }
+            
+            updateFormSummary();
+        }
+
+        // Delete wood item row
+        function removeWoodItemRow(tempId) {
+            if (currentFormItems.length <= 1) {
+                showToast('Minimal harus ada 1 item sawtimber dalam pengiriman!', 'error');
+                return;
+            }
+            
+            currentFormItems = currentFormItems.filter(item => item.tempId !== tempId);
+            
+            const row = document.getElementById(`item-row-${tempId}`);
+            if (row) row.remove();
+            
+            // Recalculate numbering labels
+            const labels = document.querySelectorAll('#wood-items-container span.font-mono');
+            labels.forEach((label, idx) => {
+                label.innerText = `Item #${idx + 1}`;
+            });
+            
+            updateFormSummary();
+        }
+
+        // Update single field inside an item row
+        function updateItemField(tempId, field, value) {
+            const item = currentFormItems.find(item => item.tempId === tempId);
+            if (!item) return;
+
+            if (field === 'jenis') {
+                item.jenis = value;
+            } else if (field === 'jumlah') {
+                item.jumlah = parseInt(value) || 0;
+                updateItemVolume(tempId);
+            } else if (field === 'size') {
+                item.size = value;
+                updateItemVolume(tempId);
+            }
+
+            updateFormSummary();
+        }
+
+        // Calculate and update volume for a card
+        function updateItemVolume(tempId) {
+            const item = currentFormItems.find(i => i.tempId === tempId);
+            if (!item) return;
+
+            const sizeObj = sizes.find(s => s.code === item.size);
+            const volumeCoef = sizeObj ? sizeObj.volume : 0.0;
+            item.volume = item.jumlah * volumeCoef;
+
+            const volInput = document.getElementById(`item-volume-${tempId}`);
+            if (volInput) {
+                volInput.value = item.volume > 0 ? item.volume.toFixed(4) : '';
+            }
+        }
+
+        // Select grade for a specific item row
+        function selectItemGrade(tempId, grade) {
+            const item = currentFormItems.find(i => i.tempId === tempId);
+            if (!item) return;
+            
+            item.grade = grade;
+            
             const grades = ['A', 'B', 'C', 'D'];
             grades.forEach(g => {
-                const card = document.getElementById(`grade-card-${g}`);
-                if (g === grade) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
+                const el = document.getElementById(`item-grade-${tempId}-${g}`);
+                if (el) {
+                    if (g === grade) {
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                    }
                 }
             });
-            updateLivePreview();
-        }
-
-        // Form Size Selection
-        function selectSize(sizeCode) {
-            formSize = sizeCode;
-            const chips = document.querySelectorAll('.size-chip');
-            chips.forEach(chip => {
-                const isSelected = chip.id === `size-chip-${sizeCode}`;
-                if (isSelected) {
-                    chip.classList.add('active');
-                } else {
-                    chip.classList.remove('active');
-                }
-            });
-            calculateVolume();
-            updateLivePreview();
         }
 
         // Custom Size Modal Handling
-        function openCustomSizeModal() {
+        function openCustomSizeModal(tempId) {
+            customSizeTriggerTempId = tempId;
             document.getElementById('custom-size-modal').classList.add('open');
             document.getElementById('custom-tebal').value = '';
             document.getElementById('custom-lebar').value = '';
@@ -1121,18 +1346,20 @@
 
         function closeCustomSizeModal() {
             document.getElementById('custom-size-modal').classList.remove('open');
+            customSizeTriggerTempId = null;
         }
 
+        // Calculate size preview
         function calculateCustomVolume() {
             const tebal = parseFloat(document.getElementById('custom-tebal').value) || 0;
             const lebar = parseFloat(document.getElementById('custom-lebar').value) || 0;
             const panjang = parseFloat(document.getElementById('custom-panjang').value) || 0;
             
-            // Formula: (Tebal * Lebar * Panjang) / 1,000,000 (volume in m³)
             const volume = (tebal * lebar * panjang) / 1000000;
             document.getElementById('custom-volume-preview').innerText = `${volume.toFixed(4)} m³`;
         }
 
+        // Register custom size
         function saveCustomSize() {
             const tebal = parseFloat(document.getElementById('custom-tebal').value);
             const lebar = parseFloat(document.getElementById('custom-lebar').value);
@@ -1146,11 +1373,16 @@
             const code = `${tebal}×${lebar}×${panjang}`;
             const volume = (tebal * lebar * panjang) / 1000000;
 
-            // Check if size already exists
             const exists = sizes.find(s => s.code === code);
             if (exists) {
                 showToast('Ukuran ini sudah terdaftar!', 'error');
-                selectSize(code);
+                if (customSizeTriggerTempId) {
+                    const selectEl = document.getElementById(`item-size-${customSizeTriggerTempId}`);
+                    if (selectEl) {
+                        selectEl.value = code;
+                        updateItemField(customSizeTriggerTempId, 'size', code);
+                    }
+                }
                 closeCustomSizeModal();
                 return;
             }
@@ -1159,38 +1391,34 @@
             sizes.push(newSize);
             localStorage.setItem('woodtrack_sawtimber_sizes', JSON.stringify(sizes));
             
-            renderSizesSelector();
-            selectSize(code);
+            repopulateAllSizeSelects();
+            
+            if (customSizeTriggerTempId) {
+                const selectEl = document.getElementById(`item-size-${customSizeTriggerTempId}`);
+                if (selectEl) {
+                    selectEl.value = code;
+                    updateItemField(customSizeTriggerTempId, 'size', code);
+                }
+            }
+            
             closeCustomSizeModal();
             showToast('Ukuran baru berhasil didaftarkan!', 'success');
         }
 
-        // Calculate Volume based on quantity
-        function calculateVolume() {
-            const qty = parseFloat(document.getElementById('input-jumlah').value) || 0;
-            const sizeObj = sizes.find(s => s.code === formSize);
-            const coef = sizeObj ? sizeObj.volume : 0;
-            const vol = qty * coef;
-            document.getElementById('input-volume').value = vol > 0 ? vol.toFixed(4) : '';
-            updateLivePreview();
-        }
-
-        // Live Preview update
-        function updateLivePreview() {
-            const tgl = document.getElementById('input-tanggal').value || '-';
-            const jns = document.getElementById('input-jenis').value || '-';
-            const qty = document.getElementById('input-jumlah').value || '0';
-            const vol = document.getElementById('input-volume').value || '0.0000';
-            const srt = document.getElementById('input-surat').value || '-';
-            const spl = document.getElementById('input-supplier').value || '-';
-
-            document.getElementById('preview-tanggal').innerText = tgl;
-            document.getElementById('preview-jenis').innerText = jns;
-            document.getElementById('preview-grade-size').innerText = (formGrade || '-') + ' / ' + (formSize || '-');
-            document.getElementById('preview-jumlah').innerText = qty + ' lbr';
-            document.getElementById('preview-volume').innerText = vol + ' m³';
-            document.getElementById('preview-surat').innerText = srt;
-            document.getElementById('preview-supplier').innerText = spl;
+        // Aggregate totals for the summary card
+        function updateFormSummary() {
+            let totalItems = currentFormItems.length;
+            let totalLembar = 0;
+            let totalVolume = 0;
+            
+            currentFormItems.forEach(item => {
+                totalLembar += item.jumlah;
+                totalVolume += item.volume || 0.0;
+            });
+            
+            document.getElementById('summary-total-items').innerText = totalItems;
+            document.getElementById('summary-total-lembar').innerText = totalLembar + ' lbr';
+            document.getElementById('summary-total-volume').innerText = totalVolume.toFixed(4);
         }
 
         // LocalStorage save
@@ -1222,42 +1450,76 @@
             }, 3000);
         }
 
-        // Save Entry
-        function saveEntry() {
-            const tanggal = document.getElementById('input-tanggal').value;
-            const jenis = document.getElementById('input-jenis').value;
-            const jumlah = parseInt(document.getElementById('input-jumlah').value);
-            const volume = parseFloat(document.getElementById('input-volume').value);
-            const surat = document.getElementById('input-surat').value.trim();
-            const supplier = document.getElementById('input-supplier').value.trim();
-            const catatan = document.getElementById('input-catatan').value;
+        // Save Batch Entries
+        function saveAllItems() {
+            const tanggal = document.getElementById('form-tanggal').value;
+            const surat = document.getElementById('form-surat').value.trim();
+            const supplier = document.getElementById('form-supplier').value.trim();
+            const catatan = document.getElementById('form-catatan').value.trim();
 
-            if (!tanggal || !jenis || !formGrade || !formSize || isNaN(jumlah) || jumlah <= 0) {
-                showToast('Lengkapi semua data bertanda penting!', 'error');
+            if (!tanggal) {
+                showToast('Lengkapi data Tanggal Terima!', 'error');
                 return;
             }
 
-            const newEntry = {
-                id: Date.now(),
-                tanggal,
-                jenis,
-                grade: formGrade,
-                size: formSize,
-                jumlah,
-                volume,
-                supplier: supplier || '-',
-                surat: surat || '-',
-                catatan
-            };
+            if (currentFormItems.length === 0) {
+                showToast('Harap tambahkan minimal 1 item sawtimber!', 'error');
+                return;
+            }
 
-            logEntries.unshift(newEntry);
+            // Validate all items
+            for (let i = 0; i < currentFormItems.length; i++) {
+                const item = currentFormItems[i];
+                if (!item.jenis || !item.grade || !item.size || isNaN(item.jumlah) || item.jumlah <= 0) {
+                    showToast(`Lengkapi semua data Item #${i + 1} (Jenis, Grade, Size, Jumlah)!`, 'error');
+                    return;
+                }
+            }
+
+            // Map UI items to standard schema
+            const transactionItems = currentFormItems.map(item => ({
+                jenis: item.jenis,
+                grade: item.grade,
+                size: item.size,
+                jumlah: item.jumlah,
+                volume: item.volume
+            }));
+
+            if (editingId !== null) {
+                // Update Path
+                const index = logEntries.findIndex(entry => entry.id === editingId);
+                if (index !== -1) {
+                    logEntries[index] = {
+                        ...logEntries[index],
+                        tanggal,
+                        supplier: supplier || '-',
+                        surat: surat || '-',
+                        catatan: catatan || '-',
+                        items: transactionItems
+                    };
+                    showToast('Berhasil memperbarui data penerimaan sawtimber!', 'success');
+                } else {
+                    showToast('Gagal memperbarui: Data tidak ditemukan.', 'error');
+                }
+            } else {
+                // Create Path
+                const newEntry = {
+                    id: Date.now(),
+                    tanggal,
+                    supplier: supplier || '-',
+                    surat: surat || '-',
+                    catatan: catatan || '-',
+                    items: transactionItems
+                };
+                logEntries.unshift(newEntry);
+                showToast(`Berhasil menyimpan ${currentFormItems.length} item penerimaan sawtimber!`, 'success');
+            }
+
             saveToLocalStorage();
-            
             updateDashboard();
-            applyFiltersAndRender();
+            setDateFilter('All');
             
-            closeForm();
-            showToast('Penerimaan Sawtimber berhasil disimpan!');
+            setView('dashboard');
         }
 
         // Delete Entry
@@ -1271,6 +1533,97 @@
             }
         }
 
+        // Detail Modal Handling
+        function showDetail(id) {
+            const entry = logEntries.find(e => e.id === id);
+            if (!entry) return;
+
+            document.getElementById('detail-tanggal').innerText = formatDate(entry.tanggal);
+            document.getElementById('detail-surat').innerText = entry.surat || '-';
+            document.getElementById('detail-supplier').innerText = entry.supplier || '-';
+            document.getElementById('detail-catatan').innerText = entry.catatan || '-';
+
+            const tbody = document.getElementById('detail-table-body');
+            tbody.innerHTML = '';
+
+            let totalLembar = 0;
+            let totalVolume = 0;
+            if (entry.items && Array.isArray(entry.items)) {
+                entry.items.forEach((item, idx) => {
+                    totalLembar += item.jumlah;
+                    totalVolume += item.volume || 0.0;
+
+                    let gradeBadge = '';
+                    if (item.grade === 'A') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">Grade A</span>';
+                    else if (item.grade === 'B') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-blue-600 border border-blue-100">Grade B</span>';
+                    else if (item.grade === 'C') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100">Grade C</span>';
+                    else if (item.grade === 'D') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-red-50 text-red-600 border border-red-100">Grade D</span>';
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-zinc-50/80 transition-colors';
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-3 text-center font-semibold text-zinc-400">${idx + 1}</td>
+                        <td class="py-2.5 px-3 font-bold text-zinc-800">${item.jenis}</td>
+                        <td class="py-2.5 px-3 text-center">${gradeBadge}</td>
+                        <td class="py-2.5 px-3 text-center"><span class="px-1.5 py-0.5 font-bold text-xs bg-zinc-100 text-zinc-600 rounded">${item.size}</span></td>
+                        <td class="py-2.5 px-3 text-right font-bold text-zinc-800">${item.jumlah} lbr</td>
+                        <td class="py-2.5 px-3 text-right font-extrabold text-emerald-700">${(item.volume || 0.0).toFixed(4)} m³</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('detail-total-lembar').innerText = totalLembar;
+            document.getElementById('detail-total-volume').innerText = totalVolume.toFixed(4);
+            document.getElementById('detail-modal').classList.add('open');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.remove('open');
+        }
+
+        // Edit Entry Loading
+        function editEntry(id) {
+            const entry = logEntries.find(e => e.id === id);
+            if (!entry) return;
+
+            editingId = id;
+
+            const dashboard = document.getElementById('dashboard-view');
+            const form = document.getElementById('form-view');
+            const headerTitle = document.querySelector('header h1');
+            const headerSubtitle = document.querySelector('header p');
+            const formTitle = document.querySelector('#form-view h2');
+            const formSubtitle = document.querySelector('#form-view p');
+
+            dashboard.classList.add('hidden');
+            form.classList.remove('hidden');
+            headerTitle.innerText = "Ubah Penerimaan Sawtimber";
+            headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan &nbsp;·&nbsp; Ubah Log";
+            formTitle.innerText = "Ubah Penerimaan Sawtimber";
+            formSubtitle.innerText = "Edit data pengiriman sawtimber per surat jalan dengan multi-item papan";
+
+            // Populate header fields
+            document.getElementById('form-tanggal').value = entry.tanggal;
+            document.getElementById('form-surat').value = entry.surat === '-' ? '' : entry.surat;
+            document.getElementById('form-supplier').value = entry.supplier === '-' ? '' : entry.supplier;
+            document.getElementById('form-catatan').value = entry.catatan === '-' ? '' : entry.catatan;
+
+            // Load wood items cards
+            currentFormItems = [];
+            document.getElementById('wood-items-container').innerHTML = '';
+
+            if (entry.items && entry.items.length > 0) {
+                entry.items.forEach(item => {
+                    addWoodItemRow(item);
+                });
+            } else {
+                addWoodItemRow();
+            }
+
+            updateFormSummary();
+        }
+
         // Update Dashboard Stats Card
         function updateDashboard() {
             let totalLembar = 0;
@@ -1281,11 +1634,20 @@
             const currentMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
 
             logEntries.forEach(entry => {
-                totalLembar += entry.jumlah;
-                totalVolume += entry.volume;
-                if (entry.size) uniqueUkuran.add(entry.size);
+                let entryLembar = 0;
+                let entryVolume = 0;
+                if (entry.items && Array.isArray(entry.items)) {
+                    entry.items.forEach(item => {
+                        entryLembar += item.jumlah;
+                        entryVolume += (item.volume || 0.0);
+                        if (item.size) uniqueUkuran.add(item.size);
+                    });
+                }
+                totalLembar += entryLembar;
+                totalVolume += entryVolume;
+
                 if (entry.tanggal && entry.tanggal.substring(0, 7) === currentMonth) {
-                    bulanIniCount += entry.jumlah;
+                    bulanIniCount += entryLembar;
                 }
             });
 
@@ -1295,37 +1657,119 @@
             document.getElementById('stat-bulan-ini').innerText = bulanIniCount;
         }
 
-        // Filters & Search logic
-        function filterGrade(grade) {
-            selectedGradeFilter = grade;
-            const pills = document.querySelectorAll('.filter-pill');
+        // Timezone-safe local date string (YYYY-MM-DD)
+        function getLocalDateString(d = new Date()) {
+            const offset = d.getTimezoneOffset();
+            const local = new Date(d.getTime() - (offset * 60 * 1000));
+            return local.toISOString().split('T')[0];
+        }
+
+        // Get calendar week (Monday to Sunday) date range
+        function getWeekRange() {
+            const today = new Date();
+            const day = today.getDay(); // 0 is Sunday, 1 is Monday...
+            const diffToMonday = today.getDate() - day + (day === 0 ? -6 : 1);
+            
+            const monday = new Date(today.setDate(diffToMonday));
+            monday.setHours(0,0,0,0);
+            
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            sunday.setHours(23,59,59,999);
+            
+            return {
+                start: getLocalDateString(monday),
+                end: getLocalDateString(sunday)
+            };
+        }
+
+        // Filters & Date Toolbar
+        function setDateFilter(filterType) {
+            selectedDateFilter = filterType;
+            
+            // Update active pill styling
+            const pills = document.querySelectorAll('#date-filter-pills .filter-pill');
             pills.forEach(pill => {
-                if (pill.innerText.includes(grade) || (grade === 'All' && pill.innerText.includes('Semua'))) {
+                const isMatch = (filterType === 'All' && pill.innerText.includes('Semua')) ||
+                                (filterType === 'Today' && pill.innerText.includes('Hari Ini')) ||
+                                (filterType === 'Week' && pill.innerText.includes('Minggu Ini')) ||
+                                (filterType === 'Month' && pill.innerText.includes('Bulan Ini')) ||
+                                (filterType === 'Custom' && pill.innerText.includes('Pilih Tanggal'));
+                if (isMatch) {
                     pill.classList.add('active');
                 } else {
                     pill.classList.remove('active');
                 }
             });
+
+            // Toggle custom date range inputs visibility
+            const customContainer = document.getElementById('custom-date-container');
+            if (filterType === 'Custom') {
+                customContainer.classList.remove('hidden');
+                customContainer.classList.add('flex');
+            } else {
+                customContainer.classList.add('hidden');
+                customContainer.classList.remove('flex');
+                // Reset inputs
+                document.getElementById('filter-start-date').value = '';
+                document.getElementById('filter-end-date').value = '';
+                customStartDate = '';
+                customEndDate = '';
+            }
+
             currentPage = 1;
             applyFiltersAndRender();
         }
 
+        function applyCustomDateFilter() {
+            customStartDate = document.getElementById('filter-start-date').value;
+            customEndDate = document.getElementById('filter-end-date').value;
+            currentPage = 1;
+            applyFiltersAndRender();
+        }
+
+        // Search Input Matcher
         function handleSearch(val) {
             searchQuery = val.toLowerCase().trim();
             currentPage = 1;
             applyFiltersAndRender();
         }
 
+        // Apply search + date filters
         function applyFiltersAndRender() {
             filteredEntries = logEntries.filter(entry => {
-                const matchesGrade = selectedGradeFilter === 'All' || entry.grade === selectedGradeFilter;
+                let matchesDate = true;
+                const entryDate = entry.tanggal; // format YYYY-MM-DD
+                
+                if (selectedDateFilter === 'Today') {
+                    const today = getLocalDateString();
+                    matchesDate = (entryDate === today);
+                } else if (selectedDateFilter === 'Week') {
+                    const week = getWeekRange();
+                    matchesDate = (entryDate >= week.start && entryDate <= week.end);
+                } else if (selectedDateFilter === 'Month') {
+                    const currentMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
+                    matchesDate = (entryDate && entryDate.substring(0, 7) === currentMonth);
+                } else if (selectedDateFilter === 'Custom') {
+                    if (customStartDate && customEndDate) {
+                        matchesDate = (entryDate >= customStartDate && entryDate <= customEndDate);
+                    } else if (customStartDate) {
+                        matchesDate = (entryDate === customStartDate); // Single specific date!
+                    } else if (customEndDate) {
+                        matchesDate = (entryDate <= customEndDate);
+                    }
+                }
+                
                 const matchesSearch = searchQuery === '' || 
-                    entry.jenis.toLowerCase().includes(searchQuery) ||
-                    entry.surat.toLowerCase().includes(searchQuery) ||
                     (entry.supplier && entry.supplier.toLowerCase().includes(searchQuery)) ||
-                    entry.catatan.toLowerCase().includes(searchQuery) ||
-                    entry.size.toLowerCase().includes(searchQuery);
-                return matchesGrade && matchesSearch;
+                    (entry.surat && entry.surat.toLowerCase().includes(searchQuery)) ||
+                    (entry.catatan && entry.catatan.toLowerCase().includes(searchQuery)) ||
+                    (entry.items && entry.items.some(item => 
+                        (item.jenis && item.jenis.toLowerCase().includes(searchQuery)) ||
+                        (item.size && item.size.toLowerCase().includes(searchQuery)) ||
+                        (item.grade && item.grade.toLowerCase().includes(searchQuery))
+                    ));
+                return matchesDate && matchesSearch;
             });
 
             renderTable();
@@ -1347,9 +1791,11 @@
 
             emptyState.classList.add('hidden');
 
+            // Calculate pagination
             const totalItems = filteredEntries.length;
             const totalPages = Math.ceil(totalItems / rowsPerPage);
             
+            // Adjust current page if out of bounds
             if (currentPage > totalPages) currentPage = totalPages;
             if (currentPage < 1) currentPage = 1;
 
@@ -1366,40 +1812,68 @@
             paginatedItems.forEach((entry, idx) => {
                 const globalIdx = startIndex + idx + 1;
                 
-                let gradeBadge = '';
-                if (entry.grade === 'A') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">Grade A</span>';
-                else if (entry.grade === 'B') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-blue-600 border border-blue-100">Grade B</span>';
-                else if (entry.grade === 'C') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100">Grade C</span>';
-                else if (entry.grade === 'D') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-red-50 text-red-600 border border-red-100">Grade D</span>';
+                let totalLembar = 0;
+                let totalVolume = 0;
+                let rincianHTML = '<div class="flex flex-wrap gap-1.5 justify-start">';
+                if (entry.items && Array.isArray(entry.items)) {
+                    entry.items.forEach(item => {
+                        totalLembar += item.jumlah;
+                        totalVolume += (item.volume || 0.0);
+                        
+                        let gradeColorClass = 'text-zinc-600 bg-zinc-100 border-zinc-200';
+                        if (item.grade === 'A') gradeColorClass = 'text-emerald-700 bg-emerald-50 border-emerald-100/50';
+                        else if (item.grade === 'B') gradeColorClass = 'text-blue-700 bg-blue-50 border-blue-100/50';
+                        else if (item.grade === 'C') gradeColorClass = 'text-indigo-700 bg-indigo-50 border-indigo-100/50';
+                        else if (item.grade === 'D') gradeColorClass = 'text-red-700 bg-red-50 border-red-100/50';
+
+                        rincianHTML += `
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[11px] font-bold border ${gradeColorClass}">
+                                ${item.jenis} ${item.grade} (${item.size}): ${item.jumlah}
+                            </span>
+                        `;
+                    });
+                }
+                rincianHTML += '</div>';
 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-zinc-50/80 transition-colors';
+                tr.className = 'hover:bg-zinc-50/80 transition-colors border-b border-zinc-100';
                 tr.innerHTML = `
                     <td class="py-3.5 px-4 text-center font-semibold text-zinc-400">${globalIdx}</td>
                     <td class="py-3.5 px-4 font-bold text-zinc-800">${formatDate(entry.tanggal)}</td>
-                    <td class="py-3.5 px-4 font-bold text-zinc-800">${entry.jenis}</td>
-                    <td class="py-3.5 px-4 text-center">${gradeBadge}</td>
-                    <td class="py-3.5 px-4 text-center"><span class="px-2 py-0.5 font-bold text-xs bg-zinc-100 text-zinc-700 rounded">${entry.size}</span></td>
-                    <td class="py-3.5 px-4 text-right font-bold text-zinc-800">${entry.jumlah} lbr</td>
-                    <td class="py-3.5 px-4 text-right font-extrabold text-emerald-700">${entry.volume.toFixed(4)} m³</td>
                     <td class="py-3.5 px-4 font-bold text-zinc-800">${entry.supplier || '-'}</td>
-                    <td class="py-3.5 px-4 font-mono text-[11.5px] text-zinc-500">${entry.surat}</td>
-                    <td class="py-3.5 px-4 text-zinc-500 truncate max-w-[180px]" title="${entry.catatan || ''}">${entry.catatan || '-'}</td>
+                    <td class="py-3.5 px-4 font-mono text-[11.5px] text-zinc-500">${entry.surat || '-'}</td>
+                    <td class="py-3.5 px-4">${rincianHTML}</td>
+                    <td class="py-3.5 px-4 text-right font-bold text-zinc-800">${totalLembar} lbr</td>
+                    <td class="py-3.5 px-4 text-right font-extrabold text-emerald-700">${totalVolume.toFixed(4)} m³</td>
+                    <td class="py-3.5 px-4 text-zinc-500 truncate max-w-[150px]" title="${entry.catatan || ''}">${entry.catatan || '-'}</td>
                     <td class="py-3.5 px-4 text-center">
-                        <button onclick="deleteEntry(${entry.id})" class="p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="3 6 5 6 21 6" />
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                <line x1="10" y1="11" x2="10" y2="17" />
-                                <line x1="14" y1="11" x2="14" y2="17" />
-                            </svg>
-                        </button>
+                        <div class="flex items-center justify-center gap-1">
+                            <button onclick="showDetail(${entry.id})" class="p-1.5 text-zinc-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Detail">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                </svg>
+                            </button>
+                            <button onclick="editEntry(${entry.id})" class="p-1.5 text-zinc-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Ubah">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                </svg>
+                            </button>
+                            <button onclick="deleteEntry(${entry.id})" class="p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                </svg>
+                            </button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
+        // Helper date formatter
         function formatDate(dateStr) {
             if (!dateStr) return '-';
             const parts = dateStr.split('-');
@@ -1426,13 +1900,27 @@
 
         // Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
+            // Esc to close form or modal
             if (e.key === 'Escape') {
-                closeForm();
-                closeCustomSizeModal();
+                const detailModal = document.getElementById('detail-modal');
+                if (detailModal && detailModal.classList.contains('open')) {
+                    closeDetailModal();
+                    return;
+                }
+                const customSizeModal = document.getElementById('custom-size-modal');
+                if (customSizeModal && customSizeModal.classList.contains('open')) {
+                    closeCustomSizeModal();
+                    return;
+                }
+                const formView = document.getElementById('form-view');
+                if (formView && !formView.classList.contains('hidden')) {
+                    setView('dashboard');
+                }
             }
+            // Ctrl + N to open form
             if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
                 e.preventDefault();
-                openForm();
+                setView('form');
             }
         });
     </script>

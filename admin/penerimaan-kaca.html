@@ -312,43 +312,9 @@
             box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
         }
 
-        /* ── Slide-Over Panel ── */
-        .slide-over {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 480px;
-            z-index: 50;
-            background: #fff;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .slide-over.open {
-            transform: translateX(0);
-        }
-
-        .backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(24, 24, 27, 0.4);
-            backdrop-filter: blur(4px);
-            z-index: 40;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .backdrop.open {
-            opacity: 1;
-            pointer-events: auto;
+        .modal-content.wide {
+            width: 700px;
+            max-width: 95%;
         }
 
         /* ── Modal Styles ── */
@@ -620,155 +586,273 @@
         <!-- Page body -->
         <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
-            <!-- Stat Cards Row -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
-                <!-- Stat 1 -->
-                <div class="hero-stat bg-gradient-to-br from-sky-500 to-sky-600 text-white shadow-md shadow-sky-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-sky-100 uppercase tracking-wider">Total Lembar Kaca</p>
-                            <h3 id="stat-total-lembar" class="text-2xl font-extrabold mt-1.5">0</h3>
+            <!-- ═══════════════════════════ DASHBOARD VIEW ═══════════════════════════ -->
+            <div id="dashboard-view" class="space-y-6">
+                <!-- Stat Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+                    <!-- Stat 1 -->
+                    <div class="hero-stat bg-gradient-to-br from-sky-500 to-sky-600 text-white shadow-md shadow-sky-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-sky-100 uppercase tracking-wider">Total Lembar Kaca</p>
+                                <h3 id="stat-total-lembar" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <line x1="9" y1="3" x2="9" y2="21" />
+                                </svg>
+                            </div>
                         </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2" />
-                                <line x1="9" y1="3" x2="9" y2="21" />
-                            </svg>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="hero-stat bg-gradient-to-br from-cyan-500 to-sky-600 text-white shadow-md shadow-cyan-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-cyan-100 uppercase tracking-wider">Total Luas (m²)</p>
+                                <h3 id="stat-total-luas" class="text-2xl font-extrabold mt-1.5">0.00</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3h18v18H3z" />
+                                    <path d="M9 3v18M15 3v18M3 9h18M3 15h18" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="hero-stat bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-blue-100 uppercase tracking-wider">Total Volume (m³)</p>
+                                <h3 id="stat-total-volume" class="text-2xl font-extrabold mt-1.5">0.0000</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Terima Bulan Ini (Lbr)</p>
+                                <h3 id="stat-bulan-ini" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon bg-zinc-700/50">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Stat 2 -->
-                <div class="hero-stat bg-gradient-to-br from-cyan-500 to-sky-600 text-white shadow-md shadow-cyan-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-cyan-100 uppercase tracking-wider">Total Luas (m²)</p>
-                            <h3 id="stat-total-luas" class="text-2xl font-extrabold mt-1.5">0.00</h3>
+                <!-- Main Data Card -->
+                <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
+                    <!-- Search & Filters Toolbar -->
+                    <div class="flex flex-col gap-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="filter-pill active" id="filter-date-All" onclick="setDateFilter('All')">Semua Tanggal</span>
+                                <span class="filter-pill" id="filter-date-Today" onclick="setDateFilter('Today')">Hari Ini</span>
+                                <span class="filter-pill" id="filter-date-Week" onclick="setDateFilter('Week')">Minggu Ini</span>
+                                <span class="filter-pill" id="filter-date-Month" onclick="setDateFilter('Month')">Bulan Ini</span>
+                                <span class="filter-pill" id="filter-date-Custom" onclick="setDateFilter('Custom')">Kustom / Rentang</span>
+                            </div>
+
+                            <div class="flex items-center gap-3 w-full sm:w-auto">
+                                <div class="relative w-full sm:w-auto">
+                                    <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                    </svg>
+                                    <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari jenis, supplier, surat..." class="search-input">
+                                </div>
+                                <button onclick="setView('form')" class="flex items-center justify-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-sky-600/20 whitespace-nowrap">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                    Tambah Kaca
+                                </button>
+                            </div>
                         </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 3h18v18H3z" />
-                                <path d="M9 3v18M15 3v18M3 9h18M3 15h18" />
-                            </svg>
+
+                        <!-- Date Range Picker Toolbar (conditional visibility) -->
+                        <div id="custom-date-picker-row" class="hidden flex flex-wrap items-center gap-3 bg-zinc-50 p-4 rounded-xl border border-zinc-100 anim">
+                            <div class="flex items-center gap-2">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Mulai</label>
+                                <input type="date" id="filter-start-date" onchange="handleCustomDateChange()" class="premium-input !py-1.5 !text-xs w-36">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Selesai</label>
+                                <input type="date" id="filter-end-date" onchange="handleCustomDateChange()" class="premium-input !py-1.5 !text-xs w-36">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Stat 3 -->
-                <div class="hero-stat bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-blue-100 uppercase tracking-wider">Total Volume (m³)</p>
-                            <h3 id="stat-total-volume" class="text-2xl font-extrabold mt-1.5">0.0000</h3>
-                        </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                            </svg>
+                    <!-- Table Container -->
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Supplier</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Rincian Item Kaca</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Total Lembar</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Total Luas</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Total Volume</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-28">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Table Empty State -->
+                        <div id="table-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <line x1="9" y1="3" x2="9" y2="21" />
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penerimaan</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Tambah Kaca" untuk menambahkan data baru.</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Stat 4 -->
-                <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Terima Bulan Ini (Lbr)</p>
-                            <h3 id="stat-bulan-ini" class="text-2xl font-extrabold mt-1.5">0</h3>
-                        </div>
-                        <div class="hero-icon bg-zinc-700/50">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg>
+                    <!-- Table Footer Pagination -->
+                    <div class="flex items-center justify-between pt-2">
+                        <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
+                        <div class="flex gap-2">
+                            <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+                            <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Data Card -->
-            <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
-                <!-- Search & Filters Toolbar -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-2">
-                        <span class="filter-pill active" onclick="filterGrade('All')">Semua Grade</span>
-                        <span class="filter-pill" onclick="filterGrade('A')">Grade A</span>
-                        <span class="filter-pill" onclick="filterGrade('B')">Grade B</span>
-                        <span class="filter-pill" onclick="filterGrade('C')">Grade C</span>
-                        <span class="filter-pill" onclick="filterGrade('D')">Grade D</span>
-                    </div>
-
-                    <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <div class="relative w-full sm:w-auto">
-                            <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            </svg>
-                            <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari jenis, surat jalan..." class="search-input">
-                        </div>
-                        <button onclick="openForm()" class="flex items-center justify-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-sky-600/20 whitespace-nowrap">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <line x1="12" y1="5" x2="12" y2="19" />
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                            </svg>
-                            Tambah Kaca
-                        </button>
+            <!-- ═══════════════════════════ FORM VIEW ═══════════════════════════ -->
+            <div id="form-view" class="hidden space-y-6">
+                <!-- Form Subheader -->
+                <div class="flex items-center gap-4 mb-2">
+                    <button onclick="setView('dashboard')" class="p-2 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 active:scale-[0.98] transition-all">
+                        <svg class="w-5 h-5 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-zinc-900 text-base">Catat Penerimaan Baru</h2>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Input data pengiriman lembaran kaca per surat jalan dengan multi-item</p>
                     </div>
                 </div>
 
-                <!-- Table Container -->
-                <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-zinc-50 border-bottom border-zinc-100">
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Jenis Kaca</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran (TxLxP)</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Luas</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Volume</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Supplier</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-16">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                    
-                    <!-- Table Empty State -->
-                    <div id="table-empty" class="hidden py-12 text-center">
-                        <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
-                            <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" />
-                                <line x1="9" y1="3" x2="9" y2="21" />
-                            </svg>
-                        </div>
-                        <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penerimaan</h4>
-                        <p class="text-zinc-400 text-xs mt-1">Silakan klik "Tambah Kaca" untuk menambahkan data baru.</p>
-                    </div>
-                </div>
+                <div class="space-y-6">
+                    <!-- Top Full Row Card: Informasi Pengiriman & Ringkasan -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm">
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+                            <!-- Left Side: Inputs (col-span-3) -->
+                            <div class="lg:col-span-3 space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <!-- Date -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Terima *</label>
+                                        <input type="date" id="form-tanggal" class="premium-input">
+                                    </div>
+                                    
+                                    <!-- No Surat Jalan -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
+                                        <input type="text" id="form-surat" placeholder="Contoh: SJ-2026/06/009" class="premium-input">
+                                    </div>
 
-                <!-- Table Footer Pagination -->
-                <div class="flex items-center justify-between pt-2">
-                    <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
-                    <div class="flex gap-2">
-                        <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
-                            <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6" />
-                            </svg>
-                        </button>
-                        <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
-                            <svg class="w-4 h-4 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6" />
-                            </svg>
-                        </button>
+                                    <!-- Supplier -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
+                                        <input type="text" id="form-supplier" placeholder="Contoh: PT. Asahimas Flat Glass" class="premium-input">
+                                    </div>
+                                </div>
+                                
+                                <!-- Catatan -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                                    <textarea id="form-catatan" rows="2" placeholder="Tulis catatan pengiriman di sini (armada, info pecah, dll)..." class="premium-input resize-none h-[64px]"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Side: Ringkasan (col-span-1) -->
+                            <div class="bg-gradient-to-br from-sky-500/10 to-sky-600/10 border border-sky-500/20 rounded-xl p-4 flex flex-col justify-center items-center text-center gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold text-sky-800 uppercase tracking-widest block">Ringkasan Input</span>
+                                    <p class="text-xs text-zinc-500 mt-0.5">Total akumulasi batch ini</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-x-4 gap-y-1.5 w-full border-t border-sky-500/10 pt-3">
+                                    <div>
+                                        <span class="text-[9px] font-bold text-zinc-400 block uppercase">Banyak Card</span>
+                                        <span id="summary-total-items" class="text-xs font-bold text-zinc-800">0</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-[9px] font-bold text-zinc-400 block uppercase">Total Qty</span>
+                                        <span id="summary-total-sheets" class="text-xs font-bold text-zinc-800">0 lbr</span>
+                                    </div>
+                                    <div class="col-span-2 border-t border-sky-500/5 pt-1.5 flex items-center justify-between px-2">
+                                        <span class="text-[9px] font-bold text-zinc-400 uppercase">Total Luas</span>
+                                        <span class="text-xs font-extrabold text-sky-700"><span id="summary-total-luas">0.00</span> m²</span>
+                                    </div>
+                                    <div class="col-span-2 border-t border-sky-500/5 pt-1.5 flex items-center justify-between px-2">
+                                        <span class="text-[9px] font-bold text-zinc-400 uppercase">Total Vol</span>
+                                        <span class="text-xs font-extrabold text-sky-700"><span id="summary-total-volume">0.0000</span> m³</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wood/Glass Items Dynamic Container -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-zinc-800 text-sm">Daftar Item Kaca</h3>
+                            <button onclick="addWoodItemRow()" class="flex items-center gap-1.5 px-4 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white text-xs font-bold rounded-xl transition-all shadow-sm">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Tambah Item Card
+                            </button>
+                        </div>
+                        
+                        <div id="wood-items-container" class="grid grid-cols-1 gap-4">
+                            <!-- Dynamic Card Rows loaded here -->
+                        </div>
+
+                        <!-- Form Action Buttons -->
+                        <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60">
+                            <button onclick="setView('dashboard')" class="px-6 py-2.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                            <button onclick="saveAllItems()" class="px-8 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md shadow-sky-600/10 transition-all active:scale-[0.98]">Simpan Semua & Selesai</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -776,193 +860,78 @@
         </div>
     </main>
 
-    <!-- ═══════════════════════════ SLIDE OVER PANEL (FORM) ═══════════════════════════ -->
-    <div id="backdrop" class="backdrop" onclick="closeForm()"></div>
-    <div id="slide-over" class="slide-over">
-        <!-- Form Header -->
-        <div class="px-6 py-5 border-b border-zinc-100 flex items-center justify-between">
-            <div>
-                <h2 class="font-extrabold text-zinc-900 text-base">Input Penerimaan Kaca</h2>
-                <p class="text-[11px] text-zinc-400 mt-0.5">Lengkapi formulir pencatatan material kaca</p>
+    <!-- ═══════════════════════════ DETAIL MODAL ═══════════════════════════ -->
+    <div id="detail-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeDetailModal()"></div>
+        <div class="modal-content wide space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Detail Penerimaan Kaca</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Rincian lengkap pengiriman lembaran kaca masuk</p>
+                </div>
+                <button onclick="closeDetailModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
-            <button onclick="closeForm()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-zinc-100 text-zinc-400 hover:text-zinc-600 transition-colors">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Form Body -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-5">
-            <!-- Tanggal & Jenis -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Tanggal Terima</label>
-                    <input type="date" id="input-tanggal" class="premium-input">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Jenis Kaca</label>
-                    <input type="text" id="input-jenis" list="glass-types" placeholder="Contoh: Polos / Clear" class="premium-input">
-                    <datalist id="glass-types">
-                        <option value="Polos / Clear"></option>
-                        <option value="Rayban / Tinted"></option>
-                        <option value="Frosted / Es"></option>
-                        <option value="Tempered"></option>
-                        <option value="Cermin / Mirror"></option>
-                        <option value="Low-E"></option>
-                    </datalist>
-                </div>
-            </div>
-
-            <!-- Grade Selection Chips Row -->
-            <div class="space-y-1.5">
-                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Kualitas / Grade</label>
-                <div class="grid grid-cols-4 gap-2.5">
-                    <!-- Grade A -->
-                    <div onclick="selectGrade('A')" id="grade-card-A" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">A</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Prima/Mulus</p>
-                    </div>
-                    <!-- Grade B -->
-                    <div onclick="selectGrade('B')" id="grade-card-B" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">B</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Baret Minor</p>
-                    </div>
-                    <!-- Grade C -->
-                    <div onclick="selectGrade('C')" id="grade-card-C" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">C</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Cacat Sudut</p>
-                    </div>
-                    <!-- Grade D -->
-                    <div onclick="selectGrade('D')" id="grade-card-D" class="size-chip">
-                        <p class="font-extrabold text-[15px] text-zinc-800">D</p>
-                        <p class="text-[9px] text-zinc-400 font-semibold mt-0.5">Reject/Pecah</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Thickness Selection Chips -->
-            <div class="space-y-1.5">
-                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ketebalan Kaca</label>
-                <div class="grid grid-cols-6 gap-2" id="thickness-chips-container">
-                    <div onclick="selectThickness('3')" id="thick-chip-3" class="size-chip">
-                        <p class="font-extrabold text-xs">3 mm</p>
-                    </div>
-                    <div onclick="selectThickness('5')" id="thick-chip-5" class="size-chip">
-                        <p class="font-extrabold text-xs">5 mm</p>
-                    </div>
-                    <div onclick="selectThickness('8')" id="thick-chip-8" class="size-chip">
-                        <p class="font-extrabold text-xs">8 mm</p>
-                    </div>
-                    <div onclick="selectThickness('10')" id="thick-chip-10" class="size-chip">
-                        <p class="font-extrabold text-xs">10 mm</p>
-                    </div>
-                    <div onclick="selectThickness('12')" id="thick-chip-12" class="size-chip">
-                        <p class="font-extrabold text-xs">12 mm</p>
-                    </div>
-                    <div onclick="selectThickness('custom')" id="thick-chip-custom" class="size-chip">
-                        <p class="font-extrabold text-xs">Kustom</p>
-                    </div>
-                </div>
-                <!-- Custom thickness input, hidden by default -->
-                <div id="custom-thickness-container" class="hidden mt-2 anim">
-                    <div class="relative">
-                        <input type="number" id="input-tebal-custom" oninput="handleCustomThicknessInput()" placeholder="Masukkan ketebalan kustom..." class="premium-input pr-12">
-                        <span class="absolute right-4 top-2.5 text-xs font-bold text-zinc-400">mm</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Size Selection Chips -->
-            <div class="space-y-1.5">
-                <div class="flex items-center justify-between">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ukuran Lembar Kaca</label>
-                    <button onclick="openCustomSizeModal()" class="text-[11.5px] font-bold text-sky-600 hover:text-sky-700 transition-colors">+ Ukuran Baru</button>
-                </div>
-                <div class="grid grid-cols-2 gap-2" id="sizes-container">
-                    <!-- Loaded dynamically -->
-                </div>
-            </div>
-
-            <!-- Jumlah & Metrics -->
-            <div class="grid grid-cols-3 gap-3">
-                <div class="space-y-1.5 col-span-1">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Jumlah (Lembar)</label>
-                    <input type="number" id="input-jumlah" oninput="calculateMetrics()" placeholder="Contoh: 50" min="1" class="premium-input">
-                </div>
-                <div class="space-y-1.5 col-span-1">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Luas (m²)</label>
-                    <input type="number" id="input-luas" placeholder="0.00" class="premium-input bg-zinc-50 font-bold text-zinc-600" readonly>
-                </div>
-                <div class="space-y-1.5 col-span-1">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Volume (m³)</label>
-                    <input type="number" id="input-volume" step="0.0001" placeholder="0.0000" class="premium-input bg-zinc-50 font-bold text-zinc-600" readonly>
-                </div>
-            </div>
-
-            <!-- Supplier & No Surat Jalan & Catatan -->
-            <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
-                        <input type="text" id="input-supplier" placeholder="Contoh: CV. Kaca Abadi" class="premium-input">
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
-                        <input type="text" id="input-surat" placeholder="Contoh: SJ-2026/06/012" class="premium-input">
-                    </div>
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
-                    <textarea id="input-catatan" rows="2" placeholder="Catatan supplier, lokasi penyimpanan, dll..." class="premium-input resize-none h-[64px]"></textarea>
-                </div>
-            </div>
-
-            <!-- Real-Time Entry Preview Card -->
-            <div class="rounded-xl border border-dashed border-sky-300 bg-sky-50/40 p-4 space-y-2">
-                <p class="text-[10px] font-bold text-sky-700 uppercase tracking-widest">Live Entry Preview</p>
-                <div class="grid grid-cols-3 gap-y-2 text-xs">
+            
+            <!-- Modal Body -->
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1">
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-zinc-50/50 p-4 rounded-xl border border-zinc-100">
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Tanggal</span>
-                        <span id="preview-tanggal" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Tanggal Terima</span>
+                        <span id="detail-tanggal" class="text-xs font-bold text-zinc-800"></span>
                     </div>
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Jenis Kaca</span>
-                        <span id="preview-jenis" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">No. Surat Jalan</span>
+                        <span id="detail-surat" class="text-xs font-bold text-zinc-800 font-mono"></span>
                     </div>
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Grade & Ukuran</span>
-                        <span id="preview-grade-size" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Supplier</span>
+                        <span id="detail-supplier" class="text-xs font-bold text-zinc-800"></span>
                     </div>
                     <div>
-                        <span class="text-zinc-400 block text-[10px]">Jumlah</span>
-                        <span id="preview-jumlah" class="font-bold text-zinc-800">-</span>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Catatan</span>
+                        <span id="detail-catatan" class="text-xs text-zinc-600 block max-h-[60px] overflow-y-auto font-sans"></span>
                     </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Luas Total</span>
-                        <span id="preview-luas" class="font-bold text-zinc-800 font-extrabold">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Volume Total</span>
-                        <span id="preview-volume" class="font-bold text-sky-700 font-extrabold">-</span>
-                    </div>
-                    <div>
-                        <span class="text-zinc-400 block text-[10px]">Supplier</span>
-                        <span id="preview-supplier" class="font-bold text-zinc-800">-</span>
-                    </div>
-                    <div class="col-span-2">
-                        <span class="text-zinc-400 block text-[10px]">No. Surat</span>
-                        <span id="preview-surat" class="font-bold text-zinc-800">-</span>
+                </div>
+                
+                <!-- Items Table -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">Daftar Item Kaca</h4>
+                    <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider w-10 text-center">No</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Jenis Kaca</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Tebal</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Luas (m²)</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Volume (m³)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Form Footer -->
-        <div class="px-6 py-4 border-t border-zinc-100 flex gap-3">
-            <button onclick="closeForm()" class="flex-1 py-2.5 border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-colors">Batal</button>
-            <button onclick="saveEntry()" class="flex-1 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md shadow-sky-600/10 active:scale-[0.98] transition-all">Simpan Kaca</button>
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-between border-t border-zinc-100 pt-3 flex-shrink-0">
+                <div class="text-[11px] font-semibold text-zinc-500">
+                    Total: <span id="detail-total-items" class="font-extrabold text-zinc-800 text-sm">0</span> item | <span id="detail-total-sheets" class="font-extrabold text-sky-700 text-sm">0</span> lbr | <span id="detail-total-luas" class="font-extrabold text-sky-700 text-sm">0.00</span> m² | <span id="detail-total-volume" class="font-extrabold text-sky-700 text-sm">0.0000</span> m³
+                </div>
+                <button onclick="closeDetailModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
+            </div>
         </div>
     </div>
 
@@ -1001,6 +970,16 @@
     <!-- Toast Notification Container -->
     <div id="toast-container"></div>
 
+    <!-- Glass Types Autocomplete Datalist -->
+    <datalist id="glass-types">
+        <option value="Polos / Clear"></option>
+        <option value="Rayban / Tinted"></option>
+        <option value="Frosted / Es"></option>
+        <option value="Tempered"></option>
+        <option value="Cermin / Mirror"></option>
+        <option value="Low-E"></option>
+    </datalist>
+
     <!-- ═══════════════════════════ JAVASCRIPT CODE ═══════════════════════════ -->
     <script>
         // Default size variations (dimensions in cm)
@@ -1015,22 +994,38 @@
         let sizes = [];
         let logEntries = [];
         let filteredEntries = [];
-        let selectedGradeFilter = 'All';
+        let selectedDateFilter = 'All'; // 'All', 'Today', 'Week', 'Month', 'Custom'
+        let customStartDate = '';
+        let customEndDate = '';
         let searchQuery = '';
         let currentPage = 1;
         const rowsPerPage = 10;
 
-        let formGrade = '';
-        let formSize = '';
-        let formTebal = ''; // Selected thickness (mm)
-        let formTebalIsCustom = false;
+        // Current Form State
+        let currentFormItems = [];
+        let editingId = null;
+        let activeCustomSizeTargetId = null;
+
+        // Helper: Timezone-safe local ISO date string
+        function getLocalDateString(d) {
+            const offset = d.getTimezoneOffset();
+            const localDate = new Date(d.getTime() - (offset * 60 * 1000));
+            return localDate.toISOString().split('T')[0];
+        }
+
+        // Helper: Get local week range [Monday, Sunday]
+        function getWeekRange() {
+            const now = new Date();
+            const day = now.getDay();
+            const diff = now.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
+            const monday = new Date(now.setDate(diff));
+            const sunday = new Date(monday);
+            sunday.setDate(sunday.getDate() + 6);
+            return [getLocalDateString(monday), getLocalDateString(sunday)];
+        }
 
         // Initial setup on load
         window.addEventListener('DOMContentLoaded', () => {
-            // Setup default date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('input-tanggal').value = today;
-
             // Load sizes from localStorage or seed defaults
             const savedSizes = localStorage.getItem('woodtrack_glass_sizes');
             if (savedSizes) {
@@ -1044,47 +1039,104 @@
             const savedEntries = localStorage.getItem('woodtrack_penerimaan_kaca');
             if (savedEntries) {
                 logEntries = JSON.parse(savedEntries);
+                
+                // Migrate legacy flat data format to nested transaction format
+                let migrated = false;
+                logEntries.forEach(entry => {
+                    if (!entry.items) {
+                        entry.items = [{
+                            jenis: entry.jenis || 'Polos / Clear',
+                            grade: entry.grade || 'A',
+                            tebal: entry.tebal || 5,
+                            size: entry.size || '122×244',
+                            jumlah: entry.jumlah || 0,
+                            luas: entry.luas || 0.0,
+                            volume: entry.volume || 0.0
+                        }];
+                        delete entry.jenis;
+                        delete entry.grade;
+                        delete entry.tebal;
+                        delete entry.size;
+                        delete entry.jumlah;
+                        delete entry.luas;
+                        delete entry.volume;
+                        migrated = true;
+                    }
+                });
+
+                // Auto-seed if empty
+                if (logEntries.length === 0) {
+                    logEntries = getSeedData();
+                    migrated = true;
+                }
+
+                if (migrated) {
+                    saveToLocalStorage();
+                }
             } else {
-                logEntries = [
-                    { id: 1, tanggal: '2026-06-01', jenis: 'Polos / Clear', grade: 'A', tebal: 5, size: '122×244', jumlah: 100, luas: 297.68, volume: 1.4884, surat: 'SJ-2601/KCA/01', supplier: 'PT. Asahimas Flat Glass', catatan: 'Penerimaan lembaran kaca bening prima mulus' },
-                    { id: 2, tanggal: '2026-06-01', jenis: 'Tempered', grade: 'A', tebal: 8, size: '183×244', jumlah: 30, luas: 133.96, volume: 1.0716, surat: 'SJ-2601/KCA/02', supplier: 'PT. Mulia Glass', catatan: 'Kaca tempered pesanan khusus sekat kantor' },
-                    { id: 3, tanggal: '2026-06-02', jenis: 'Rayban / Tinted', grade: 'B', tebal: 5, size: '122×244', jumlah: 80, luas: 238.14, volume: 1.1907, surat: 'SJ-2602/KCA/08', supplier: 'PT. Asahimas Flat Glass', catatan: 'Baret sangat tipis di sudut pengiriman' },
-                    { id: 4, tanggal: '2026-06-03', jenis: 'Frosted / Es', grade: 'C', tebal: 3, size: '122×183', jumlah: 150, luas: 334.89, volume: 1.0047, surat: 'SJ-2603/KCA/04', supplier: 'PT. Mulia Glass', catatan: 'Kaca es motif buram' },
-                    { id: 5, tanggal: '2026-06-04', jenis: 'Cermin / Mirror', grade: 'A', tebal: 5, size: '152×213', jumlah: 50, luas: 161.88, volume: 0.8094, surat: 'SJ-2604/KCA/11', supplier: 'PT. Asahimas Flat Glass', catatan: 'Cermin wastafel dan toilet' }
-                ];
+                logEntries = getSeedData();
                 saveToLocalStorage();
             }
-
-            // Populate Sizes selector in form
-            renderSizesSelector();
-
-            // Bind live preview listeners
-            const inputs = ['input-tanggal', 'input-jenis', 'input-jumlah', 'input-surat', 'input-supplier'];
-            inputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', updateLivePreview);
-            });
 
             // Init UI
             updateDashboard();
             applyFiltersAndRender();
         });
 
-        // Render size chips in slide-over form
-        function renderSizesSelector() {
-            const container = document.getElementById('sizes-container');
-            container.innerHTML = '';
-            sizes.forEach(s => {
-                const chip = document.createElement('div');
-                chip.onclick = () => selectSize(s.code);
-                chip.id = `size-chip-${s.code}`;
-                chip.className = `size-chip ${formSize === s.code ? 'active' : ''}`;
-                const area = (s.lebar * s.panjang) / 10000;
-                chip.innerHTML = `
-                    <p class="font-extrabold text-xs text-zinc-800">${s.code} cm</p>
-                    <p class="text-[9px] text-zinc-400 mt-0.5">${area.toFixed(2)} m²/lembar</p>
-                `;
-                container.appendChild(chip);
-            });
+        // Helper to get glass seed data
+        function getSeedData() {
+            return [
+                {
+                    id: 1,
+                    tanggal: '2026-06-01',
+                    supplier: 'PT. Asahimas Flat Glass',
+                    surat: 'SJ-2601/KCA/01',
+                    catatan: 'Penerimaan lembaran kaca bening prima mulus',
+                    items: [
+                        { jenis: 'Polos / Clear', grade: 'A', tebal: 5, size: '122×244', jumlah: 100, luas: 297.68, volume: 1.4884 }
+                    ]
+                },
+                {
+                    id: 2,
+                    tanggal: '2026-06-01',
+                    supplier: 'PT. Mulia Glass',
+                    surat: 'SJ-2601/KCA/02',
+                    catatan: 'Kaca tempered pesanan khusus sekat kantor',
+                    items: [
+                        { jenis: 'Tempered', grade: 'A', tebal: 8, size: '183×244', jumlah: 30, luas: 133.96, volume: 1.0716 }
+                    ]
+                },
+                {
+                    id: 3,
+                    tanggal: '2026-06-02',
+                    supplier: 'PT. Asahimas Flat Glass',
+                    surat: 'SJ-2602/KCA/08',
+                    catatan: 'Baret sangat tipis di sudut pengiriman',
+                    items: [
+                        { jenis: 'Rayban / Tinted', grade: 'B', tebal: 5, size: '122×244', jumlah: 80, luas: 238.14, volume: 1.1907 }
+                    ]
+                },
+                {
+                    id: 4,
+                    tanggal: '2026-06-03',
+                    supplier: 'PT. Mulia Glass',
+                    surat: 'SJ-2603/KCA/04',
+                    catatan: 'Kaca es motif buram',
+                    items: [
+                        { jenis: 'Frosted / Es', grade: 'C', tebal: 3, size: '122×183', jumlah: 150, luas: 334.89, volume: 1.0047 }
+                    ]
+                },
+                {
+                    id: 5,
+                    tanggal: '2026-06-04',
+                    supplier: 'PT. Asahimas Flat Glass',
+                    surat: 'SJ-2604/KCA/11',
+                    catatan: 'Cermin wastafel dan toilet',
+                    items: [
+                        { jenis: 'Cermin / Mirror', grade: 'A', tebal: 5, size: '152×213', jumlah: 50, luas: 161.88, volume: 0.8094 }
+                    ]
+                }
+            ];
         }
 
         // Toggle Sidebar submenus
@@ -1095,161 +1147,330 @@
             chevron.classList.toggle('open');
         }
 
-        // Slide over handling
-        function openForm() {
-            document.getElementById('slide-over').classList.add('open');
-            document.getElementById('backdrop').classList.add('open');
+        // View Toggling
+        function setView(view) {
+            const dashboard = document.getElementById('dashboard-view');
+            const form = document.getElementById('form-view');
+            const headerTitle = document.querySelector('header h1');
+            const headerSubtitle = document.querySelector('header p');
+            const formTitle = document.querySelector('#form-view h2');
+            const formSubtitle = document.querySelector('#form-view p');
             
-            selectGrade('');
-            selectSize('');
-            selectThickness('');
-            document.getElementById('input-jumlah').value = '';
-            document.getElementById('input-luas').value = '';
-            document.getElementById('input-volume').value = '';
-            document.getElementById('input-surat').value = '';
-            document.getElementById('input-supplier').value = '';
-            document.getElementById('input-catatan').value = '';
-            document.getElementById('input-jenis').value = '';
-            document.getElementById('input-tebal-custom').value = '';
-            document.getElementById('custom-thickness-container').classList.add('hidden');
-            
-            // Set default date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('input-tanggal').value = today;
-
-            updateLivePreview();
-        }
-
-        function closeForm() {
-            document.getElementById('slide-over').classList.remove('open');
-            document.getElementById('backdrop').classList.remove('open');
-        }
-
-        // Form Grade Selection
-        function selectGrade(grade) {
-            formGrade = grade;
-            const grades = ['A', 'B', 'C', 'D'];
-            grades.forEach(g => {
-                const card = document.getElementById(`grade-card-${g}`);
-                if (g === grade) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
-                }
-            });
-            updateLivePreview();
-        }
-
-        // Form Thickness Selection
-        function selectThickness(thick) {
-            const chips = ['3', '5', '8', '10', '12', 'custom'];
-            chips.forEach(t => {
-                const chip = document.getElementById(`thick-chip-${t}`);
-                if (t === thick) {
-                    chip.classList.add('active');
-                } else {
-                    chip.classList.remove('active');
-                }
-            });
-
-            const customContainer = document.getElementById('custom-thickness-container');
-            if (thick === 'custom') {
-                formTebalIsCustom = true;
-                customContainer.classList.remove('hidden');
-                formTebal = parseFloat(document.getElementById('input-tebal-custom').value) || 0;
+            if (view === 'form') {
+                editingId = null;
+                dashboard.classList.add('hidden');
+                form.classList.remove('hidden');
+                headerTitle.innerText = "Input Penerimaan Kaca";
+                headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan &nbsp;·&nbsp; Input Baru";
+                formTitle.innerText = "Catat Penerimaan Baru";
+                formSubtitle.innerText = "Input data pengiriman lembaran kaca per surat jalan dengan multi-item";
+                resetFormPage();
             } else {
-                formTebalIsCustom = false;
-                customContainer.classList.add('hidden');
-                formTebal = thick ? parseFloat(thick) : '';
-            }
-
-            calculateMetrics();
-            updateLivePreview();
-        }
-
-        function handleCustomThicknessInput() {
-            if (formTebalIsCustom) {
-                formTebal = parseFloat(document.getElementById('input-tebal-custom').value) || 0;
-                calculateMetrics();
-                updateLivePreview();
+                editingId = null;
+                dashboard.classList.remove('hidden');
+                form.classList.add('hidden');
+                headerTitle.innerText = "Penerimaan Kaca";
+                headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan";
             }
         }
 
-        // Form Size Selection
-        function selectSize(size) {
-            formSize = size;
+        // Reset form to default states
+        function resetFormPage() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('form-tanggal').value = today;
+            document.getElementById('form-surat').value = '';
+            document.getElementById('form-supplier').value = '';
+            document.getElementById('form-catatan').value = '';
+            
+            currentFormItems = [];
+            document.getElementById('wood-items-container').innerHTML = '';
+            addWoodItemRow();
+        }
+
+        // Generate size selection options
+        function getSizeOptionsHTML() {
+            let html = '<option value="" disabled selected>Pilih Ukuran...</option>';
             sizes.forEach(s => {
-                const chip = document.getElementById(`size-chip-${s.code}`);
-                if (chip) {
-                    if (s.code === size) {
-                        chip.classList.add('active');
-                    } else {
-                        chip.classList.remove('active');
+                const area = (s.lebar * s.panjang) / 10000;
+                html += `<option value="${s.code}">${s.code} cm (${area.toFixed(2)} m²)</option>`;
+            });
+            return html;
+        }
+
+        // Refresh select options in all form cards
+        function repopulateAllSizeSelects() {
+            currentFormItems.forEach(item => {
+                const selectEl = document.getElementById(`item-size-${item.tempId}`);
+                if (selectEl) {
+                    const currentSelectedVal = selectEl.value;
+                    selectEl.innerHTML = getSizeOptionsHTML();
+                    if (currentSelectedVal) {
+                        selectEl.value = currentSelectedVal;
                     }
                 }
             });
-            calculateMetrics();
-            updateLivePreview();
         }
 
-        // Calculate Area and Volume Metrics
-        function calculateMetrics() {
-            const qty = parseInt(document.getElementById('input-jumlah').value) || 0;
-            const tebalVal = parseFloat(formTebal) || 0; // in mm
+        // Add glass item row to the form (supports populating data for editing)
+        function addWoodItemRow(itemData = null) {
+            const tempId = (Date.now() + Math.random()).toString(36).substring(2, 9);
+            
+            const standardThicks = [3, 5, 8, 10, 12];
+            let isCustomThick = false;
+            let thickVal = '';
+            
+            if (itemData) {
+                thickVal = itemData.tebal;
+                if (!standardThicks.includes(itemData.tebal)) {
+                    isCustomThick = true;
+                    thickVal = 'custom';
+                }
+            }
 
-            const activeSizeObj = sizes.find(s => s.code === formSize);
-            if (!activeSizeObj || qty <= 0 || tebalVal <= 0) {
-                document.getElementById('input-luas').value = '';
-                document.getElementById('input-volume').value = '';
+            const newItem = {
+                tempId: tempId,
+                jenis: itemData ? itemData.jenis : '',
+                grade: itemData ? itemData.grade : '',
+                tebal: thickVal,
+                tebalIsCustom: isCustomThick,
+                customTebal: isCustomThick ? itemData.tebal : 0,
+                size: itemData ? itemData.size : '',
+                jumlah: itemData ? itemData.jumlah : 0,
+                luas: itemData ? (itemData.luas || 0.0) : 0.0,
+                volume: itemData ? (itemData.volume || 0.0) : 0.0
+            };
+            
+            currentFormItems.push(newItem);
+            
+            const container = document.getElementById('wood-items-container');
+            const itemCard = document.createElement('div');
+            itemCard.id = `item-row-${tempId}`;
+            itemCard.className = `glass-card rounded-2xl p-5 relative border border-zinc-100 hover:border-zinc-200 transition-all shadow-sm bg-white space-y-4 anim d1`;
+            
+            itemCard.innerHTML = `
+                <div class="flex items-center justify-between border-b border-zinc-100 pb-3">
+                    <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest font-mono">Item #${currentFormItems.length}</span>
+                    <button onclick="removeWoodItemRow('${tempId}')" class="text-zinc-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Hapus Item">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Column 1: Jenis & Grade -->
+                    <div class="space-y-3">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jenis Kaca *</label>
+                            <select id="item-jenis-${tempId}" onchange="updateItemField('${tempId}', 'jenis', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer">
+                                <option value="" disabled selected>Pilih Jenis Kaca...</option>
+                                <option value="Polos / Clear">Polos / Clear</option>
+                                <option value="Rayban / Tinted">Rayban / Tinted</option>
+                                <option value="Frosted / Es">Frosted / Es</option>
+                                <option value="Tempered">Tempered</option>
+                                <option value="Cermin / Mirror">Cermin / Mirror</option>
+                                <option value="Low-E">Low-E</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Kualitas / Grade *</label>
+                            <select id="item-grade-${tempId}" onchange="updateItemField('${tempId}', 'grade', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer">
+                                <option value="" disabled selected>Pilih Grade...</option>
+                                <option value="A">Grade A (Prima/Mulus)</option>
+                                <option value="B">Grade B (Baret Minor)</option>
+                                <option value="C">Grade C (Cacat Sudut)</option>
+                                <option value="D">Grade D (Reject/Pecah)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Ketebalan & Ukuran -->
+                    <div class="space-y-3">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ketebalan Kaca *</label>
+                            <select id="item-tebal-${tempId}" onchange="updateItemField('${tempId}', 'tebal', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer">
+                                <option value="" disabled selected>Pilih Tebal...</option>
+                                <option value="3">3 mm</option>
+                                <option value="5">5 mm</option>
+                                <option value="8">8 mm</option>
+                                <option value="10">10 mm</option>
+                                <option value="12">12 mm</option>
+                                <option value="custom">Kustom / Lainnya</option>
+                            </select>
+                            <div id="item-tebal-custom-container-${tempId}" class="${isCustomThick ? '' : 'hidden'} mt-1.5 anim">
+                                <div class="relative">
+                                    <input type="number" id="item-tebal-custom-${tempId}" oninput="updateItemField('${tempId}', 'customTebal', this.value)" placeholder="Masukkan tebal..." class="premium-input pr-12">
+                                    <span class="absolute right-4 top-2.5 text-xs font-bold text-zinc-400">mm</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ukuran Lembar Kaca *</label>
+                                <button type="button" onclick="openCustomSizeModal('${tempId}')" class="text-[10px] font-bold text-sky-600 hover:text-sky-700 hover:underline transition-all font-sans">+ Ukuran Baru</button>
+                            </div>
+                            <select id="item-size-${tempId}" onchange="updateItemField('${tempId}', 'size', this.value)" class="premium-input bg-[#FDFDFD] cursor-pointer">
+                                ${getSizeOptionsHTML()}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Qty & Calculations -->
+                    <div class="space-y-3">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah (Lembar) *</label>
+                            <input type="number" id="item-jumlah-${tempId}" oninput="updateItemField('${tempId}', 'jumlah', this.value)" min="1" placeholder="Contoh: 50" class="premium-input font-bold">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <div class="space-y-1">
+                                <span class="text-[9px] font-bold text-zinc-400 block uppercase">Luas (m²)</span>
+                                <input type="text" id="item-luas-${tempId}" value="0.00" class="premium-input bg-zinc-50/50 font-bold text-zinc-500 text-xs text-center" readonly>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-[9px] font-bold text-zinc-400 block uppercase">Volume (m³)</span>
+                                <input type="text" id="item-volume-${tempId}" value="0.0000" class="premium-input bg-zinc-50/50 font-extrabold text-sky-700 text-xs text-center" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(itemCard);
+            
+            // Populate values if editing/itemData is present
+            if (itemData) {
+                document.getElementById(`item-jenis-${tempId}`).value = itemData.jenis;
+                document.getElementById(`item-grade-${tempId}`).value = itemData.grade;
+                document.getElementById(`item-tebal-${tempId}`).value = newItem.tebal;
+                if (isCustomThick) {
+                    document.getElementById(`item-tebal-custom-${tempId}`).value = itemData.tebal;
+                }
+                document.getElementById(`item-size-${tempId}`).value = itemData.size;
+                document.getElementById(`item-jumlah-${tempId}`).value = itemData.jumlah;
+                
+                calculateCardMetrics(tempId);
+            }
+            
+            updateFormSummary();
+        }
+
+        // Delete item row
+        function removeWoodItemRow(tempId) {
+            if (currentFormItems.length <= 1) {
+                showToast('Minimal harus ada 1 item kaca dalam pengiriman!', 'error');
+                return;
+            }
+            
+            currentFormItems = currentFormItems.filter(item => item.tempId !== tempId);
+            const row = document.getElementById(`item-row-${tempId}`);
+            if (row) row.remove();
+            
+            // Re-label card headers
+            const labels = document.querySelectorAll('#wood-items-container span.font-mono');
+            labels.forEach((label, idx) => {
+                label.innerText = `Item #${idx + 1}`;
+            });
+            
+            updateFormSummary();
+        }
+
+        // Update single field inside card row
+        function updateItemField(tempId, field, value) {
+            const item = currentFormItems.find(item => item.tempId === tempId);
+            if (!item) return;
+
+            if (field === 'jenis') {
+                item.jenis = value;
+            } else if (field === 'grade') {
+                item.grade = value;
+            } else if (field === 'tebal') {
+                item.tebal = value;
+                const customContainer = document.getElementById(`item-tebal-custom-container-${tempId}`);
+                if (value === 'custom') {
+                    item.tebalIsCustom = true;
+                    if (customContainer) customContainer.classList.remove('hidden');
+                } else {
+                    item.tebalIsCustom = false;
+                    if (customContainer) customContainer.classList.add('hidden');
+                }
+            } else if (field === 'customTebal') {
+                item.customTebal = parseFloat(value) || 0;
+            } else if (field === 'size') {
+                item.size = value;
+            } else if (field === 'jumlah') {
+                item.jumlah = parseInt(value) || 0;
+            }
+
+            calculateCardMetrics(tempId);
+            updateFormSummary();
+        }
+
+        // Calculates Area & Volume in real-time per card
+        function calculateCardMetrics(tempId) {
+            const item = currentFormItems.find(item => item.tempId === tempId);
+            if (!item) return;
+
+            const sizeObj = sizes.find(s => s.code === item.size);
+            const qty = item.jumlah;
+            const thickness = item.tebalIsCustom ? item.customTebal : parseFloat(item.tebal);
+
+            if (!sizeObj || qty <= 0 || isNaN(thickness) || thickness <= 0) {
+                item.luas = 0.0;
+                item.volume = 0.0;
+                const luasInput = document.getElementById(`item-luas-${tempId}`);
+                const volInput = document.getElementById(`item-volume-${tempId}`);
+                if (luasInput) luasInput.value = '0.00';
+                if (volInput) volInput.value = '0.0000';
                 return;
             }
 
-            const lebarM = activeSizeObj.lebar / 100;
-            const panjangM = activeSizeObj.panjang / 100;
-            const tebalM = tebalVal / 1000;
+            const lebarM = sizeObj.lebar / 100;
+            const panjangM = sizeObj.panjang / 100;
+            const tebalM = thickness / 1000;
 
             const totalArea = lebarM * panjangM * qty;
             const totalVolume = tebalM * lebarM * panjangM * qty;
 
-            document.getElementById('input-luas').value = totalArea.toFixed(2);
-            document.getElementById('input-volume').value = totalVolume.toFixed(4);
+            item.luas = totalArea;
+            item.volume = totalVolume;
+
+            const luasInput = document.getElementById(`item-luas-${tempId}`);
+            const volInput = document.getElementById(`item-volume-${tempId}`);
+            if (luasInput) luasInput.value = totalArea.toFixed(2);
+            if (volInput) volInput.value = totalVolume.toFixed(4);
         }
 
-        // Live Preview update
-        function updateLivePreview() {
-            const tgl = document.getElementById('input-tanggal').value || '-';
-            const jns = document.getElementById('input-jenis').value || '-';
-            const qty = document.getElementById('input-jumlah').value || '0';
-            const luas = document.getElementById('input-luas').value || '0.00';
-            const vol = document.getElementById('input-volume').value || '0.0000';
-            const srt = document.getElementById('input-surat').value || '-';
-            const spl = document.getElementById('input-supplier').value || '-';
+        // Aggregate counts for summary card
+        function updateFormSummary() {
+            let totalSheets = 0;
+            let totalLuas = 0;
+            let totalVolume = 0;
 
-            let thicknessDisplay = formTebal ? formTebal + ' mm' : '-';
+            currentFormItems.forEach(item => {
+                totalSheets += item.jumlah;
+                totalLuas += item.luas;
+                totalVolume += item.volume;
+            });
 
-            document.getElementById('preview-tanggal').innerText = tgl;
-            document.getElementById('preview-jenis').innerText = jns;
-            document.getElementById('preview-grade-size').innerText = 
-                (formGrade || '-') + ' / ' + thicknessDisplay + ' / ' + (formSize ? formSize + ' cm' : '-');
-            document.getElementById('preview-jumlah').innerText = qty + ' lembar';
-            document.getElementById('preview-luas').innerText = luas + ' m²';
-            document.getElementById('preview-volume').innerText = vol + ' m³';
-            document.getElementById('preview-surat').innerText = srt;
-            document.getElementById('preview-supplier').innerText = spl;
+            document.getElementById('summary-total-items').innerText = currentFormItems.length;
+            document.getElementById('summary-total-sheets').innerText = totalSheets.toLocaleString('id-ID') + ' lbr';
+            document.getElementById('summary-total-luas').innerText = totalLuas.toFixed(2);
+            document.getElementById('summary-total-volume').innerText = totalVolume.toFixed(4);
         }
 
-        // LocalStorage save
+        // Save entire log entries to LocalStorage
         function saveToLocalStorage() {
             localStorage.setItem('woodtrack_penerimaan_kaca', JSON.stringify(logEntries));
         }
 
-        // Add Toast
+        // Add Toast Notification
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             
-            let icon = `<svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>`;
+            let icon = `<svg class="w-5 h-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12" /></svg>`;
             if (type === 'error') {
                 icon = `<svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>`;
             }
@@ -1267,48 +1488,82 @@
             }, 3000);
         }
 
-        // Save Entry
-        function saveEntry() {
-            const tanggal = document.getElementById('input-tanggal').value;
-            const jenis = document.getElementById('input-jenis').value;
-            const jumlah = parseInt(document.getElementById('input-jumlah').value);
-            const luas = parseFloat(document.getElementById('input-luas').value);
-            const volume = parseFloat(document.getElementById('input-volume').value);
-            const surat = document.getElementById('input-surat').value.trim();
-            const supplier = document.getElementById('input-supplier').value.trim();
-            const catatan = document.getElementById('input-catatan').value;
+        // Save Batch Entries (from form-view to state)
+        function saveAllItems() {
+            const tanggal = document.getElementById('form-tanggal').value;
+            const surat = document.getElementById('form-surat').value.trim();
+            const supplier = document.getElementById('form-supplier').value.trim();
+            const catatan = document.getElementById('form-catatan').value.trim();
 
-            if (!tanggal || !jenis || !formGrade || !formSize || !formTebal || isNaN(jumlah) || jumlah <= 0) {
-                showToast('Lengkapi semua data bertanda penting!', 'error');
+            if (!tanggal) {
+                showToast('Lengkapi data Tanggal Terima!', 'error');
                 return;
             }
 
-            const newEntry = {
-                id: Date.now(),
-                tanggal,
-                jenis,
-                grade: formGrade,
-                tebal: parseFloat(formTebal),
-                size: formSize,
-                jumlah,
-                luas,
-                volume,
-                supplier: supplier || '-',
-                surat: surat || '-',
-                catatan
-            };
+            if (currentFormItems.length === 0) {
+                showToast('Harap tambahkan minimal 1 item kaca!', 'error');
+                return;
+            }
 
-            logEntries.unshift(newEntry); // Prepend to show immediately
+            // Validate all cards
+            for (let i = 0; i < currentFormItems.length; i++) {
+                const item = currentFormItems[i];
+                const thickness = item.tebalIsCustom ? item.customTebal : parseFloat(item.tebal);
+
+                if (!item.jenis.trim() || !item.grade || isNaN(thickness) || thickness <= 0 || !item.size || isNaN(item.jumlah) || item.jumlah <= 0) {
+                    showToast(`Lengkapi semua data Item #${i + 1} (Jenis, Grade, Tebal, Ukuran, dan Jumlah)!`, 'error');
+                    return;
+                }
+            }
+
+            // Map UI items to standard schema
+            const transactionItems = currentFormItems.map(item => ({
+                jenis: item.jenis,
+                grade: item.grade,
+                tebal: item.tebalIsCustom ? item.customTebal : parseFloat(item.tebal),
+                size: item.size,
+                jumlah: item.jumlah,
+                luas: item.luas,
+                volume: item.volume
+            }));
+
+            if (editingId !== null) {
+                // Update
+                const index = logEntries.findIndex(entry => entry.id === editingId);
+                if (index !== -1) {
+                    logEntries[index] = {
+                        ...logEntries[index],
+                        tanggal,
+                        supplier: supplier || '-',
+                        surat: surat || '-',
+                        catatan: catatan || '-',
+                        items: transactionItems
+                    };
+                    showToast('Berhasil memperbarui data penerimaan kaca!', 'success');
+                } else {
+                    showToast('Gagal memperbarui: Data tidak ditemukan.', 'error');
+                }
+            } else {
+                // Create
+                const newEntry = {
+                    id: Date.now(),
+                    tanggal,
+                    supplier: supplier || '-',
+                    surat: surat || '-',
+                    catatan: catatan || '-',
+                    items: transactionItems
+                };
+                logEntries.unshift(newEntry);
+                showToast(`Berhasil menyimpan ${currentFormItems.length} item penerimaan kaca!`, 'success');
+            }
+
             saveToLocalStorage();
-            
             updateDashboard();
-            applyFiltersAndRender();
-            
-            closeForm();
-            showToast('Penerimaan Kaca berhasil disimpan!');
+            setDateFilter('All');
+            setView('dashboard');
         }
 
-        // Delete Entry
+        // Delete transaction
         function deleteEntry(id) {
             if (confirm('Apakah Anda yakin ingin menghapus data penerimaan kaca ini?')) {
                 logEntries = logEntries.filter(entry => entry.id !== id);
@@ -1329,11 +1584,15 @@
             const currentMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
 
             logEntries.forEach(entry => {
-                totalLembar += entry.jumlah;
-                totalLuas += entry.luas;
-                totalVolume += entry.volume;
-                if (entry.tanggal && entry.tanggal.substring(0, 7) === currentMonth) {
-                    bulanIniCount += entry.jumlah;
+                if (entry.items && Array.isArray(entry.items)) {
+                    entry.items.forEach(item => {
+                        totalLembar += item.jumlah;
+                        totalLuas += item.luas;
+                        totalVolume += item.volume;
+                        if (entry.tanggal && entry.tanggal.substring(0, 7) === currentMonth) {
+                            bulanIniCount += item.jumlah;
+                        }
+                    });
                 }
             });
 
@@ -1343,17 +1602,31 @@
             document.getElementById('stat-bulan-ini').innerText = bulanIniCount.toLocaleString('id-ID');
         }
 
-        // Filters & Search logic
-        function filterGrade(grade) {
-            selectedGradeFilter = grade;
-            const pills = document.querySelectorAll('.filter-pill');
-            pills.forEach(pill => {
-                if (pill.innerText.includes(grade) || (grade === 'All' && pill.innerText.includes('Semua'))) {
-                    pill.classList.add('active');
-                } else {
-                    pill.classList.remove('active');
+        // Date Presets Handler
+        function setDateFilter(filter) {
+            selectedDateFilter = filter;
+            const pills = ['All', 'Today', 'Week', 'Month', 'Custom'];
+            pills.forEach(p => {
+                const el = document.getElementById(`filter-date-${p}`);
+                if (el) {
+                    if (p === filter) el.classList.add('active');
+                    else el.classList.remove('active');
                 }
             });
+
+            const rangeRow = document.getElementById('custom-date-picker-row');
+            if (filter === 'Custom') {
+                if (rangeRow) rangeRow.classList.remove('hidden');
+            } else {
+                if (rangeRow) rangeRow.classList.add('hidden');
+                currentPage = 1;
+                applyFiltersAndRender();
+            }
+        }
+
+        function handleCustomDateChange() {
+            customStartDate = document.getElementById('filter-start-date').value;
+            customEndDate = document.getElementById('filter-end-date').value;
             currentPage = 1;
             applyFiltersAndRender();
         }
@@ -1364,22 +1637,58 @@
             applyFiltersAndRender();
         }
 
+        // Filters Engine
         function applyFiltersAndRender() {
+            const todayStr = getLocalDateString(new Date());
+            const [weekStart, weekEnd] = getWeekRange();
+            const currentMonthStr = new Date().toISOString().substring(0, 7);
+
             filteredEntries = logEntries.filter(entry => {
-                const matchesGrade = selectedGradeFilter === 'All' || entry.grade === selectedGradeFilter;
-                const matchesSearch = searchQuery === '' || 
-                    entry.jenis.toLowerCase().includes(searchQuery) ||
-                    entry.surat.toLowerCase().includes(searchQuery) ||
-                    (entry.supplier && entry.supplier.toLowerCase().includes(searchQuery)) ||
-                    (entry.catatan && entry.catatan.toLowerCase().includes(searchQuery)) ||
-                    entry.size.toLowerCase().includes(searchQuery);
-                return matchesGrade && matchesSearch;
+                // 1. Date Filter
+                let matchesDate = true;
+                if (selectedDateFilter === 'Today') {
+                    matchesDate = (entry.tanggal === todayStr);
+                } else if (selectedDateFilter === 'Week') {
+                    matchesDate = (entry.tanggal >= weekStart && entry.tanggal <= weekEnd);
+                } else if (selectedDateFilter === 'Month') {
+                    matchesDate = (entry.tanggal && entry.tanggal.substring(0, 7) === currentMonthStr);
+                } else if (selectedDateFilter === 'Custom') {
+                    if (customStartDate && customEndDate) {
+                        matchesDate = (entry.tanggal >= customStartDate && entry.tanggal <= customEndDate);
+                    } else if (customStartDate) {
+                        matchesDate = (entry.tanggal === customStartDate);
+                    } else if (customEndDate) {
+                        matchesDate = (entry.tanggal <= customEndDate);
+                    }
+                }
+
+                // 2. Search query filter (matches supplier, surat jalan, catatan, and nested item jenis)
+                let matchesSearch = true;
+                if (searchQuery !== '') {
+                    const inHeader = (
+                        (entry.supplier && entry.supplier.toLowerCase().includes(searchQuery)) ||
+                        (entry.surat && entry.surat.toLowerCase().includes(searchQuery)) ||
+                        (entry.catatan && entry.catatan.toLowerCase().includes(searchQuery))
+                    );
+
+                    let inItems = false;
+                    if (entry.items && Array.isArray(entry.items)) {
+                        inItems = entry.items.some(item => 
+                            item.jenis.toLowerCase().includes(searchQuery) ||
+                            item.size.toLowerCase().includes(searchQuery) ||
+                            item.grade.toLowerCase().includes(searchQuery)
+                        );
+                    }
+                    matchesSearch = inHeader || inItems;
+                }
+
+                return matchesDate && matchesSearch;
             });
 
             renderTable();
         }
 
-        // Render Table Data
+        // Render history table data
         function renderTable() {
             const tbody = document.getElementById('table-body');
             const emptyState = document.getElementById('table-empty');
@@ -1395,11 +1704,9 @@
 
             emptyState.classList.add('hidden');
 
-            // Calculate pagination
             const totalItems = filteredEntries.length;
             const totalPages = Math.ceil(totalItems / rowsPerPage);
             
-            // Adjust current page if out of bounds
             if (currentPage > totalPages) currentPage = totalPages;
             if (currentPage < 1) currentPage = 1;
 
@@ -1416,43 +1723,72 @@
             paginatedItems.forEach((entry, idx) => {
                 const globalIdx = startIndex + idx + 1;
                 
-                // Color mapping for grades
-                let gradeBadge = '';
-                if (entry.grade === 'A') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">Grade A</span>';
-                else if (entry.grade === 'B') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-blue-600 border border-blue-100">Grade B</span>';
-                else if (entry.grade === 'C') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100">Grade C</span>';
-                else if (entry.grade === 'D') gradeBadge = '<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-red-50 text-red-600 border border-red-100">Grade D</span>';
+                let totalSheets = 0;
+                let totalLuas = 0;
+                let totalVolume = 0;
+                let rincianHTML = '<div class="flex flex-wrap gap-1.5 justify-start">';
+                
+                if (entry.items && Array.isArray(entry.items)) {
+                    entry.items.forEach(item => {
+                        totalSheets += item.jumlah;
+                        totalLuas += item.luas;
+                        totalVolume += item.volume;
+
+                        let gradeColorClass = 'text-zinc-600 bg-zinc-100 border-zinc-200';
+                        if (item.grade === 'A') gradeColorClass = 'text-emerald-700 bg-emerald-50 border-emerald-100/50';
+                        else if (item.grade === 'B') gradeColorClass = 'text-blue-700 bg-blue-50 border-blue-100/50';
+                        else if (item.grade === 'C') gradeColorClass = 'text-indigo-700 bg-indigo-50 border-indigo-100/50';
+                        else if (item.grade === 'D') gradeColorClass = 'text-red-700 bg-red-50 border-red-100/50';
+
+                        rincianHTML += `
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[11px] font-bold border ${gradeColorClass}">
+                                ${item.jenis} G${item.grade} (${item.tebal}mm, ${item.size}): ${item.jumlah} lbr
+                            </span>
+                        `;
+                    });
+                }
+                rincianHTML += '</div>';
 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-zinc-50/80 transition-colors';
+                tr.className = 'hover:bg-zinc-50/80 transition-colors border-b border-zinc-100';
                 tr.innerHTML = `
                     <td class="py-3.5 px-4 text-center font-semibold text-zinc-400">${globalIdx}</td>
                     <td class="py-3.5 px-4 font-bold text-zinc-800">${formatDate(entry.tanggal)}</td>
-                    <td class="py-3.5 px-4 font-bold text-zinc-800">${entry.jenis}</td>
-                    <td class="py-3.5 px-4 text-center">${gradeBadge}</td>
-                    <td class="py-3.5 px-4 text-center"><span class="px-1.5 py-0.5 font-bold text-xs bg-zinc-100 text-zinc-600 rounded">${entry.tebal}mm × ${entry.size} cm</span></td>
-                    <td class="py-3.5 px-4 text-right font-bold text-zinc-800">${entry.jumlah} lbr</td>
-                    <td class="py-3.5 px-4 text-right font-bold text-sky-700">${entry.luas.toFixed(2)} m²</td>
-                    <td class="py-3.5 px-4 text-right font-extrabold text-sky-800">${entry.volume.toFixed(4)} m³</td>
                     <td class="py-3.5 px-4 font-bold text-zinc-800">${entry.supplier || '-'}</td>
-                    <td class="py-3.5 px-4 font-mono text-[11.5px] text-zinc-500">${entry.surat}</td>
-                    <td class="py-3.5 px-4 text-zinc-500 truncate max-w-[180px]" title="${entry.catatan || ''}">${entry.catatan || '-'}</td>
+                    <td class="py-3.5 px-4 font-mono text-[11.5px] text-zinc-500">${entry.surat || '-'}</td>
+                    <td class="py-3.5 px-4">${rincianHTML}</td>
+                    <td class="py-3.5 px-4 text-right font-bold text-zinc-800">${totalSheets.toLocaleString('id-ID')} lbr</td>
+                    <td class="py-3.5 px-4 text-right font-bold text-sky-700">${totalLuas.toFixed(2)} m²</td>
+                    <td class="py-3.5 px-4 text-right font-extrabold text-sky-800">${totalVolume.toFixed(4)} m³</td>
+                    <td class="py-3.5 px-4 text-zinc-500 truncate max-w-[150px]" title="${entry.catatan || ''}">${entry.catatan || '-'}</td>
                     <td class="py-3.5 px-4 text-center">
-                        <button onclick="deleteEntry(${entry.id})" class="p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="3 6 5 6 21 6" />
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                <line x1="10" y1="11" x2="10" y2="17" />
-                                <line x1="14" y1="11" x2="14" y2="17" />
-                            </svg>
-                        </button>
+                        <div class="flex items-center justify-center gap-1">
+                            <button onclick="showDetail(${entry.id})" class="p-1.5 text-zinc-400 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-colors" title="Detail">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                </svg>
+                            </button>
+                            <button onclick="editEntry(${entry.id})" class="p-1.5 text-zinc-400 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-colors" title="Ubah">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                </svg>
+                            </button>
+                            <button onclick="deleteEntry(${entry.id})" class="p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                </svg>
+                            </button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // Helper date formatter
+        // Helper: Format Date
         function formatDate(dateStr) {
             if (!dateStr) return '-';
             const parts = dateStr.split('-');
@@ -1477,8 +1813,104 @@
             }
         }
 
+        // Detail Modal Handling
+        function showDetail(id) {
+            const entry = logEntries.find(e => e.id === id);
+            if (!entry) return;
+
+            document.getElementById('detail-tanggal').innerText = formatDate(entry.tanggal);
+            document.getElementById('detail-surat').innerText = entry.surat || '-';
+            document.getElementById('detail-supplier').innerText = entry.supplier || '-';
+            document.getElementById('detail-catatan').innerText = entry.catatan || '-';
+
+            const tbody = document.getElementById('detail-table-body');
+            tbody.innerHTML = '';
+
+            let totalLembar = 0;
+            let totalLuas = 0;
+            let totalVolume = 0;
+
+            if (entry.items && Array.isArray(entry.items)) {
+                entry.items.forEach((item, idx) => {
+                    totalLembar += item.jumlah || 0;
+                    totalLuas += item.luas || 0.0;
+                    totalVolume += item.volume || 0.0;
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-zinc-50/80 transition-colors border-b border-zinc-50';
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-3 font-semibold text-zinc-400 text-center">${idx + 1}</td>
+                        <td class="py-2.5 px-3 font-bold text-zinc-800">${item.jenis}</td>
+                        <td class="py-2.5 px-3 text-center"><span class="px-1.5 py-0.5 rounded font-bold text-[10px] bg-sky-50 text-sky-700 border border-sky-100">Grade ${item.grade}</span></td>
+                        <td class="py-2.5 px-3 text-center font-semibold text-zinc-600">${item.tebal} mm</td>
+                        <td class="py-2.5 px-3 text-center font-mono text-zinc-500">${item.size} cm</td>
+                        <td class="py-2.5 px-3 text-right font-bold text-zinc-800">${item.jumlah} lbr</td>
+                        <td class="py-2.5 px-3 text-right font-bold text-sky-700">${item.luas.toFixed(2)} m²</td>
+                        <td class="py-2.5 px-3 text-right font-extrabold text-sky-800">${item.volume.toFixed(4)} m³</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('detail-total-items').innerText = entry.items ? entry.items.length : 0;
+            document.getElementById('detail-total-sheets').innerText = totalLembar.toLocaleString('id-ID');
+            document.getElementById('detail-total-luas').innerText = totalLuas.toFixed(2);
+            document.getElementById('detail-total-volume').innerText = totalVolume.toFixed(4);
+
+            document.getElementById('detail-modal').classList.add('open');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.remove('open');
+        }
+
+        // Edit Entry (loads nested cards to form view)
+        function editEntry(id) {
+            const entry = logEntries.find(e => e.id === id);
+            if (!entry) return;
+
+            editingId = id;
+            
+            // Toggle form view
+            const dashboard = document.getElementById('dashboard-view');
+            const form = document.getElementById('form-view');
+            const headerTitle = document.querySelector('header h1');
+            const headerSubtitle = document.querySelector('header p');
+            const formTitle = document.querySelector('#form-view h2');
+            const formSubtitle = document.querySelector('#form-view p');
+
+            dashboard.classList.add('hidden');
+            form.classList.remove('hidden');
+            
+            headerTitle.innerText = "Ubah Penerimaan Kaca";
+            headerSubtitle.innerHTML = "Operasional &nbsp;·&nbsp; Penerimaan &nbsp;·&nbsp; Ubah Data";
+            formTitle.innerText = "Ubah Data Penerimaan";
+            formSubtitle.innerText = `Mengedit pengiriman No. Surat Jalan: ${entry.surat || '-'}`;
+
+            // Populate headers
+            document.getElementById('form-tanggal').value = entry.tanggal;
+            document.getElementById('form-surat').value = entry.surat === '-' ? '' : entry.surat;
+            document.getElementById('form-supplier').value = entry.supplier === '-' ? '' : entry.supplier;
+            document.getElementById('form-catatan').value = entry.catatan === '-' ? '' : entry.catatan;
+
+            // Populate items cards
+            currentFormItems = [];
+            document.getElementById('wood-items-container').innerHTML = '';
+
+            if (entry.items && Array.isArray(entry.items)) {
+                entry.items.forEach(item => {
+                    addWoodItemRow(item);
+                });
+            } else {
+                addWoodItemRow();
+            }
+
+            updateFormSummary();
+        }
+
         // Custom Size Modal Handling
-        function openCustomSizeModal() {
+        function openCustomSizeModal(targetCardId = null) {
+            activeCustomSizeTargetId = targetCardId;
             document.getElementById('custom-size-modal').classList.add('open');
             document.getElementById('custom-lebar').value = '';
             document.getElementById('custom-panjang').value = '';
@@ -1487,6 +1919,7 @@
 
         function closeCustomSizeModal() {
             document.getElementById('custom-size-modal').classList.remove('open');
+            activeCustomSizeTargetId = null;
         }
 
         function calculateCustomLuas() {
@@ -1508,32 +1941,37 @@
             const code = `${lebar}×${panjang}`;
             
             // Check if size already exists
-            if (sizes.find(s => s.code === code)) {
-                showToast('Ukuran ini sudah terdaftar!', 'error');
-                return;
+            if (!sizes.find(s => s.code === code)) {
+                const newSize = { code, lebar, panjang };
+                sizes.push(newSize);
+                localStorage.setItem('woodtrack_glass_sizes', JSON.stringify(sizes));
+                showToast(`Ukuran ${code} cm berhasil ditambahkan.`);
             }
 
-            const newSize = { code, lebar, panjang };
-            sizes.push(newSize);
-            localStorage.setItem('woodtrack_glass_sizes', JSON.stringify(sizes));
+            repopulateAllSizeSelects();
 
-            renderSizesSelector();
-            selectSize(code);
+            // Auto-select size for target card if launched from a card
+            if (activeCustomSizeTargetId) {
+                const selectEl = document.getElementById(`item-size-${activeCustomSizeTargetId}`);
+                if (selectEl) {
+                    selectEl.value = code;
+                    updateItemField(activeCustomSizeTargetId, 'size', code);
+                }
+            }
+
             closeCustomSizeModal();
-            showToast(`Ukuran ${code} cm berhasil ditambahkan.`);
         }
 
         // Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
-            // Esc to close form or modal
             if (e.key === 'Escape') {
-                closeForm();
+                setView('dashboard');
+                closeDetailModal();
                 closeCustomSizeModal();
             }
-            // Ctrl + N to open form
             if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
                 e.preventDefault();
-                openForm();
+                setView('form');
             }
         });
     </script>
