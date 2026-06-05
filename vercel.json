@@ -4,12 +4,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/admin/",
-      "permanent": true
-    },
-    {
-      "source": "/admin",
-      "destination": "/admin/",
+      "destination": "/admin/index.html",
       "permanent": true
     }
   ]
