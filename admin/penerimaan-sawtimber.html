@@ -892,52 +892,33 @@
                 </div>
 
                 <div class="space-y-6">
-                    <!-- Top Full Row Card: Informasi Pengiriman & Ringkasan -->
+                    <!-- Top Full Row Card: Informasi Pengiriman -->
                     <div class="glass-card rounded-2xl p-5 shadow-sm">
-                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
-                            <!-- Left Side: Inputs (col-span-3) -->
-                            <div class="lg:col-span-3 space-y-4">
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <!-- Date -->
-                                    <div class="space-y-1.5">
-                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Terima *</label>
-                                        <input type="date" id="form-tanggal" class="premium-input">
-                                    </div>
-                                    
-                                    <!-- No Surat Jalan -->
-                                    <div class="space-y-1.5">
-                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
-                                        <input type="text" id="form-surat" placeholder="Contoh: SJ-2026/06/009" class="premium-input">
-                                    </div>
-
-                                    <!-- Supplier -->
-                                    <div class="space-y-1.5">
-                                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
-                                        <input type="text" id="form-supplier" placeholder="Contoh: CV. Lestari Kayu" class="premium-input">
-                                    </div>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Date -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Terima *</label>
+                                    <input type="date" id="form-tanggal" class="premium-input">
                                 </div>
                                 
-                                <!-- Catatan -->
+                                <!-- No Surat Jalan -->
                                 <div class="space-y-1.5">
-                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
-                                    <textarea id="form-catatan" rows="2" placeholder="Tulis catatan pengiriman di sini (armada, penumpukan di gudang, dll)..." class="premium-input resize-none h-[64px]"></textarea>
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
+                                    <input type="text" id="form-surat" placeholder="Contoh: SJ-2026/06/009" class="premium-input">
+                                </div>
+
+                                <!-- Supplier -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
+                                    <input type="text" id="form-supplier" placeholder="Contoh: CV. Lestari Kayu" class="premium-input">
                                 </div>
                             </div>
                             
-                            <!-- Right Side: Ringkasan (col-span-1) -->
-                            <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/20 rounded-xl p-4 flex flex-col justify-center items-center text-center gap-3">
-                                <span class="text-zinc-500 block text-[9px] uppercase font-bold tracking-wider leading-none">Ringkasan Pengiriman</span>
-                                <div class="space-y-1">
-                                    <div class="text-[11px] font-semibold text-zinc-500">
-                                        <span id="summary-total-items" class="font-extrabold text-zinc-800 text-lg">0</span> Item
-                                    </div>
-                                    <div class="text-[11px] font-semibold text-zinc-500">
-                                        <span id="summary-total-lembar" class="font-extrabold text-zinc-800 text-lg">0</span> Lembar
-                                    </div>
-                                    <div class="text-[11px] font-semibold text-zinc-500">
-                                        <span id="summary-total-volume" class="font-extrabold text-emerald-700 text-lg">0.0</span> m³
-                                    </div>
-                                </div>
+                            <!-- Catatan -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                                <textarea id="form-catatan" rows="2" placeholder="Tulis catatan pengiriman di sini (armada, penumpukan di gudang, dll)..." class="premium-input resize-none h-[64px]"></textarea>
                             </div>
                         </div>
                     </div>
@@ -968,6 +949,47 @@
                             </svg>
                             <span class="font-bold text-sm">Tambah Item Papan Baru</span>
                         </button>
+
+                        <!-- Ringkasan Detail Input Table -->
+                        <div class="glass-card rounded-2xl p-5 shadow-sm space-y-3 bg-white mt-6 border border-zinc-150">
+                            <div class="flex items-center justify-between border-b border-zinc-100 pb-2">
+                                <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                    Ringkasan Detail Pengiriman (Live)
+                                </h4>
+                                <span class="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-lg border border-emerald-100/50">Draft</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="bg-zinc-50 border-b border-zinc-100">
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Jenis Kayu</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right w-36">Volume (m³)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="form-summary-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                        <!-- Dynamically updated -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="bg-zinc-50/50 font-bold border-t border-zinc-150">
+                                            <td colspan="4" class="py-3 px-3 text-zinc-500 uppercase tracking-wider text-[10px]">Total Ringkasan (<span id="summary-total-items" class="text-zinc-800 font-bold">0</span> Item)</td>
+                                            <td id="summary-total-lembar" class="py-3 px-3 text-right text-zinc-800 text-xs font-bold">0 lbr</td>
+                                            <td id="summary-total-volume" class="py-3 px-3 text-right text-emerald-700 text-sm font-extrabold">0.0000 m³</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
                         
                         <!-- Form Action Buttons -->
                         <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60">
@@ -1549,14 +1571,38 @@
             let totalLembar = 0;
             let totalVolume = 0;
             
-            currentFormItems.forEach(item => {
+            const tbody = document.getElementById('form-summary-table-body');
+            if (tbody) tbody.innerHTML = '';
+            
+            currentFormItems.forEach((item, index) => {
                 totalLembar += item.jumlah;
                 totalVolume += item.volume || 0.0;
+                
+                if (tbody) {
+                    let gradeBadge = '';
+                    if (item.grade === 'A') gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">Grade A</span>';
+                    else if (item.grade === 'B') gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-100">Grade B</span>';
+                    else if (item.grade === 'C') gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100">Grade C</span>';
+                    else if (item.grade === 'D') gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-600 border border-red-100">Grade D</span>';
+                    else gradeBadge = '<span class="text-zinc-400 italic">Belum dipilih</span>';
+                    
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-zinc-50/50 transition-colors';
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-3 text-center font-semibold text-zinc-400">${index + 1}</td>
+                        <td class="py-2.5 px-3 font-bold text-zinc-800">${item.jenis || '<span class="text-zinc-400 italic">Belum dipilih</span>'}</td>
+                        <td class="py-2.5 px-3 text-center">${gradeBadge}</td>
+                        <td class="py-2.5 px-3 text-center"><span class="px-1.5 py-0.5 font-bold text-xs bg-zinc-100 text-zinc-655 rounded">${item.size || '-'}</span></td>
+                        <td class="py-2.5 px-3 text-right font-bold text-zinc-800">${item.jumlah} lbr</td>
+                        <td class="py-2.5 px-3 text-right font-extrabold text-emerald-700">${item.volume > 0 ? item.volume.toFixed(4) + ' m³' : '-'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
             });
             
             document.getElementById('summary-total-items').innerText = totalItems;
             document.getElementById('summary-total-lembar').innerText = totalLembar + ' lbr';
-            document.getElementById('summary-total-volume').innerText = totalVolume.toFixed(4);
+            document.getElementById('summary-total-volume').innerText = totalVolume.toFixed(4) + ' m³';
         }
 
         // LocalStorage save
