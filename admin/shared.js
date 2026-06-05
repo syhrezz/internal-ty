@@ -14,6 +14,20 @@ window.toggleMenu = function(id) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // ── Dynamic URL Resolution for Server Deployments (e.g., Vercel) ──
+    const isLocalFile = window.location.protocol === 'file:';
+    if (!isLocalFile) {
+        const linksToResolve = document.querySelectorAll('aside a, #profile-dropdown a');
+        linksToResolve.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && !href.startsWith('http') && !href.startsWith('/') && !href.startsWith('#')) {
+                // Strip any leading ./ or / and prefix with /admin/
+                const cleanHref = href.replace(/^\.?\/?(admin\/)?/, '');
+                link.setAttribute('href', '/admin/' + cleanHref);
+            }
+        });
+    }
+
     // ── Sidebar Toggle Functionality ──
     const sidebar = document.querySelector('aside');
     const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
