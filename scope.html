@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentasi Cakupan Fitur — WoodTrack Pro</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #FAFAF9;
+            --bg-tertiary: #F5F5F4;
+            --text-primary: #1C1917;
+            --text-secondary: #57534E;
+            --text-muted: #A8A29E;
+            --border-color: #E7E5E4;
+            --border-hover: #D6D3D1;
+            --accent-color: #D97706;
+            /* Amber-600 */
+            --accent-hover: #B45309;
+            /* Amber-700 */
+            --accent-light: #FEF3C7;
+            /* Amber-100 */
+            --success-color: #15803D;
+            /* Green-700 */
+            --success-light: #DCFCE7;
+            /* Green-100 */
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 40px 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-subtle);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle premium light-gradient top border line */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #F59E0B, #D97706, #B45309);
+        }
+
+        /* HEADER SECTION */
+        header {
+            margin-bottom: 36px;
+        }
+
+        .header-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--accent-light);
+            color: var(--accent-hover);
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            font-weight: 400;
+        }
+
+        /* STATISTICS CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* CONTROLS SECTION: Search & Filters */
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        @media (min-width: 768px) {
+            .controls-wrapper {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        /* Search input styling */
+        .search-container {
+            position: relative;
+            flex-grow: 1;
+            max-width: 450px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 48px;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+        }
+
+        /* Filter Chips */
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+        }
+
+        .filter-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-family: var(--font-family);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 99px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+
+        .chip:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .chip.active {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+        }
+
+        /* TABLE STYLING */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.925rem;
+        }
+
+        th {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-weight: 700;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            vertical-align: middle;
+            transition: var(--transition-smooth);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr {
+            transition: var(--transition-smooth);
+        }
+
+        tr:hover td {
+            background-color: var(--bg-secondary);
+        }
+
+        /* Badges for Menu Categories */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-dashboard {
+            background-color: #EEF2FF;
+            color: #4F46E5;
+        }
+
+        .badge-operasional {
+            background-color: #FFF7ED;
+            color: #C2410C;
+        }
+
+        .badge-stok {
+            background-color: #ECFDF5;
+            color: #047857;
+        }
+
+        .badge-master {
+            background-color: #F0FDFA;
+            color: #0F766E;
+        }
+
+        .badge-sistem {
+            background-color: #F8FAFC;
+            color: #475569;
+        }
+
+        /* Features Styling */
+        .feature-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .feature-path {
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: var(--text-muted);
+            margin-top: 4px;
+            display: block;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-weight: 450;
+        }
+
+        /* Count tag */
+        .number-cell {
+            font-weight: 600;
+            color: var(--text-secondary);
+            width: 50px;
+        }
+
+        /* NO RESULTS STATE */
+        .no-results {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .no-results svg {
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .footer-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* Back Button Style */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: var(--transition-smooth);
+        }
+
+        .back-btn:hover {
+            color: var(--text-primary);
+            transform: translateX(-4px);
+        }
+
+        /* Print styling optimizes page layout for hard copies or PDF savings */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .controls-wrapper,
+            .back-btn,
+            .chip {
+                display: none !important;
+            }
+
+            .container::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Back to Dashboard -->
+        <a href="admin/index.html" class="back-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Kembali ke Dashboard
+        </a>
+
+        <!-- Header -->
+        <header>
+            <div class="header-meta">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    style="margin-right: 2px;">
+                    <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+                Dokumentasi Fitur Aktif
+            </div>
+            <h1>Spesifikasi Cakupan Menu WoodTrack Pro</h1>
+            <p class="subtitle">Dokumentasi komprehensif seluruh modul, operasional, pengelolaan stok, konfigurasi
+                master data, dan kontrol sistem yang tersedia pada WoodTrack Pro.</p>
+        </header>
+
+        <!-- Stats Overview Panel -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="count-total">23</span>
+                    <span class="stat-label">Total Fitur Menu</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #4F46E5;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                        <path
+                            d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">2</span>
+                    <span class="stat-label">Platform</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #047857;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">6</span>
+                    <span class="stat-label">Pengelolaan Stok</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #0F766E;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">8</span>
+                    <span class="stat-label">Konfigurasi Master</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Controls Panel -->
+        <section class="controls-wrapper">
+            <!-- Filter Chips -->
+            <div class="filter-chips">
+                <button class="chip active" onclick="filterCategory('semua', this)">Semua</button>
+                <button class="chip" onclick="filterCategory('dashboard', this)">Dashboard</button>
+                <button class="chip" onclick="filterCategory('operasional', this)">Operasional</button>
+                <button class="chip" onclick="filterCategory('stok', this)">Stok</button>
+                <button class="chip" onclick="filterCategory('master data', this)">Master Data</button>
+                <button class="chip" onclick="filterCategory('sistem', this)">Sistem</button>
+            </div>
+
+            <!-- Search input -->
+            <div class="search-container">
+                <div class="search-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <input type="text" id="search-input" class="search-input"
+                    placeholder="Cari nama fitur atau deskripsi..." oninput="handleSearch()">
+            </div>
+        </section>
+
+        <!-- Table View -->
+        <div class="table-responsive">
+            <table id="features-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">No.</th>
+                        <th style="width: 150px;">Kategori</th>
+                        <th style="width: 280px;">Nama Fitur (Menu)</th>
+                        <th>Deskripsi Fungsi</th>
+                    </tr>
+                </thead>
+                <tbody id="features-body">
+                    <!-- Table content will be injected or managed dynamically -->
+                </tbody>
+            </table>
+
+            <div id="no-results-state" class="no-results">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+                <p style="font-weight: 600; font-size: 1rem;">Pencarian Tidak Ditemukan</p>
+                <p style="font-size: 0.85rem; margin-top: 4px;">Tidak ada fitur yang cocok dengan kata kunci pencarian
+                    Anda.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div>
+                Dokumentasi Scope Fitur — <span class="footer-brand">WoodTrack Pro</span>
+            </div>
+            <div>
+                Teknologi: <a href="admin/index.html" class="footer-link">WoodTrack Admin Panel</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Data & Script Logic -->
+    <script>
+        const featuresData = [
+            {
+                kategori: "Dashboard",
+                nama: "Dashboard Monitoring",
+                path: "admin/index.html",
+                deskripsi: "Pusat monitoring visual real-time untuk seluruh pergerakan stok kayu bulat (logs), kayu olahan (sawtimber), kaca, sisa material (waste), dan produk jadi. Dilengkapi dengan TV Mode auto-slideshow untuk presentasi layar monitor."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Penerimaan Log",
+                path: "admin/penerimaan-log.html",
+                deskripsi: "Formulir input pencatatan pasokan log kayu mentah (kayu bulat) yang masuk ke pabrik, termasuk data detail asal-usul kayu, volume, grade kualitas, dan keterangan."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Penerimaan Sawtimber",
+                path: "admin/penerimaan-sawtimber.html",
+                deskripsi: "Pencatatan administrasi pengiriman masuk untuk kayu olahan setengah jadi (sawtimber) yang siap untuk diolah kembali atau disimpan di gudang persediaan."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Penerimaan Crosscut",
+                path: "admin/penerimaan-crosscut.html",
+                deskripsi: "Pencatatan hasil potongan melintang (crosscut) kayu dari pembelahan yang masuk ke area penyimpanan komponen."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Penerimaan Kaca",
+                path: "admin/penerimaan-kaca.html",
+                deskripsi: "Dokumentasi penerimaan bahan baku kaca pendukung, mencakup detail ketebalan, warna, ukuran standar, serta kuantitas fisik yang diterima dari suplier."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Konversi Log",
+                path: "admin/konversi-log.html",
+                deskripsi: "Modul pelaporan pemrosesan pembelahan log bulat menjadi bentuk papan atau balok (sawtimber), menghitung persentase rendemen efisiensi hasil pemotongan kayu."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Konversi Kiln Dry",
+                path: "admin/konversi-kiln-dry.html",
+                deskripsi: "Manajemen siklus pengeringan kayu sawtimber di oven pengering (Kiln Dry), mendokumentasikan kadar air kayu sebelum dan sesudah pengeringan guna menjaga kualitas mutu kayu."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Proses Produksi",
+                path: "admin/proses-produksi.html",
+                deskripsi: "Pencatatan pemakaian bahan baku kayu olahan dan kaca, yang akan digunakan sebagai material produk."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Hasil Produksi",
+                path: "admin/hasil-produksi.html",
+                deskripsi: "Pelaporan output produk jadi (barang jadi atau setengah jadi) yang telah melewati proses produksi."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Penjualan Produk",
+                path: "admin/penjualan-produk.html",
+                deskripsi: "Pencatatan transaksi penjualan produk kepada pembeli, memotong stok barang jadi di gudang secara otomatis."
+            },
+            {
+                kategori: "Operasional",
+                nama: "Waste Material",
+                path: "admin/waste-material.html",
+                deskripsi: "Pencatatan sisa-sisa material produksi tidak terpakai (seperti potongan kayu kecil, serbuk gergaji) untuk kepentingan pembuangan atau pemanfaatan produk sampingan."
+            },
+            {
+                kategori: "Stok",
+                nama: "Stok Log",
+                path: "admin/stok-log.html",
+                deskripsi: "Buku mutasi dan informasi stok log kayu bulat saat ini di area log yard, terperinci berdasarkan log, jenis kayu, dan grade kualitas."
+            },
+            {
+                kategori: "Stok",
+                nama: "Stok Sawtimber",
+                path: "admin/stok-sawtimber.html",
+                deskripsi: "Laporan ketersediaan stok kayu gergajian (sawtimber) di area penyimpanan gudang basah maupun pasca pengeringan oven."
+            },
+            {
+                kategori: "Stok",
+                nama: "Stok Crosscut",
+                path: "admin/stok-crosscut.html",
+                deskripsi: "Informasi posisi stok terkini untuk komponen kayu yang sudah dipotong melintang (crosscut) siap rakit."
+            },
+            {
+                kategori: "Stok",
+                nama: "Stok Bahan Baku",
+                path: "admin/stok-bahan-baku.html",
+                deskripsi: "Pusat informasi inventarisasi bahan baku pendukung yang telah melewati proses kiln dry."
+            },
+            {
+                kategori: "Stok",
+                nama: "Stok Produk",
+                path: "admin/stok-product.html",
+                deskripsi: "Ringkasan data inventaris barang jadi yang siap dikirim dan jumlah unit."
+            },
+            {
+                kategori: "Stok",
+                nama: "Stock Opname",
+                path: "admin/stock-opname.html",
+                deskripsi: "Fasilitas rekonsiliasi stok fisik tahunan atau bulanan (stock-take) untuk menyesuaikan ketidaksesuaian jumlah tercatat sistem dengan stok fisik nyata."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Jenis Kayu",
+                path: "admin/master-jenis-kayu.html",
+                deskripsi: "Database referensi untuk nama-nama jenis pohon / spesies kayu yang digunakan (contoh: Jati, Meranti, Pinus, Mahoni) beserta kodefikasi standarnya."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Grade Log",
+                path: "admin/master-grade.html",
+                deskripsi: "Konfigurasi kelas kualitas log kayu bulat berdasarkan cacat fisik dan kelayakan potong (contoh: Grade A, B, C, Export)."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Ukuran Log",
+                path: "admin/master-ukuran.html",
+                deskripsi: "Spesifikasi tabel rentang ukuran standard diameter dan panjang log kayu untuk mempermudah kategorisasi penerimaan log."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Ukuran Sawtimber",
+                path: "admin/master-ukuran-sw.html",
+                deskripsi: "Konfigurasi standar dimensi panjang, lebar, dan tebal kayu olahan hasil pembelahan (sawtimber) yang diizinkan sistem."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Crosscut",
+                path: "admin/master-crosscut.html",
+                deskripsi: "Daftar pola dan ukuran standar potongan melintang (crosscut) untuk menyelaraskan spesifikasi pemotongan di lini operasional."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Kaca (Tipe / Warna)",
+                path: "admin/master-kaca-tipe-warna.html",
+                deskripsi: "Konfigurasi jenis kaca seperti kaca bening (clear), kaca gelap (tinted), cermin, atau kaca buram beserta opsi warna spesifik."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Kaca (Tebal mm)",
+                path: "admin/master-kaca-tebal.html",
+                deskripsi: "Pengaturan ketebalan milimeter kaca (misalnya: 3mm, 5mm, 8mm, 12mm) untuk membatasi input data transaksi."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Kaca (Ukuran Standard)",
+                path: "admin/master-kaca-ukuran.html",
+                deskripsi: "Definisi master dimensi panjang x lebar standar lembaran kaca mentah pabrikan."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Kaca (Grade)",
+                path: "admin/master-kaca-grade.html",
+                deskripsi: "Penentuan level mutu kaca dari segi kejernihan, ketahanan gores, dan standar manufaktur."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Ukuran Oven (Dry)",
+                path: "admin/master-bahan-baku.html",
+                deskripsi: "Pengelolaan standar dimensi penyusutan kayu pasca proses pengeringan oven (kiln dry) guna menghitung rendemen penyusutan kayu."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Produk (Detail Produk)",
+                path: "admin/master-produk-detail.html",
+                deskripsi: "Informasi lengkap kode barang jadi, gambar produk, spesifikasi, dan deskripsi umum barang."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Produk (Kategori Produk)",
+                path: "admin/master-produk-kategori.html",
+                deskripsi: "Pengelompokan klasifikasi produk jadi (contoh: Kursi, Meja, Lemari, Kusen Pintu) untuk penyajian laporan performa bisnis."
+            },
+            {
+                kategori: "Master Data",
+                nama: "Master Pengguna",
+                path: "admin/master-pengguna.html",
+                deskripsi: "Manajemen otorisasi akun pengguna sistem, pembagian role jabatan, serta data profil karyawan."
+            },
+            {
+                kategori: "Sistem",
+                nama: "System Log",
+                path: "admin/system-log.html",
+                deskripsi: "Jejak audit otomatis sistem yang merekam seluruh aktivitas pengguna, waktu transaksi, perubahan data penting, guna menjamin integritas dan keamanan data."
+            }
+        ];
+
+        let activeFilter = 'semua';
+        let searchQuery = '';
+
+        // Generate and render items
+        function renderFeatures() {
+            const tbody = document.getElementById('features-body');
+            const noResults = document.getElementById('no-results-state');
+            tbody.innerHTML = '';
+
+            let filtered = featuresData.filter(item => {
+                const matchesCategory = activeFilter === 'semua' || item.kategori.toLowerCase() === activeFilter.toLowerCase();
+                const matchesSearch = item.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.deskripsi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.kategori.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            // Update Counter Badge on the overview panel dynamically based on search
+            document.getElementById('count-total').innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            } else {
+                noResults.style.display = 'none';
+            }
+
+            filtered.forEach((item, index) => {
+                const tr = document.createElement('tr');
+
+                // Set badge class
+                let badgeClass = 'badge-operasional';
+                if (item.kategori.toLowerCase() === 'dashboard') badgeClass = 'badge-dashboard';
+                else if (item.kategori.toLowerCase() === 'stok') badgeClass = 'badge-stok';
+                else if (item.kategori.toLowerCase() === 'master data') badgeClass = 'badge-master';
+                else if (item.kategori.toLowerCase() === 'sistem') badgeClass = 'badge-sistem';
+
+                tr.innerHTML = `
+                    <td class="number-cell">${index + 1}</td>
+                    <td><span class="badge ${badgeClass}">${item.kategori}</span></td>
+                    <td>
+                        <span class="feature-name">${item.nama}</span>
+                        <a href="${item.path}" class="feature-path">${item.path}</a>
+                    </td>
+                    <td><p class="feature-description">${item.deskripsi}</p></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Handle category filter chips
+        function filterCategory(category, buttonEl) {
+            activeFilter = category;
+
+            // Toggle active state for chip buttons
+            const chips = document.querySelectorAll('.chip');
+            chips.forEach(chip => chip.classList.remove('active'));
+            buttonEl.classList.add('active');
+
+            renderFeatures();
+        }
+
+        // Handle search query updates
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value;
+            renderFeatures();
+        }
+
+        // Initialize table
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeatures();
+        });
+    </script>
+</body>
+
+</html>
