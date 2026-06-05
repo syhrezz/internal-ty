@@ -312,6 +312,11 @@ const pageTemplate = `<!DOCTYPE html>
         }
     </script>
     <link rel="stylesheet" href="shared.css">
+    <script>
+        if (window.location.protocol !== 'file:') {
+            document.write('<base href="/admin/">');
+        }
+    </script>
 </head>
 
 <body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
