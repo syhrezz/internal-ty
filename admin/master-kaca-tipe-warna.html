@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WoodTrack Pro — Stok Bahan Baku</title>
+    <title>WoodTrack Pro — Master Kaca Tipe / Warna</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,6 @@
             background: #B8AFA5;
         }
 
-        /* ── Animations ── */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -58,8 +57,8 @@
 
         .d1 { animation-delay: 0.05s; }
         .d2 { animation-delay: 0.1s; }
+        .d3 { animation-delay: 0.15s; }
 
-        /* ── Card Styles ── */
         .glass-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
@@ -103,7 +102,10 @@
             transition: transform 0.3s ease;
         }
 
-        /* ── Search Input ── */
+        .hero-stat:hover .hero-icon {
+            transform: scale(1.08);
+        }
+
         .search-input {
             background: #fff;
             border: 1px solid #E4E4E7;
@@ -113,7 +115,6 @@
             color: #3F3F46;
             transition: all 0.2s ease;
             outline: none;
-            width: 240px;
         }
 
         .search-input:focus {
@@ -121,7 +122,6 @@
             box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
         }
 
-        /* ── Premium Select ── */
         .premium-select {
             background: #fff;
             border: 1px solid #E4E4E7;
@@ -144,7 +144,6 @@
             box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
         }
 
-        /* ── Modal Styles ── */
         .modal-container {
             position: fixed;
             top: 0;
@@ -218,7 +217,7 @@
                 </div>
             </a>
         </div>
-                                                                                                                                                                        <!-- Nav -->
+                                                <!-- Nav -->
         <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
 
             <a href="index.html" class="nav-item " data-title="Dashboard">
@@ -332,7 +331,7 @@
                 <span class="sidebar-text">Stok Crosscut</span>
             </a>
 
-            <a href="stok-bahan-baku.html" class="nav-item active" data-title="Stok Bahan Baku">
+            <a href="stok-bahan-baku.html" class="nav-item " data-title="Stok Bahan Baku">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5z" />
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -414,12 +413,12 @@
                         <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
                     </svg>
                     <span class="sidebar-text">Master Kaca</span>
-                    <svg id="master_kaca-chevron" class="ml-auto w-3.5 h-3.5 chevron  text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <svg id="master_kaca-chevron" class="ml-auto w-3.5 h-3.5 chevron open text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
-                <div id="master_kaca-menu" class="submenu  ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                    <a href="master-kaca-tipe-warna.html" class="submenu-item ">Tipe / Warna</a>
+                <div id="master_kaca-menu" class="submenu open ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="master-kaca-tipe-warna.html" class="submenu-item active">Tipe / Warna</a>
                     <a href="master-kaca-tebal.html" class="submenu-item ">Tebal (mm)</a>
                     <a href="master-kaca-ukuran.html" class="submenu-item ">Ukuran Standard</a>
                     <a href="master-kaca-grade.html" class="submenu-item ">Grade</a>
@@ -491,8 +490,8 @@
                     </svg>
                 </button>
                 <div>
-                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Stok Bahan Baku</h1>
-                    <p class="text-[11px] text-zinc-400 mt-0.5">Stok &nbsp;·&nbsp; Papan Kering Oven KD & Kaca Lembaran</p>
+                    <h1 class="text-base font-extrabold text-zinc-900 tracking-tight">Master Kaca Tipe / Warna</h1>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Master Data &nbsp;·&nbsp; Data Tipe / Warna Kaca</p>
                 </div>
             </div>
             <div class="flex items-center gap-3">
@@ -505,7 +504,6 @@
                 </div>
                 <div class="hidden sm:block w-px h-6 bg-zinc-100 mx-1"></div>
 
-                <!-- Profile Dropdown -->
                 <div class="relative">
                     <div id="profile-menu-button" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-zinc-50 cursor-pointer transition-all border border-transparent hover:border-zinc-100">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">A</div>
@@ -517,25 +515,6 @@
                             <polyline points="6 9 12 15 18 9" />
                         </svg>
                     </div>
-                    <!-- Dropdown -->
-                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-zinc-100 py-1.5 z-50 origin-top-right transition-all transform scale-95 opacity-0">
-                        <a href="pengaturan.html" class="flex items-center gap-2.5 px-4 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
-                            <svg class="w-4 h-4 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3" />
-                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                            </svg>
-                            Pengaturan
-                        </a>
-                        <div class="h-px bg-zinc-100 my-1"></div>
-                        <a href="#logout" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                                <polyline points="16 17 21 12 16 7" />
-                                <line x1="21" y1="12" x2="9" y2="12" />
-                            </svg>
-                            Keluar
-                        </a>
-                    </div>
                 </div>
             </div>
         </header>
@@ -544,66 +523,51 @@
         <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <!-- Stat Cards Row -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 anim d1">
                 <!-- Stat 1 -->
-                <div class="hero-stat bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/10">
+                <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Total Papan Oven KD</p>
-                            <h3 id="stat-total-boards" class="text-2xl font-extrabold mt-1.5">0 pcs</h3>
+                            <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Tipe Kaca</p>
+                            <h3 id="stat-total" class="text-2xl font-extrabold mt-1.5">0 tipe</h3>
                         </div>
                         <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                <line x1="9" y1="3" x2="9" y2="21" />
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9 12l2 2 4-4" />
                             </svg>
                         </div>
                     </div>
                 </div>
 
                 <!-- Stat 2 -->
-                <div class="hero-stat bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-md shadow-indigo-500/10">
+                <div class="hero-stat bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/10">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Total Lembar Kaca</p>
-                            <h3 id="stat-total-glass" class="text-2xl font-extrabold mt-1.5">0 lembar</h3>
+                            <p class="text-xs font-semibold text-orange-100 uppercase tracking-wider">Status Aktif</p>
+                            <h3 id="stat-active" class="text-2xl font-extrabold mt-1.5">0 tipe</h3>
                         </div>
                         <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <polygon points="5 3 19 12 5 21 5 3" />
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
                             </svg>
                         </div>
                     </div>
                 </div>
 
                 <!-- Stat 3 -->
-                <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Item Bahan Baku</p>
-                            <h3 id="stat-total-types" class="text-2xl font-extrabold mt-1.5">0 Spesifikasi</h3>
-                        </div>
-                        <div class="hero-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="M12 8l4 4-4 4M8 12h8" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Stat 4 -->
                 <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Kategori Kritis (<= 5)</p>
-                            <h3 id="stat-alerts" class="text-2xl font-extrabold mt-1.5">0 Item</h3>
+                            <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Non-Aktif</p>
+                            <h3 id="stat-inactive" class="text-2xl font-extrabold mt-1.5">0 tipe</h3>
                         </div>
                         <div class="hero-icon bg-zinc-700/50">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                                <line x1="12" y1="9" x2="12" y2="13" />
-                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="15" y1="9" x2="9" y2="15" />
+                                <line x1="9" y1="9" x2="15" y2="15" />
                             </svg>
                         </div>
                     </div>
@@ -615,22 +579,28 @@
                 <!-- Search & Filters Toolbar -->
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                        <!-- Dropdown Filters -->
-                        <select id="category-filter" onchange="handleCategoryFilter(this.value)" class="premium-select w-full sm:w-[220px]">
-                            <option value="All">Semua Kategori</option>
-                            <option value="Sawtimber">Papan Kering (Sawtimber KD)</option>
-                            <option value="Glass">Kaca Lembaran</option>
+                        <select id="status-filter" onchange="handleStatusFilter(this.value)" class="premium-select w-full sm:w-[150px]">
+                            <option value="All">Semua Status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Non-Aktif">Non-Aktif</option>
                         </select>
                     </div>
 
-                    <div class="flex items-center gap-3 w-full md:w-auto">
-                        <div class="relative w-full md:w-auto">
+                    <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                        <div class="relative w-full sm:w-auto">
                             <svg class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="11" cy="11" r="8" />
                                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
                             </svg>
-                            <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari bahan baku, kaca, grade..." class="search-input w-full md:w-[260px]">
+                            <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari kode, nama..." class="search-input w-full sm:w-[240px]">
                         </div>
+                        <button onclick="openAddModal()" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 active:scale-[0.98] text-white font-semibold text-xs rounded-xl shadow-md shadow-amber-500/10 flex items-center gap-2 transition-all">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Tambah Data
+                        </button>
                     </div>
                 </div>
 
@@ -640,11 +610,9 @@
                         <thead>
                             <tr class="bg-zinc-50 border-b border-zinc-100">
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Kategori</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Spesifikasi Material</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah Masuk</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah Keluar (Produksi)</th>
-                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Sisa Stok</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Kode</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tipe / Warna Kaca</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Keterangan</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Status</th>
                                 <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-24">Aksi</th>
                             </tr>
@@ -659,11 +627,10 @@
                         <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
                             <svg class="w-6 h-6 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <rect x="3" y="3" width="18" height="18" rx="2" />
-                                <line x1="9" y1="3" x2="9" y2="21" />
                             </svg>
                         </div>
-                        <h4 class="font-bold text-zinc-800 text-[14px]">Stok bahan baku kosong</h4>
-                        <p class="text-zinc-400 text-xs mt-1">Belum ada mutasi bahan baku terdaftar di sistem.</p>
+                        <h4 class="font-bold text-zinc-800 text-[14px]">Data Kosong</h4>
+                        <p class="text-zinc-400 text-xs mt-1">Belum ada tipe kaca terdaftar.</p>
                     </div>
                 </div>
 
@@ -688,17 +655,13 @@
         </div>
     </main>
 
-    <!-- ═══════════════════════════ HISTORY MODAL ═══════════════════════════ -->
-    <div id="history-modal" class="modal-container">
-        <div class="modal-backdrop" onclick="closeHistoryModal()"></div>
-        <div class="modal-content space-y-4 max-h-[85vh] overflow-y-auto flex flex-col" style="width: 780px; max-width: 95%;">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
-                <div>
-                    <h3 class="font-extrabold text-zinc-900 text-base" id="modal-title">Riwayat Mutasi Bahan Baku</h3>
-                    <p class="text-[11px] text-zinc-400 mt-0.5" id="modal-subtitle">Log aktivitas transaksi keluar masuk stok bahan baku</p>
-                </div>
-                <button onclick="closeHistoryModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+    <!-- ═══════════════════════════ FORM MODAL ═══════════════════════════ -->
+    <div id="form-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+                <h3 id="modal-title" class="font-extrabold text-zinc-900 text-base">Tambah Tipe Kaca</h3>
+                <button onclick="closeModal()" class="text-zinc-400 hover:text-zinc-600 transition-colors">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -706,262 +669,144 @@
                 </button>
             </div>
             
-            <!-- Modal Body -->
-            <div class="space-y-4 flex-1 overflow-y-auto pr-1">
-                <!-- Info cards summary -->
-                <div class="grid grid-cols-3 gap-3 bg-zinc-50 p-4 rounded-xl border border-zinc-100">
-                    <div>
-                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Masuk</span>
-                        <span id="hist-total-received" class="text-sm font-extrabold text-zinc-800">0 unit</span>
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Keluar (Produksi)</span>
-                        <span id="hist-total-consumed" class="text-sm font-extrabold text-zinc-800">0 unit</span>
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Stok Saat Ini</span>
-                        <span id="hist-current-stock" class="text-sm font-extrabold text-emerald-700">0 unit</span>
-                    </div>
+            <form id="data-form" onsubmit="handleSubmit(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="edit-id">
+                
+                <div>
+                    <label class="block text-zinc-500 font-bold mb-1">Kode Tipe *</label>
+                    <input type="text" id="form-code" placeholder="Contoh: CLR, TNT, FST" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-zinc-800 outline-none focus:border-amber-500">
                 </div>
 
-                <!-- History Table -->
-                <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
-                    <table class="w-full text-left border-collapse text-xs">
-                        <thead>
-                            <tr class="bg-zinc-50 border-b border-zinc-100">
-                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
-                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Aktivitas</th>
-                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Referensi / ID</th>
-                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
-                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Keterangan / Detail</th>
-                            </tr>
-                        </thead>
-                        <tbody id="history-table-body" class="divide-y divide-zinc-50 text-zinc-700">
-                            <!-- Dynamic history items -->
-                        </tbody>
-                    </table>
+                <div>
+                    <label class="block text-zinc-500 font-bold mb-1">Tipe / Warna *</label>
+                    <input type="text" id="form-name" placeholder="Contoh: Bening / Clear" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-zinc-800 outline-none focus:border-amber-500">
                 </div>
-            </div>
 
-            <!-- Modal Footer -->
-            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0">
-                <button onclick="closeHistoryModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
-            </div>
+                <div>
+                    <label class="block text-zinc-500 font-bold mb-1">Status *</label>
+                    <select id="form-status" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-zinc-800 outline-none focus:border-amber-500">
+                        <option value="Aktif">Aktif</option>
+                        <option value="Non-Aktif">Non-Aktif</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-zinc-500 font-bold mb-1">Keterangan</label>
+                    <textarea id="form-desc" placeholder="Keterangan tambahan..." rows="2" class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-zinc-800 outline-none focus:border-amber-500"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-zinc-100">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 border border-zinc-200 rounded-lg text-zinc-500 hover:bg-zinc-50 font-bold">Batal</button>
+                    <button type="submit" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold rounded-lg transition-all">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <script src="shared.js"></script>
     <script>
-        // State variables
-        let stockData = [];
-        let filteredStock = [];
-        let categoryFilter = 'All';
-        let searchQuery = '';
+        const defaultData = [
+            { id: "1", code: "CLR", name: "Bening / Clear", desc: "Kaca transparan standard", status: "Aktif" },
+            { id: "2", code: "TNT", name: "Ribon / Tinted", desc: "Kaca ribon gelap penahan panas", status: "Aktif" },
+            { id: "3", code: "FST", name: "Buram / Frosted", desc: "Kaca buram / acid etched frosted", status: "Aktif" },
+            { id: "4", code: "MIR", name: "Cermin / Mirror", desc: "Cermin kaca silver reflector", status: "Aktif" }
+        ];
+
+        let masterData = [];
+        let filteredData = [];
+        let statusFilter = "All";
+        let searchQuery = "";
         let currentPage = 1;
         const rowsPerPage = 10;
 
-        window.addEventListener('DOMContentLoaded', () => {
-            loadStockBahanBaku();
-            updateDashboardStats();
-            applyFiltersAndRender();
+        window.addEventListener("DOMContentLoaded", () => {
+            if (!localStorage.getItem("woodtrack_master_kaca_tipe_warna")) {
+                localStorage.setItem("woodtrack_master_kaca_tipe_warna", JSON.stringify(defaultData));
+            }
+            loadData();
         });
 
-        // Compute stocks dynamically
-        function loadStockBahanBaku() {
-            const rawGlass = JSON.parse(localStorage.getItem('woodtrack_penerimaan_kaca') || '[]');
-            const dryKiln = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
-            const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
-
-            const stockMap = {};
-
-            // 1. Add Glass incoming
-            rawGlass.forEach(entry => {
-                if (entry.items) {
-                    entry.items.forEach(item => {
-                        const spec = `${item.tipe} ${item.tebal}mm - ${item.dimensi}`;
-                        if (!stockMap[spec]) {
-                            stockMap[spec] = {
-                                spec: spec,
-                                kategori: 'Kaca',
-                                received: 0,
-                                consumed: 0
-                            };
-                        }
-                        stockMap[spec].received += parseInt(item.jumlah) || 0;
-                    });
-                }
-            });
-
-            // 2. Add Dried Timber incoming (KD outputs from kiln dry conversion batches)
-            dryKiln.forEach(batch => {
-                if (batch.output) {
-                    const spec = `${batch.output.jenis} - ${batch.output.size} - Grade ${batch.output.grade}`;
-                    if (!stockMap[spec]) {
-                        stockMap[spec] = {
-                            spec: spec,
-                            kategori: 'Papan Kering',
-                            received: 0,
-                            consumed: 0
-                        };
-                    }
-                    stockMap[spec].received += parseInt(batch.output.jumlah) || 0;
-                }
-            });
-
-            // 3. Deduct consumed materials from production requests (kategori === 'Kaca' or 'Sawtimber')
-            prodRequests.forEach(req => {
-                if (req.materials) {
-                    req.materials.forEach(mat => {
-                        if (mat.kategori === 'Kaca' || mat.kategori === 'Sawtimber') {
-                            const spec = mat.spec;
-                            if (stockMap[spec]) {
-                                stockMap[spec].consumed += parseInt(mat.jumlah) || 0;
-                            } else {
-                                // Fallback spec mapping support
-                                stockMap[spec] = {
-                                    spec: spec,
-                                    kategori: mat.kategori === 'Kaca' ? 'Kaca' : 'Papan Kering',
-                                    received: 0,
-                                    consumed: parseInt(mat.jumlah) || 0
-                                };
-                            }
-                        }
-                    });
-                }
-            });
-
-            // 4. Map into final stock list
-            stockData = Object.values(stockMap).map(item => {
-                const stockLeft = Math.max(0, item.received - item.consumed);
-                return {
-                    ...item,
-                    stock: stockLeft
-                };
-            });
+        function loadData() {
+            masterData = JSON.parse(localStorage.getItem("woodtrack_master_kaca_tipe_warna") || "[]");
+            applyFilters();
         }
 
-        // Dashboard statistics
-        function updateDashboardStats() {
-            let totalBoards = 0;
-            let totalGlass = 0;
-            let criticalCount = 0;
+        function updateStats() {
+            const total = masterData.length;
+            const active = masterData.filter(x => x.status === "Aktif").length;
+            const inactive = total - active;
 
-            stockData.forEach(item => {
-                if (item.kategori === 'Papan Kering') {
-                    totalBoards += item.stock;
-                } else if (item.kategori === 'Kaca') {
-                    totalGlass += item.stock;
-                }
+            document.getElementById("stat-total").textContent = `${total} tipe`;
+            document.getElementById("stat-active").textContent = `${active} tipe`;
+            document.getElementById("stat-inactive").textContent = `${inactive} tipe`;
+        }
 
-                if (item.stock <= 5) {
-                    criticalCount++;
-                }
+        function applyFilters() {
+            filteredData = masterData.filter(item => {
+                const matchStatus = statusFilter === "All" || item.status === statusFilter;
+                const matchSearch = searchQuery === "" || 
+                    item.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (item.desc || "").toLowerCase().includes(searchQuery.toLowerCase());
+                return matchStatus && matchSearch;
             });
-
-            document.getElementById('stat-total-boards').innerText = totalBoards + ' pcs';
-            document.getElementById('stat-total-glass').innerText = totalGlass + ' lembar';
-            document.getElementById('stat-total-types').innerText = stockData.length + ' Spesifikasi';
-            document.getElementById('stat-alerts').innerText = criticalCount + ' Item';
-        }
-
-        // Filters Handling
-        function handleCategoryFilter(val) {
-            categoryFilter = val;
-            applyFiltersAndRender();
-        }
-
-        function handleSearch(val) {
-            searchQuery = val.toLowerCase().trim();
-            applyFiltersAndRender();
-        }
-
-        function applyFiltersAndRender() {
+            
             currentPage = 1;
-            filterData();
             renderTable();
-        }
-
-        function filterData() {
-            filteredStock = stockData.filter(item => {
-                // Category filter
-                if (categoryFilter !== 'All') {
-                    if (categoryFilter === 'Sawtimber' && item.kategori !== 'Papan Kering') return false;
-                    if (categoryFilter === 'Glass' && item.kategori !== 'Kaca') return false;
-                }
-
-                // Search query
-                if (searchQuery) {
-                    return item.spec.toLowerCase().includes(searchQuery) || item.kategori.toLowerCase().includes(searchQuery);
-                }
-
-                return true;
-            });
+            updateStats();
         }
 
         function renderTable() {
-            const tableBody = document.getElementById('table-body');
-            const emptyState = document.getElementById('table-empty');
+            const tbody = document.getElementById("table-body");
+            const emptyState = document.getElementById("table-empty");
+            tbody.innerHTML = "";
 
-            if (filteredStock.length === 0) {
-                tableBody.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                document.getElementById('table-pagination-info').innerText = 'Menampilkan 0-0 dari 0 entries';
-                document.getElementById('btn-prev').disabled = true;
-                document.getElementById('btn-next').disabled = true;
+            if (filteredData.length === 0) {
+                emptyState.classList.remove("hidden");
+                document.getElementById("table-pagination-info").textContent = "Menampilkan 0-0 dari 0 entries";
                 return;
             }
+            emptyState.classList.add("hidden");
 
-            emptyState.classList.add('hidden');
-            tableBody.innerHTML = '';
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = Math.min(start + rowsPerPage, filteredData.length);
+            const pageItems = filteredData.slice(start, end);
 
-            const startIndex = (currentPage - 1) * rowsPerPage;
-            const endIndex = Math.min(startIndex + rowsPerPage, filteredStock.length);
-            const pageData = filteredStock.slice(startIndex, endIndex);
+            pageItems.forEach((item, idx) => {
+                const globalIndex = start + idx + 1;
+                const statusBadge = item.status === "Aktif" 
+                    ? `<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">Aktif</span>`
+                    : `<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-zinc-100 text-zinc-500 border border-zinc-200">Non-Aktif</span>`;
 
-            pageData.forEach((item, idx) => {
-                const rowNo = startIndex + idx + 1;
-
-                // Status Badge
-                let statusBadge = '';
-                if (item.stock === 0) {
-                    statusBadge = '<span class="inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-lg border bg-rose-50 text-rose-700 border-rose-100">Habis</span>';
-                } else if (item.stock <= 5) {
-                    statusBadge = '<span class="inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-lg border bg-amber-50 text-amber-700 border-amber-100">Kritis</span>';
-                } else {
-                    statusBadge = '<span class="inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-lg border bg-emerald-50 text-emerald-700 border-emerald-100">Aman</span>';
-                }
-
-                // Category Tag UI
-                const categoryTag = item.kategori === 'Kaca' 
-                    ? '<span class="px-2 py-0.5 bg-indigo-50 border border-indigo-100 text-indigo-700 font-bold text-[10px] rounded-lg">Kaca Lembaran</span>'
-                    : '<span class="px-2 py-0.5 bg-teal-50 border border-teal-100 text-teal-700 font-bold text-[10px] rounded-lg">Papan Kering (KD)</span>';
-
-                const unit = item.kategori === 'Kaca' ? 'lembar' : 'pcs';
-
-                const tr = document.createElement('tr');
-                tr.className = 'border-b border-zinc-50';
+                const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td class="py-3.5 px-4 text-center text-zinc-400 font-bold">${rowNo}</td>
-                    <td class="py-3.5 px-4">${categoryTag}</td>
-                    <td class="py-3.5 px-4 font-bold text-zinc-800">${item.spec}</td>
-                    <td class="py-3.5 px-4 text-right font-semibold text-zinc-600">${item.received} ${unit}</td>
-                    <td class="py-3.5 px-4 text-right font-semibold text-zinc-600">${item.consumed} ${unit}</td>
-                    <td class="py-3.5 px-4 text-right font-extrabold text-amber-700">${item.stock} ${unit}</td>
-                    <td class="py-3.5 px-4 text-center">${statusBadge}</td>
-                    <td class="py-3.5 px-4 text-center">
-                        <button onclick="viewHistory('${item.spec.replace(/'/g, "\\'")}', '${item.kategori}')" class="px-3 py-1.5 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-bold text-[11px] rounded-lg border border-zinc-200/60 transition-all select-none hover:border-zinc-300">Detail</button>
+                    <td class="py-3 px-4 text-center text-zinc-400 font-bold">${globalIndex}</td>
+                    <td class="py-3 px-4 font-bold text-zinc-900">${item.code}</td>
+                    <td class="py-3 px-4 font-semibold">${item.name}</td>
+                    <td class="py-3 px-4 max-w-[300px] truncate text-zinc-500" title="${item.desc || ''}">${item.desc || '-'}</td>
+                    <td class="py-3 px-4 text-center">${statusBadge}</td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="editItem('${item.id}')" class="p-1 text-zinc-400 hover:text-amber-600 rounded hover:bg-zinc-50 transition-colors" title="Edit">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                </svg>
+                            </button>
+                            <button onclick="deleteItem('${item.id}')" class="p-1 text-zinc-400 hover:text-rose-600 rounded hover:bg-zinc-50 transition-colors" title="Hapus">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                </svg>
+                            </button>
+                        </div>
                     </td>
                 `;
-                tableBody.appendChild(tr);
+                tbody.appendChild(tr);
             });
 
-            // Pagination text
-            document.getElementById('table-pagination-info').innerText = 
-                `Menampilkan ${startIndex + 1}-${endIndex} dari ${filteredStock.length} entries`;
-
-            // Pagination buttons status
-            document.getElementById('btn-prev').disabled = currentPage === 1;
-            document.getElementById('btn-next').disabled = currentPage * rowsPerPage >= filteredStock.length;
+            document.getElementById("table-pagination-info").textContent = `Menampilkan ${start + 1}-${end} dari ${filteredData.length} entries`;
+            document.getElementById("btn-prev").disabled = currentPage === 1;
+            document.getElementById("btn-next").disabled = end >= filteredData.length;
         }
 
         function prevPage() {
@@ -972,126 +817,87 @@
         }
 
         function nextPage() {
-            if (currentPage * rowsPerPage < filteredStock.length) {
+            if ((currentPage * rowsPerPage) < filteredData.length) {
                 currentPage++;
                 renderTable();
             }
         }
 
-        // Details Modal History logic
-        function viewHistory(spec, kategori) {
-            const rawGlass = JSON.parse(localStorage.getItem('woodtrack_penerimaan_kaca') || '[]');
-            const dryKiln = JSON.parse(localStorage.getItem('woodtrack_konversi_kiln_dry') || '[]');
-            const prodRequests = JSON.parse(localStorage.getItem('woodtrack_produksi_requests') || '[]');
+        function handleStatusFilter(val) {
+            statusFilter = val;
+            applyFilters();
+        }
 
-            const historyList = [];
+        function handleSearch(val) {
+            searchQuery = val;
+            applyFilters();
+        }
 
-            if (kategori === 'Kaca') {
-                // Collect incoming glass
-                rawGlass.forEach(entry => {
-                    if (entry.items) {
-                        entry.items.forEach(item => {
-                            const itemSpec = `${item.tipe} ${item.tebal}mm - ${item.dimensi}`;
-                            if (itemSpec === spec) {
-                                historyList.push({
-                                    tanggal: entry.tanggal,
-                                    tipe: 'Masuk',
-                                    ref: entry.surat || `TRX-GL-${entry.id}`,
-                                    qty: parseInt(item.jumlah) || 0,
-                                    detail: `Penerimaan supplier: ${entry.supplier || 'N/A'}`
-                                });
-                            }
-                        });
-                    }
-                });
-            } else {
-                // Collect kiln dry outputs
-                dryKiln.forEach(batch => {
-                    if (batch.output) {
-                        const itemSpec = `${batch.output.jenis} - ${batch.output.size} - Grade ${batch.output.grade}`;
-                        if (itemSpec === spec) {
-                            historyList.push({
-                                    tanggal: batch.tanggal,
-                                    tipe: 'Masuk',
-                                    ref: batch.id,
-                                    qty: parseInt(batch.output.jumlah) || 0,
-                                    detail: `Hasil Oven Kiln Dry (Chamber: ${batch.chamber})`
-                            });
-                        }
-                    }
-                });
-            }
+        function openAddModal() {
+            document.getElementById("modal-title").textContent = "Tambah Tipe Kaca";
+            document.getElementById("edit-id").value = "";
+            document.getElementById("data-form").reset();
+            document.getElementById("form-modal").classList.add("open");
+        }
 
-            // Collect production pickups
-            prodRequests.forEach(req => {
-                if (req.materials) {
-                    req.materials.forEach(mat => {
-                        if (mat.spec === spec) {
-                            historyList.push({
-                                tanggal: req.tanggal,
-                                tipe: 'Keluar',
-                                ref: req.id,
-                                qty: parseInt(mat.jumlah) || 0,
-                                detail: `Produksi: ${req.catatan || 'Pengambilan pabrik'}`
-                            });
-                        }
-                    });
+        function editItem(id) {
+            const item = masterData.find(x => x.id === id);
+            if (!item) return;
+
+            document.getElementById("modal-title").textContent = "Edit Tipe Kaca";
+            document.getElementById("edit-id").value = item.id;
+            document.getElementById("form-code").value = item.code;
+            document.getElementById("form-name").value = item.name;
+            document.getElementById("form-status").value = item.status;
+            document.getElementById("form-desc").value = item.desc || "";
+
+            document.getElementById("form-modal").classList.add("open");
+        }
+
+        function closeModal() {
+            document.getElementById("form-modal").classList.remove("open");
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById("edit-id").value;
+            const code = document.getElementById("form-code").value.trim().toUpperCase();
+            const name = document.getElementById("form-name").value.trim();
+            const status = document.getElementById("form-status").value;
+            const desc = document.getElementById("form-desc").value.trim();
+
+            if (id) {
+                const idx = masterData.findIndex(x => x.id === id);
+                if (idx !== -1) {
+                    masterData[idx] = { ...masterData[idx], code, name, status, desc };
                 }
-            });
-
-            // Sort by date descending
-            historyList.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-
-            // Summary values
-            const stockItem = stockData.find(item => item.spec === spec) || { received: 0, consumed: 0, stock: 0 };
-            const unit = kategori === 'Kaca' ? 'lembar' : 'pcs';
-            document.getElementById('hist-total-received').innerText = stockItem.received + ' ' + unit;
-            document.getElementById('hist-total-consumed').innerText = stockItem.consumed + ' ' + unit;
-            document.getElementById('hist-current-stock').innerText = stockItem.stock + ' ' + unit;
-
-            // Populate Modal Table
-            const body = document.getElementById('history-table-body');
-            body.innerHTML = '';
-
-            if (historyList.length === 0) {
-                body.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-zinc-400">Tidak ada riwayat mutasi bahan baku.</td></tr>';
+                if (window.logActivity) {
+                    window.logActivity("EDIT", "Master Kaca Tipe / Warna", `Mengubah tipe kaca: ${code} (${name})`);
+                }
             } else {
-                historyList.forEach(hist => {
-                    const typeBadge = hist.tipe === 'Masuk' 
-                        ? '<span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md font-bold">Masuk</span>'
-                        : '<span class="px-2 py-0.5 bg-rose-50 text-rose-700 rounded-md font-bold">Keluar</span>';
-                    
-                    const qtyColor = hist.tipe === 'Masuk' ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold';
-                    const qtyPrefix = hist.tipe === 'Masuk' ? '+' : '-';
-
-                    const tr = document.createElement('tr');
-                    tr.className = 'border-b border-zinc-50';
-                    tr.innerHTML = `
-                        <td class="py-2.5 px-3 font-semibold">${formatIndoDate(hist.tanggal)}</td>
-                        <td class="py-2.5 px-3 text-center">${typeBadge}</td>
-                        <td class="py-2.5 px-3 font-mono text-zinc-500 font-semibold">${hist.ref}</td>
-                        <td class="py-2.5 px-3 text-right ${qtyColor}">${qtyPrefix}${hist.qty} ${unit}</td>
-                        <td class="py-2.5 px-3 text-zinc-500">${hist.detail}</td>
-                    `;
-                    body.appendChild(tr);
-                });
+                const newId = String(Date.now());
+                masterData.push({ id: newId, code, name, status, desc });
+                if (window.logActivity) {
+                    window.logActivity("TAMBAH", "Master Kaca Tipe / Warna", `Menambahkan tipe kaca: ${code} (${name})`);
+                }
             }
 
-            document.getElementById('modal-title').innerText = `Riwayat: ${spec}`;
-            document.getElementById('history-modal').classList.add('open');
+            localStorage.setItem("woodtrack_master_kaca_tipe_warna", JSON.stringify(masterData));
+            loadData();
+            closeModal();
         }
 
-        function closeHistoryModal() {
-            document.getElementById('history-modal').classList.remove('open');
-        }
-
-        // Helpers
-        function formatIndoDate(dateStr) {
-            if (!dateStr) return '-';
-            const parts = dateStr.split('-');
-            if (parts.length !== 3) return dateStr;
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-            return `${parseInt(parts[2])} ${months[parseInt(parts[1]) - 1]} ${parts[0]}`;
+        function deleteItem(id) {
+            const item = masterData.find(x => x.id === id);
+            if (!item) return;
+            if (confirm(`Apakah Anda yakin ingin menghapus tipe kaca ${item.name}?`)) {
+                masterData = masterData.filter(x => x.id !== id);
+                localStorage.setItem("woodtrack_master_kaca_tipe_warna", JSON.stringify(masterData));
+                if (window.logActivity) {
+                    window.logActivity("HAPUS", "Master Kaca Tipe / Warna", `Menghapus tipe kaca: ${item.code} (${item.name})`);
+                }
+                loadData();
+            }
         }
     </script>
 </body>

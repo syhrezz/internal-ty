@@ -20,12 +20,18 @@ const pages = {
     "stok-bahan-baku": { "title": "Stok Bahan Baku", "parent": "Stok" },
     "stok-product": { "title": "Stok Produk", "parent": "Stok" },
     "stock-opname": { "title": "Stock Opname", "parent": "Stok" },
-    "master-log": { "title": "Master Log", "parent": "Master Data" },
-    "master-sawtimber": { "title": "Master Sawtimber", "parent": "Master Data" },
+    "master-jenis-kayu": { "title": "Master Jenis Kayu", "parent": "Master Data" },
+    "master-grade": { "title": "Master Grade", "parent": "Master Data · Master Log" },
+    "master-ukuran": { "title": "Master Ukuran", "parent": "Master Data · Master Log" },
+    "master-ukuran-sw": { "title": "Master Ukuran Sawtimber", "parent": "Master Data" },
     "master-crosscut": { "title": "Master Crosscut", "parent": "Master Data" },
-    "master-kaca": { "title": "Master Kaca", "parent": "Master Data" },
-    "master-bahan-baku": { "title": "Master Bahan Baku", "parent": "Master Data" },
-    "master-produk": { "title": "Master Produk", "parent": "Master Data" },
+    "master-kaca-tipe-warna": { "title": "Master Kaca Tipe / Warna", "parent": "Master Data · Master Kaca" },
+    "master-kaca-tebal": { "title": "Master Kaca Tebal (mm)", "parent": "Master Data · Master Kaca" },
+    "master-kaca-ukuran": { "title": "Master Kaca Ukuran Standard", "parent": "Master Data · Master Kaca" },
+    "master-kaca-grade": { "title": "Master Kaca Grade", "parent": "Master Data · Master Kaca" },
+    "master-bahan-baku": { "title": "Master Ukuran Oven (Dry)", "parent": "Master Data" },
+    "master-produk-detail": { "title": "Detail Produk", "parent": "Master Data · Master Produk" },
+    "master-produk-kategori": { "title": "Kategori Produk", "parent": "Master Data · Master Produk" },
     "master-pengguna": { "title": "Master Pengguna", "parent": "Master Data" },
     "system-log": { "title": "System Log", "parent": "Sistem" },
 };
@@ -170,21 +176,39 @@ const navTemplate = `        <!-- Nav -->
 
             <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
 
-            <a href="master-log.html" class="nav-item {master_log_active}" data-title="Master Log">
+            <a href="master-jenis-kayu.html" class="nav-item {master_jenis_kayu_active}" data-title="Master Jenis Kayu">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <ellipse cx="12" cy="5" rx="9" ry="3" />
-                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
-                <span class="sidebar-text">Master Log</span>
+                <span class="sidebar-text">Master Jenis Kayu</span>
             </a>
 
-            <a href="master-sawtimber.html" class="nav-item {master_sawtimber_active}" data-title="Master Sawtimber">
+            <!-- Master Log accordion -->
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('master_log')" class="nav-item w-full text-left has-submenu" data-title="Master Log">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <ellipse cx="12" cy="5" rx="9" ry="3" />
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                    </svg>
+                    <span class="sidebar-text">Master Log</span>
+                    <svg id="master_log-chevron" class="ml-auto w-3.5 h-3.5 chevron {master_log_open} text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div id="master_log-menu" class="submenu {master_log_open} ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="master-grade.html" class="submenu-item {master_grade_active}">Master Grade</a>
+                    <a href="master-ukuran.html" class="submenu-item {master_ukuran_active}">Master Ukuran</a>
+                </div>
+            </div>
+
+            <a href="master-ukuran-sw.html" class="nav-item {master_ukuran_sw_active}" data-title="Master Ukuran Sawtimber">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <rect x="2" y="7" width="20" height="14" rx="2" />
                     <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
                 </svg>
-                <span class="sidebar-text">Master Sawtimber</span>
+                <span class="sidebar-text">Master Ukuran Sawtimber</span>
             </a>
 
             <a href="master-crosscut.html" class="nav-item {master_crosscut_active}" data-title="Master Crosscut">
@@ -199,31 +223,53 @@ const navTemplate = `        <!-- Nav -->
                 <span class="sidebar-text">Master Crosscut</span>
             </a>
 
-            <a href="master-kaca.html" class="nav-item {master_kaca_active}" data-title="Master Kaca">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
-                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
-                </svg>
-                <span class="sidebar-text">Master Kaca</span>
-            </a>
+            <!-- Master Kaca accordion -->
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('master_kaca')" class="nav-item w-full text-left has-submenu" data-title="Master Kaca">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                    </svg>
+                    <span class="sidebar-text">Master Kaca</span>
+                    <svg id="master_kaca-chevron" class="ml-auto w-3.5 h-3.5 chevron {master_kaca_open} text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div id="master_kaca-menu" class="submenu {master_kaca_open} ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="master-kaca-tipe-warna.html" class="submenu-item {master_kaca_tipe_warna_active}">Tipe / Warna</a>
+                    <a href="master-kaca-tebal.html" class="submenu-item {master_kaca_tebal_active}">Tebal (mm)</a>
+                    <a href="master-kaca-ukuran.html" class="submenu-item {master_kaca_ukuran_active}">Ukuran Standard</a>
+                    <a href="master-kaca-grade.html" class="submenu-item {master_kaca_grade_active}">Grade</a>
+                </div>
+            </div>
 
-            <a href="master-bahan-baku.html" class="nav-item {master_bahan_baku_active}" data-title="Master Bahan Baku">
+            <a href="master-bahan-baku.html" class="nav-item {master_bahan_baku_active}" data-title="Master Ukuran Oven (Dry)">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5z" />
                     <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
-                <span class="sidebar-text">Master Bahan Baku</span>
+                <span class="sidebar-text">Master Ukuran Oven (Dry)</span>
             </a>
 
-            <a href="master-produk.html" class="nav-item {master_produk_active}" data-title="Master Produk">
-                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <circle cx="9" cy="21" r="1" />
-                    <circle cx="20" cy="21" r="1" />
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-                <span class="sidebar-text">Master Produk</span>
-            </a>
+            <!-- Master Produk accordion -->
+            <div class="has-submenu-container">
+                <button onclick="toggleMenu('master_produk')" class="nav-item w-full text-left has-submenu" data-title="Master Produk">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span class="sidebar-text">Master Produk</span>
+                    <svg id="master_produk-chevron" class="ml-auto w-3.5 h-3.5 chevron {master_produk_open} text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </button>
+                <div id="master_produk-menu" class="submenu {master_produk_open} ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                    <a href="master-produk-detail.html" class="submenu-item {master_produk_detail_active}">Detail Produk</a>
+                    <a href="master-produk-kategori.html" class="submenu-item {master_produk_kategori_active}">Kategori Produk</a>
+                </div>
+            </div>
 
             <a href="master-pengguna.html" class="nav-item {master_pengguna_active}" data-title="Master Pengguna">
                 <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -391,12 +437,21 @@ function getNav(activeId) {
         stok_bahan_baku_active: "",
         stok_product_active: "",
         stock_opname_active: "",
-        master_log_active: "",
-        master_sawtimber_active: "",
+        master_log_open: "",
+        master_jenis_kayu_active: "",
+        master_grade_active: "",
+        master_ukuran_active: "",
+        master_ukuran_sw_active: "",
         master_crosscut_active: "",
-        master_kaca_active: "",
+        master_kaca_open: "",
+        master_kaca_tipe_warna_active: "",
+        master_kaca_tebal_active: "",
+        master_kaca_ukuran_active: "",
+        master_kaca_grade_active: "",
         master_bahan_baku_active: "",
-        master_produk_active: "",
+        master_produk_open: "",
+        master_produk_detail_active: "",
+        master_produk_kategori_active: "",
         master_pengguna_active: "",
         system_log_active: ""
     };
@@ -405,6 +460,15 @@ function getNav(activeId) {
         kwargs.index_active = "active";
     } else if (activeId.startsWith("penerimaan-")) {
         kwargs.penerimaan_open = "open";
+        kwargs[activeId.replace(/-/g, '_') + "_active"] = "active";
+    } else if (["master-grade", "master-ukuran"].includes(activeId)) {
+        kwargs.master_log_open = "open";
+        kwargs[activeId.replace(/-/g, '_') + "_active"] = "active";
+    } else if (activeId.startsWith("master-kaca-")) {
+        kwargs.master_kaca_open = "open";
+        kwargs[activeId.replace(/-/g, '_') + "_active"] = "active";
+    } else if (activeId.startsWith("master-produk-")) {
+        kwargs.master_produk_open = "open";
         kwargs[activeId.replace(/-/g, '_') + "_active"] = "active";
     } else {
         kwargs[activeId.replace(/-/g, '_') + "_active"] = "active";

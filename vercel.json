@@ -1,0 +1,16 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/admin/",
+      "permanent": true
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/",
+      "permanent": true
+    }
+  ]
+}
