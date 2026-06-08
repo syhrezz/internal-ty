@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Master Pengguna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+        }
+    </script>
+
+    <!-- Font Awesome 6.7.2 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Shared Global Styles -->
+    <link rel="stylesheet" href="../../../../_shared/css/main.css">
+    <link rel="stylesheet" href="../../../../_shared/css/components.css">
+    
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <div id="sidebar" class="flex-shrink-0 h-full"></div>
+
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden" data-title="Master Pengguna" data-subtitle="Master Data">
+        <!-- TOP BAR -->
+        <div id="navbar" class="h-16 flex-shrink-0"></div>
+
+        <!-- PAGE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- ── HERO STATS ── -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 anim d1">
+                <!-- Stat 1 -->
+                <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-amber-200 uppercase tracking-wider">Total Pengguna</p>
+                            <h3 class="text-2xl font-extrabold mt-1 tracking-tight" id="stat-total-users">0 user</h3>
+                        </div>
+                        <div class="hero-icon">
+                            <i class="fa-solid fa-users text-white text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Stat 2 -->
+                <div class="hero-stat bg-white text-zinc-800 glass-card shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Pengguna Aktif</p>
+                            <h3 class="text-2xl font-extrabold text-zinc-900 mt-1 tracking-tight" id="stat-active-users">0 user</h3>
+                        </div>
+                        <div class="hero-icon bg-emerald-50 text-emerald-600 border border-emerald-100">
+                            <i class="fa-solid fa-circle-check  text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Stat 3 -->
+                <div class="hero-stat bg-white text-zinc-800 glass-card shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Administrator</p>
+                            <h3 class="text-2xl font-extrabold text-zinc-900 mt-1 tracking-tight" id="stat-admin-count">0 user</h3>
+                        </div>
+                        <div class="hero-icon bg-amber-50 text-amber-600 border border-amber-100">
+                            <i class="fa-solid fa-lock "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── CRUD CARD ── -->
+            <div class="bg-white rounded-2xl shadow-sm border border-[#F0EDE8] overflow-hidden anim d2">
+                <!-- Header Actions -->
+                <div class="p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-[#F0EDE8] bg-zinc-50/50">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <!-- Search Box -->
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass text-zinc-400 absolute left-3 top-3 text-xs"></i>
+                            <input type="text" placeholder="Cari nama/email..." oninput="handleSearch(this.value)" class="search-input w-[220px]">
+                        </div>
+                        <!-- Role Filter -->
+                        <select onchange="handleRoleFilter(this.value)" class="premium-select">
+                            <option value="All">Semua Role</option>
+                            <option value="Super Admin">Super Admin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Operator">Operator</option>
+                            <option value="Supervisor">Supervisor</option>
+                        </select>
+                        <!-- Status Filter -->
+                        <select onchange="handleStatusFilter(this.value)" class="premium-select">
+                            <option value="All">Semua Status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Non-Aktif">Non-Aktif</option>
+                        </select>
+                    </div>
+                    <button onclick="openAddModal()" class="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white rounded-xl text-xs font-semibold shadow-md transition-all">
+                        <i class="fa-solid fa-plus  text-[13px]"></i>
+                        Tambah Pengguna
+                    </button>
+                </div>
+
+                <!-- Table Grid -->
+                <div class="overflow-x-auto min-w-full">
+                    <table class="min-w-full divide-y divide-zinc-100 text-left text-xs text-zinc-500">
+                        <thead class="bg-zinc-50/70 text-zinc-700 uppercase font-bold text-[10px] tracking-wider border-b border-[#F0EDE8]">
+                            <tr>
+                                <th class="py-3 px-4 text-center w-12">No</th>
+                                <th class="py-3 px-4">Nama Lengkap</th>
+                                <th class="py-3 px-4">Email / Username</th>
+                                <th class="py-3 px-4">Role</th>
+                                <th class="py-3 px-4 text-center">Status</th>
+                                <th class="py-3 px-4 text-center w-24">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-50 bg-white" id="table-body">
+                            <!-- Table items rendered dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="table-empty" class="hidden p-12 text-center text-zinc-400">
+                    <i class="fa-solid fa-users mx-auto text-zinc-300 mb-2"></i>
+                    <p class="text-sm font-semibold">Pengguna tidak ditemukan</p>
+                    <p class="text-xs text-zinc-400 mt-1">Coba sesuaikan kata kunci pencarian atau filter Anda.</p>
+                </div>
+
+                <!-- Pagination Footer -->
+                <div class="p-4 border-t border-[#F0EDE8] flex items-center justify-between gap-4 flex-wrap bg-zinc-50/50">
+                    <span class="text-xs text-zinc-500" id="table-pagination-info">Menampilkan 0-0 dari 0 entries</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="prevPage()" id="btn-prev" class="px-3 py-1.5 text-xs font-semibold bg-white border border-[#E4E4E7] rounded-lg hover:bg-zinc-50 disabled:opacity-50 disabled:hover:bg-white transition-all">Sebelumnya</button>
+                        <button onclick="nextPage()" id="btn-next" class="px-3 py-1.5 text-xs font-semibold bg-white border border-[#E4E4E7] rounded-lg hover:bg-zinc-50 disabled:opacity-50 disabled:hover:bg-white transition-all">Berikutnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════ MODALS ═══════════════════════════ -->
+    <!-- Form Modal -->
+    <div class="modal-container" id="form-modal">
+        <div class="modal-backdrop" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+                <h3 class="text-sm font-bold text-zinc-900" id="modal-title">Tambah Pengguna</h3>
+                <button onclick="closeModal()" class="p-1 rounded-lg text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50 transition-colors">
+                    <i class="fa-solid fa-xmark  text-sm"></i>
+                </button>
+            </div>
+            <form onsubmit="handleSubmit(e)" id="data-form" class="space-y-4">
+                <input type="hidden" id="edit-id">
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Nama Lengkap</label>
+                    <input type="text" id="form-name" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs outline-none focus:border-amber-600" placeholder="Contoh: Budi Santoso">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Email / Username</label>
+                    <input type="email" id="form-email" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs outline-none focus:border-amber-600" placeholder="budi@woodtrack.id">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Role Akses</label>
+                    <select id="form-role" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs outline-none focus:border-amber-600 bg-white">
+                        <option value="Super Admin">Super Admin</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Operator">Operator</option>
+                        <option value="Supervisor">Supervisor</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Status</label>
+                    <select id="form-status" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs outline-none focus:border-amber-600 bg-white">
+                        <option value="Aktif">Aktif</option>
+                        <option value="Non-Aktif">Non-Aktif</option>
+                    </select>
+                </div>
+                <div id="form-password-container">
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Password</label>
+                    <input type="password" id="form-password" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs outline-none focus:border-amber-600" placeholder="••••••••">
+                </div>
+                <div class="border-t border-zinc-100 pt-4 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 border border-zinc-200 hover:bg-zinc-50 rounded-xl text-xs font-semibold transition-colors">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white rounded-xl text-xs font-semibold shadow-md transition-all">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal-container" id="reset-password-modal">
+        <div class="modal-backdrop" onclick="closeResetPasswordModal()"></div>
+        <div class="modal-content">
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+                <h3 class="text-sm font-bold text-zinc-900">Reset Password Pengguna</h3>
+                <button onclick="closeResetPasswordModal()" class="p-1 rounded-lg text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50 transition-colors">
+                    <i class="fa-solid fa-xmark  text-sm"></i>
+                </button>
+            </div>
+            <form onsubmit="handleResetPasswordSubmit(event)" id="reset-password-form" class="space-y-4">
+                <input type="hidden" id="reset-user-id">
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Nama Pengguna</label>
+                    <input type="text" id="reset-user-name" disabled class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs bg-zinc-50 text-zinc-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Password Baru</label>
+                    <input type="password" id="reset-new-password" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs outline-none focus:border-amber-600" placeholder="Masukkan password baru">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-600 mb-1">Konfirmasi Password Baru</label>
+                    <input type="password" id="reset-confirm-password" required class="w-full px-3 py-2 border border-zinc-200 rounded-lg text-xs outline-none focus:border-amber-600" placeholder="Ulangi password baru">
+                </div>
+                <div class="border-t border-zinc-100 pt-4 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeResetPasswordModal()" class="px-4 py-2 border border-zinc-200 hover:bg-zinc-50 rounded-xl text-xs font-semibold transition-colors">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white rounded-xl text-xs font-semibold shadow-md transition-all">Reset Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../../../_shared/js/crud-helper.js"></script>
+    <script src="index.js"></script>
+
+    <!-- Global Shared Logic -->
+    <script src="../../../../_shared/js/main.js"></script>
+    <script src="../../../../_shared/js/utils.js"></script>
+</body>
+</html>

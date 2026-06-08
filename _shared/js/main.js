@@ -51,78 +51,78 @@ const navMenusByModule = {
                 <i id="penerimaan-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
             </button>
             <div id="penerimaan-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                <a href="{root}modules/inventory/operasional/penerimaan-log.html" class="submenu-item">Penerimaan Log</a>
-                <a href="{root}modules/inventory/operasional/penerimaan-sawtimber.html" class="submenu-item">Penerimaan Sawtimber</a>
-                <a href="{root}modules/inventory/operasional/penerimaan-crosscut.html" class="submenu-item">Penerimaan Crosscut</a>
-                <a href="{root}modules/inventory/operasional/penerimaan-kaca.html" class="submenu-item">Penerimaan Kaca</a>
+                <a href="{root}modules/inventory/operasional/penerimaan-log/index.html" class="submenu-item">Penerimaan Log</a>
+                <a href="{root}modules/inventory/operasional/penerimaan-sawtimber/index.html" class="submenu-item">Penerimaan Sawtimber</a>
+                <a href="{root}modules/inventory/operasional/penerimaan-crosscut/index.html" class="submenu-item">Penerimaan Crosscut</a>
+                <a href="{root}modules/inventory/operasional/penerimaan-kaca/index.html" class="submenu-item">Penerimaan Kaca</a>
             </div>
         </div>
 
-        <a href="{root}modules/inventory/operasional/konversi-log.html" class="nav-item" data-title="Konversi Log">
+        <a href="{root}modules/inventory/operasional/konversi-log/index.html" class="nav-item" data-title="Konversi Log">
             <i class="fa-solid fa-arrows-spin w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Konversi Log</span>
         </a>
 
-        <a href="{root}modules/inventory/operasional/konversi-kiln-dry.html" class="nav-item" data-title="Konversi Kiln Dry">
+        <a href="{root}modules/inventory/operasional/konversi-kiln-dry/index.html" class="nav-item" data-title="Konversi Kiln Dry">
             <i class="fa-solid fa-fire w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Konversi Kiln Dry</span>
         </a>
 
-        <a href="{root}modules/inventory/operasional/proses-produksi.html" class="nav-item" data-title="Proses Produksi">
+        <a href="{root}modules/inventory/operasional/proses-produksi/index.html" class="nav-item" data-title="Proses Produksi">
             <i class="fa-solid fa-industry w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Proses Produksi</span>
         </a>
 
-        <a href="{root}modules/inventory/operasional/hasil-produksi.html" class="nav-item" data-title="Hasil Produksi">
+        <a href="{root}modules/inventory/operasional/hasil-produksi/index.html" class="nav-item" data-title="Hasil Produksi">
             <i class="fa-solid fa-clipboard-check w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Hasil Produksi</span>
         </a>
 
-        <a href="{root}modules/inventory/operasional/penjualan-produk.html" class="nav-item" data-title="Penjualan Produk">
+        <a href="{root}modules/inventory/operasional/penjualan-produk/index.html" class="nav-item" data-title="Penjualan Produk">
             <i class="fa-solid fa-cart-shopping w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Penjualan Produk</span>
         </a>
 
-        <a href="{root}modules/inventory/operasional/waste-material.html" class="nav-item" data-title="Waste Material">
+        <a href="{root}modules/inventory/operasional/waste-material/index.html" class="nav-item" data-title="Waste Material">
             <i class="fa-solid fa-trash-can w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Waste Material</span>
         </a>
 
         <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Stok</p>
 
-        <a href="{root}modules/inventory/stok/stok-log.html" class="nav-item" data-title="Stok Log">
+        <a href="{root}modules/inventory/stok/stok-log/index.html" class="nav-item" data-title="Stok Log">
             <i class="fa-solid fa-tree w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Stok Log</span>
         </a>
 
-        <a href="{root}modules/inventory/stok/stok-sawtimber.html" class="nav-item" data-title="Stok Sawtimber">
+        <a href="{root}modules/inventory/stok/stok-sawtimber/index.html" class="nav-item" data-title="Stok Sawtimber">
             <i class="fa-solid fa-cubes w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Stok Sawtimber</span>
         </a>
 
-        <a href="{root}modules/inventory/stok/stok-crosscut.html" class="nav-item" data-title="Stok Crosscut">
+        <a href="{root}modules/inventory/stok/stok-crosscut/index.html" class="nav-item" data-title="Stok Crosscut">
             <i class="fa-solid fa-grip-lines w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Stok Crosscut</span>
         </a>
 
-        <a href="{root}modules/inventory/stok/stok-bahan-baku.html" class="nav-item" data-title="Stok Bahan Baku">
+        <a href="{root}modules/inventory/stok/stok-bahan-baku/index.html" class="nav-item" data-title="Stok Bahan Baku">
             <i class="fa-solid fa-boxes-stacked w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Stok Bahan Baku</span>
         </a>
 
-        <a href="{root}modules/inventory/stok/stok-product.html" class="nav-item" data-title="Stok Produk">
+        <a href="{root}modules/inventory/stok/stok-product/index.html" class="nav-item" data-title="Stok Produk">
             <i class="fa-solid fa-box-open w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Stok Produk</span>
         </a>
 
-        <a href="{root}modules/inventory/stok/stock-opname.html" class="nav-item" data-title="Stock Opname">
+        <a href="{root}modules/inventory/stok/stock-opname/index.html" class="nav-item" data-title="Stock Opname">
             <i class="fa-solid fa-clipboard-list w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Stock Opname</span>
         </a>
 
         <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
 
-        <a href="{root}modules/inventory/master-data/master-jenis-kayu.html" class="nav-item" data-title="Master Jenis Kayu">
+        <a href="{root}modules/inventory/master-data/master-jenis-kayu/index.html" class="nav-item" data-title="Master Jenis Kayu">
             <i class="fa-solid fa-tag w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Master Jenis Kayu</span>
         </a>
@@ -135,17 +135,17 @@ const navMenusByModule = {
                 <i id="master-log-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
             </button>
             <div id="master-log-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                <a href="{root}modules/inventory/master-data/master-grade.html" class="submenu-item">Master Grade</a>
-                <a href="{root}modules/inventory/master-data/master-ukuran.html" class="submenu-item">Master Ukuran</a>
+                <a href="{root}modules/inventory/master-data/master-grade/index.html" class="submenu-item">Master Grade</a>
+                <a href="{root}modules/inventory/master-data/master-ukuran/index.html" class="submenu-item">Master Ukuran</a>
             </div>
         </div>
 
-        <a href="{root}modules/inventory/master-data/master-ukuran-sw.html" class="nav-item" data-title="Master Ukuran Sawtimber">
+        <a href="{root}modules/inventory/master-data/master-ukuran-sw/index.html" class="nav-item" data-title="Master Ukuran Sawtimber">
             <i class="fa-solid fa-ruler-combined w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Master Ukuran Sawtimber</span>
         </a>
 
-        <a href="{root}modules/inventory/master-data/master-crosscut.html" class="nav-item" data-title="Master Crosscut">
+        <a href="{root}modules/inventory/master-data/master-crosscut/index.html" class="nav-item" data-title="Master Crosscut">
             <i class="fa-solid fa-list-check w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Master Crosscut</span>
         </a>
@@ -158,14 +158,14 @@ const navMenusByModule = {
                 <i id="master-kaca-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
             </button>
             <div id="master-kaca-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                <a href="{root}modules/inventory/master-data/master-kaca-tipe-warna.html" class="submenu-item">Tipe / Warna</a>
-                <a href="{root}modules/inventory/master-data/master-kaca-tebal.html" class="submenu-item">Tebal (mm)</a>
-                <a href="{root}modules/inventory/master-data/master-kaca-ukuran.html" class="submenu-item">Ukuran Standard</a>
-                <a href="{root}modules/inventory/master-data/master-kaca-grade.html" class="submenu-item">Grade</a>
+                <a href="{root}modules/inventory/master-data/master-kaca-tipe-warna/index.html" class="submenu-item">Tipe / Warna</a>
+                <a href="{root}modules/inventory/master-data/master-kaca-tebal/index.html" class="submenu-item">Tebal (mm)</a>
+                <a href="{root}modules/inventory/master-data/master-kaca-ukuran/index.html" class="submenu-item">Ukuran Standard</a>
+                <a href="{root}modules/inventory/master-data/master-kaca-grade/index.html" class="submenu-item">Grade</a>
             </div>
         </div>
 
-        <a href="{root}modules/inventory/master-data/master-bahan-baku.html" class="nav-item" data-title="Master Ukuran Oven (Dry)">
+        <a href="{root}modules/inventory/master-data/master-bahan-baku/index.html" class="nav-item" data-title="Master Ukuran Oven (Dry)">
             <i class="fa-solid fa-fire-burner w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Master Ukuran Oven (Dry)</span>
         </a>
@@ -178,19 +178,19 @@ const navMenusByModule = {
                 <i id="master-produk-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
             </button>
             <div id="master-produk-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
-                <a href="{root}modules/inventory/master-data/master-produk-detail.html" class="submenu-item">Detail Produk</a>
-                <a href="{root}modules/inventory/master-data/master-produk-kategori.html" class="submenu-item">Kategori Produk</a>
+                <a href="{root}modules/inventory/master-data/master-produk-detail/index.html" class="submenu-item">Detail Produk</a>
+                <a href="{root}modules/inventory/master-data/master-produk-kategori/index.html" class="submenu-item">Kategori Produk</a>
             </div>
         </div>
 
-        <a href="{root}modules/inventory/master-data/master-pengguna.html" class="nav-item" data-title="Master Pengguna">
+        <a href="{root}modules/inventory/master-data/master-pengguna/index.html" class="nav-item" data-title="Master Pengguna">
             <i class="fa-solid fa-users w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">Master Pengguna</span>
         </a>
 
         <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sistem</p>
 
-        <a href="{root}modules/inventory/sistem/system-log.html" class="nav-item" data-title="System Log">
+        <a href="{root}modules/inventory/sistem/system-log/index.html" class="nav-item" data-title="System Log">
             <i class="fa-solid fa-file-shield w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
             <span class="sidebar-text">System Log</span>
         </a>
@@ -601,7 +601,7 @@ function initNavbar(sharedPath) {
     // Resolve profile settings link relative path
     const profileSettings = document.getElementById('profile-settings-link');
     if (profileSettings) {
-        profileSettings.setAttribute('href', sharedPath + '../modules/inventory/sistem/pengaturan.html');
+        profileSettings.setAttribute('href', sharedPath + '../modules/inventory/sistem/pengaturan/index.html');
     }
 
     // Check if on Dashboard index.html to show TV Mode button

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Penerimaan Log</title>
+    <meta name="description" content="Pencatatan penerimaan raw log kayu — WoodTrack Pro admin.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome 6.7.2 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Shared Global Styles -->
+    <link rel="stylesheet" href="../../../../_shared/css/main.css">
+    <link rel="stylesheet" href="../../../../_shared/css/components.css">
+    
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <div id="sidebar" class="flex-shrink-0 h-full"></div>
+
+    <!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden" data-title="Penerimaan Log" data-subtitle="Operasional · Penerimaan">
+        <!-- Top bar -->
+        <div id="navbar" class="h-16 flex-shrink-0"></div>
+
+        <!-- Page body -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- ═══════════════════════════ DASHBOARD VIEW ═══════════════════════════ -->
+            <div id="dashboard-view" class="space-y-6">
+                <!-- Stat Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+                    <!-- Stat 1 -->
+                    <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Batang Log</p>
+                                <h3 id="stat-total-batang" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <i class="fa-solid fa-plus  text-[13px]"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="hero-stat bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-orange-100 uppercase tracking-wider">Total Surat Jalan</p>
+                                <h3 id="stat-total-surat" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <i class="fa-solid fa-file-lines "></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="hero-stat bg-gradient-to-br from-yellow-500 to-amber-500 text-white shadow-md shadow-yellow-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-yellow-100 uppercase tracking-wider">Variasi Jenis Kayu</p>
+                                <h3 id="stat-jenis-kayu" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <i class="fa-solid fa-layer-group  text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Terima Bulan Ini</p>
+                                <h3 id="stat-bulan-ini" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon bg-zinc-700/50">
+                                <i class="fa-solid fa-calendar-days  text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Data Card -->
+                <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
+                    <!-- Search & Filters Toolbar -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- Date Filter Pills -->
+                            <div class="flex items-center gap-2" id="date-filter-pills">
+                                <span class="filter-pill active" onclick="setDateFilter('All')">Semua</span>
+                                <span class="filter-pill" onclick="setDateFilter('Today')">Hari Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Week')">Minggu Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Month')">Bulan Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Custom')">Pilih Tanggal / Range</span>
+                            </div>
+
+                            <!-- Collapsible Custom Date Range Selector -->
+                            <div id="custom-date-container" class="hidden items-center gap-2 transition-all duration-300">
+                                <div class="flex items-center gap-1.5 bg-white border border-zinc-200 rounded-xl p-1 px-2.5 shadow-sm">
+                                    <input type="date" id="filter-start-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                    <span class="text-zinc-400 text-[10px] font-bold uppercase mx-1">s/d</span>
+                                    <input type="date" id="filter-end-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                </div>
+                                <span class="text-[10px] text-zinc-400 font-semibold italic">(Kosongkan tanggal kedua untuk tanggal spesifik)</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="relative w-full sm:w-auto">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-zinc-400 text-xs"></i>
+                                <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari jenis, surat jalan..." class="search-input">
+                            </div>
+                            <button onclick="setView('form')" class="flex items-center justify-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-amber-600/20 whitespace-nowrap">
+                                <i class="fa-solid fa-plus  text-[13px]"></i>
+                                Tambah Log
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table Container -->
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Supplier</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">No. Surat Jalan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Rincian Item</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Total Batang</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Catatan</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-28">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Table Empty State -->
+                        <div id="table-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-solid fa-folder-open text-lg text-zinc-400"></i>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada data penerimaan</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Tambah Log" untuk menambahkan data baru.</p>
+                        </div>
+                    </div>
+
+                    <!-- Table Footer Pagination -->
+                    <div class="flex items-center justify-between pt-2">
+                        <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
+                        <div class="flex gap-2">
+                            <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <i class="fa-solid fa-chevron-left text-zinc-600 text-xs"></i>
+                            </button>
+                            <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <i class="fa-solid fa-chevron-right text-zinc-600 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════ FORM VIEW ═══════════════════════════ -->
+            <div id="form-view" class="hidden space-y-6">
+                <!-- Form Subheader -->
+                <div class="flex items-center gap-4 mb-2">
+                    <button onclick="setView('dashboard')" class="p-2 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 active:scale-[0.98] transition-all">
+                        <i class="fa-solid fa-arrow-left text-zinc-600 text-sm"></i>
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-zinc-900 text-base">Catat Penerimaan Baru</h2>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Input data pengiriman log per surat jalan dengan multi-item jenis kayu</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Top Full Row Card: Informasi Pengiriman -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm">
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Date -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Terima *</label>
+                                    <input type="date" id="form-tanggal" class="premium-input">
+                                </div>
+                                
+                                <!-- No Surat Jalan -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">No. Surat Jalan</label>
+                                    <input type="text" id="form-surat" placeholder="Contoh: SJ-2026/06/004" class="premium-input">
+                                </div>
+
+                                <!-- Supplier -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Supplier</label>
+                                    <input type="text" id="form-supplier" placeholder="Contoh: CV. Kayu Abadi" class="premium-input">
+                                </div>
+                            </div>
+                            
+                            <!-- Catatan (Full Width under date/surat) -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                                <textarea id="form-catatan" rows="2" placeholder="Tulis catatan pengiriman di sini (supplier, armada, lokasi hutan, dll)..." class="premium-input resize-none h-[64px]"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Under: Daftar Item Kayu -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-zinc-800 text-sm">Daftar Item Kayu dalam Surat Jalan</h3>
+                            <button onclick="addWoodItemRow()" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-amber-600/10">
+                                <i class="fa-solid fa-plus .5 .5 text-[13px]"></i>
+                                Tambah Item Kayu
+                            </button>
+                        </div>
+                        
+                        <!-- Items Grid Container (1 item in a row) -->
+                        <div id="wood-items-container" class="grid grid-cols-1 gap-6">
+                            <!-- Dynamic Rows of wood items go here -->
+                        </div>
+                        
+                        <!-- Big Add Item Button -->
+                        <button onclick="addWoodItemRow()" class="w-full py-4 border-2 border-dashed border-zinc-200 hover:border-amber-500 rounded-2xl flex items-center justify-center gap-2 text-zinc-400 hover:text-amber-600 transition-all bg-white/50 hover:bg-amber-50/10">
+                            <i class="fa-solid fa-plus  text-[13px]"></i>
+                            <span class="font-bold text-sm">Tambah Item Kayu Baru</span>
+                        </button>
+
+                        <!-- Ringkasan Detail Input Table -->
+                        <div class="glass-card rounded-2xl p-5 shadow-sm space-y-3 bg-white mt-6 border border-zinc-150">
+                            <div class="flex items-center justify-between border-b border-zinc-100 pb-2">
+                                <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-file-lines text-amber-500"></i>
+                                    Ringkasan Detail Pengiriman (Live)
+                                </h4>
+                                <span class="text-[10px] bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded-lg border border-amber-100/50">Draft</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="bg-zinc-50 border-b border-zinc-100">
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Jenis Kayu</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
+                                            <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right w-32">Est. Volume</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="form-summary-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                        <!-- Dynamically updated -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="bg-zinc-50/50 font-bold border-t border-zinc-150">
+                                            <td colspan="4" class="py-3 px-3 text-zinc-500 uppercase tracking-wider text-[10px]">Total Ringkasan (<span id="summary-total-items" class="text-zinc-800 font-bold">0</span> Item)</td>
+                                            <td id="summary-total-batang" class="py-3 px-3 text-right text-zinc-800 text-xs font-bold">0 btg</td>
+                                            <td id="summary-total-volume" class="py-3 px-3 text-right text-amber-700 text-sm font-extrabold">0.00 m³</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Form Action Buttons -->
+                        <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60">
+                            <button onclick="setView('dashboard')" class="px-6 py-2.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                            <button onclick="saveAllItems()" class="px-8 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/10 transition-all active:scale-[0.98]">Simpan Semua & Selesai</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════ DETAIL MODAL ═══════════════════════════ -->
+    <div id="detail-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeDetailModal()"></div>
+        <div class="modal-content space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Detail Penerimaan Log</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Rincian lengkap pengiriman log masuk</p>
+                </div>
+                <button onclick="closeDetailModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <i class="fa-solid fa-xmark  text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1">
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-zinc-50/50 p-4 rounded-xl border border-zinc-100">
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Tanggal Terima</span>
+                        <span id="detail-tanggal" class="text-xs font-bold text-zinc-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">No. Surat Jalan</span>
+                        <span id="detail-surat" class="text-xs font-bold text-zinc-800 font-mono"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Supplier</span>
+                        <span id="detail-supplier" class="text-xs font-bold text-zinc-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Catatan</span>
+                        <span id="detail-catatan" class="text-xs text-zinc-600 block max-h-[60px] overflow-y-auto"></span>
+                    </div>
+                </div>
+                
+                <!-- Items Table -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">Daftar Item Kayu</h4>
+                    <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider w-10 text-center">No</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Jenis Kayu</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Grade</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Ukuran</th>
+                                    <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-between border-t border-zinc-100 pt-3 flex-shrink-0">
+                <div class="text-[11px] font-semibold text-zinc-500">
+                    Total: <span id="detail-total-batang" class="font-extrabold text-zinc-800 text-sm">0</span> batang
+                </div>
+                <button onclick="closeDetailModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════ JAVASCRIPT CODE ═══════════════════════════ -->
+    <script src="index.js"></script>
+
+    <!-- Global Shared Logic -->
+    <script src="../../../../_shared/js/main.js"></script>
+    <script src="../../../../_shared/js/utils.js"></script>
+</body>
+
+</html>

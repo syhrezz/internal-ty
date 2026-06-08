@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Pengaturan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+        }
+    </script>
+
+    <!-- Font Awesome 6.7.2 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Shared Global Styles -->
+    <link rel="stylesheet" href="../../../../_shared/css/main.css">
+    <link rel="stylesheet" href="../../../../_shared/css/components.css">
+    
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <div id="sidebar" class="flex-shrink-0 h-full"></div>
+
+    <!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden" data-title="Pengaturan" data-subtitle="Akun · Konfigurasi Dasar">
+        <!-- TOP BAR -->
+        <div id="navbar" class="h-16 flex-shrink-0"></div>
+
+        <!-- SCROLLABLE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            <div class="max-w-2xl mx-auto space-y-6">
+                
+                <div>
+                    <h2 class="text-xl font-extrabold text-zinc-900 tracking-tight leading-tight">Pengaturan Profil</h2>
+                    <p class="text-xs text-zinc-400 mt-1">Ubah informasi dasar akun administrator Anda.</p>
+                </div>
+
+                <!-- Form Card -->
+                <div class="bg-white rounded-2xl border border-zinc-100 shadow-sm p-6 space-y-5">
+                    
+                    <!-- Username/Nama -->
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Nama Lengkap *</label>
+                        <input type="text" id="admin-name" value="Admin" placeholder="Nama Lengkap" class="premium-input">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="space-y-1.5">
+                        <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Alamat Email *</label>
+                        <input type="email" id="admin-email" value="admin@woodtrack.id" placeholder="Alamat Email" class="premium-input">
+                    </div>
+
+                    <hr class="border-zinc-100 my-4" />
+
+                    <!-- Password Section -->
+                    <div class="space-y-1">
+                        <h3 class="text-sm font-bold text-zinc-800">Ubah Password</h3>
+                        <p class="text-[11px] text-zinc-400">Kosongkan jika Anda tidak ingin mengubah password.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Password Baru -->
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Password Baru</label>
+                            <input type="password" id="admin-password" placeholder="••••••••" class="premium-input">
+                        </div>
+
+                        <!-- Konfirmasi Password -->
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Konfirmasi Password Baru</label>
+                            <input type="password" id="admin-confirm-password" placeholder="••••••••" class="premium-input">
+                        </div>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="flex justify-end gap-3 pt-4 border-t border-zinc-100">
+                        <button onclick="window.history.back()" class="px-6 py-2 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                        <button onclick="saveSettings()" class="px-8 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/10 transition-all active:scale-[0.98]">Simpan Perubahan</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="index.js"></script>
+
+    <!-- Global Shared Logic -->
+    <script src="../../../../_shared/js/main.js"></script>
+    <script src="../../../../_shared/js/utils.js"></script>
+</body>
+
+</html>
+
