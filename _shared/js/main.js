@@ -477,13 +477,18 @@ function initSidebar(sharedPath) {
     if (!sidebar) return;
 
     // Resolve current path name and highlight link using native URL parsing
+    // Normalize both sides: strip /index.html and trailing slash for
+    // compatibility with both file:// (local) and Vercel cleanUrls (production)
+    const normalizePath = (p) => p.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+    const currentPath = normalizePath(window.location.pathname);
+
     const links = sidebar.querySelectorAll('a');
     links.forEach(link => {
         const href = link.getAttribute('href');
         if (href && href !== '#' && !href.startsWith('#')) {
             try {
                 const urlObj = new URL(link.href, window.location.href);
-                if (urlObj.pathname === window.location.pathname) {
+                if (normalizePath(urlObj.pathname) === currentPath) {
                     link.classList.add('active');
                     
                     // Expand parent menu if it's inside a submenu
