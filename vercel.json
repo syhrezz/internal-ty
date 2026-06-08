@@ -4,7 +4,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/admin/index.html",
+      "destination": "/modules/inventory/dashboard/index.html",
       "permanent": true
     }
   ]

@@ -1,0 +1,176 @@
+<aside class="w-[260px] flex-shrink-0 h-full bg-white flex flex-col overflow-hidden" style="border-right:1px solid #F0EDE8;">
+    <!-- Logo -->
+    <div class="px-5 py-5" style="border-bottom:1px solid #F0EDE8;">
+        <a href="../dashboard/index.html" class="flex items-center gap-3" style="text-decoration:none;">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md flex-shrink-0" style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
+                <i class="fa-solid fa-chart-simple text-white text-lg"></i>
+            </div>
+            <div class="sidebar-text">
+                <p class="font-extrabold text-zinc-900 text-sm leading-tight tracking-tight">WoodTrack</p>
+                <p class="text-[10px] font-bold text-amber-600 uppercase tracking-[0.14em]">Pro Edition</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
+        <a href="../dashboard/index.html" class="nav-item" data-title="Dashboard">
+            <i class="fa-solid fa-chart-pie w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Dashboard</span>
+        </a>
+
+        <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Operasional</p>
+
+        <!-- Penerimaan Accordion -->
+        <div class="has-submenu-container">
+            <button onclick="toggleMenu('penerimaan')" class="nav-item w-full text-left has-submenu" data-title="Penerimaan">
+                <i class="fa-solid fa-inbox w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+                <span class="sidebar-text">Penerimaan</span>
+                <i id="penerimaan-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
+            </button>
+            <div id="penerimaan-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                <a href="../operasional/penerimaan-log.html" class="submenu-item">Penerimaan Log</a>
+                <a href="../operasional/penerimaan-sawtimber.html" class="submenu-item">Penerimaan Sawtimber</a>
+                <a href="../operasional/penerimaan-crosscut.html" class="submenu-item">Penerimaan Crosscut</a>
+                <a href="../operasional/penerimaan-kaca.html" class="submenu-item">Penerimaan Kaca</a>
+            </div>
+        </div>
+
+        <a href="../operasional/konversi-log.html" class="nav-item" data-title="Konversi Log">
+            <i class="fa-solid fa-arrows-spin w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Konversi Log</span>
+        </a>
+
+        <a href="../operasional/konversi-kiln-dry.html" class="nav-item" data-title="Konversi Kiln Dry">
+            <i class="fa-solid fa-fire w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Konversi Kiln Dry</span>
+        </a>
+
+        <a href="../operasional/proses-produksi.html" class="nav-item" data-title="Proses Produksi">
+            <i class="fa-solid fa-industry w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Proses Produksi</span>
+        </a>
+
+        <a href="../operasional/hasil-produksi.html" class="nav-item" data-title="Hasil Produksi">
+            <i class="fa-solid fa-clipboard-check w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Hasil Produksi</span>
+        </a>
+
+        <a href="../operasional/penjualan-produk.html" class="nav-item" data-title="Penjualan Produk">
+            <i class="fa-solid fa-cart-shopping w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Penjualan Produk</span>
+        </a>
+
+        <a href="../operasional/waste-material.html" class="nav-item" data-title="Waste Material">
+            <i class="fa-solid fa-trash-can w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Waste Material</span>
+        </a>
+
+        <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Stok</p>
+
+        <a href="../stok/stok-log.html" class="nav-item" data-title="Stok Log">
+            <i class="fa-solid fa-tree w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Stok Log</span>
+        </a>
+
+        <a href="../stok/stok-sawtimber.html" class="nav-item" data-title="Stok Sawtimber">
+            <i class="fa-solid fa-cubes w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Stok Sawtimber</span>
+        </a>
+
+        <a href="../stok/stok-crosscut.html" class="nav-item" data-title="Stok Crosscut">
+            <i class="fa-solid fa-grip-lines w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Stok Crosscut</span>
+        </a>
+
+        <a href="../stok/stok-bahan-baku.html" class="nav-item" data-title="Stok Bahan Baku">
+            <i class="fa-solid fa-boxes-stacked w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Stok Bahan Baku</span>
+        </a>
+
+        <a href="../stok/stok-product.html" class="nav-item" data-title="Stok Produk">
+            <i class="fa-solid fa-box-open w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Stok Produk</span>
+        </a>
+
+        <a href="../stok/stock-opname.html" class="nav-item" data-title="Stock Opname">
+            <i class="fa-solid fa-clipboard-list w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Stock Opname</span>
+        </a>
+
+        <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Master Data</p>
+
+        <a href="../master-data/master-jenis-kayu.html" class="nav-item" data-title="Master Jenis Kayu">
+            <i class="fa-solid fa-tag w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Master Jenis Kayu</span>
+        </a>
+
+        <!-- Master Log Accordion -->
+        <div class="has-submenu-container">
+            <button onclick="toggleMenu('master-log')" class="nav-item w-full text-left has-submenu" data-title="Master Log">
+                <i class="fa-solid fa-folder-open w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+                <span class="sidebar-text">Master Log</span>
+                <i id="master-log-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
+            </button>
+            <div id="master-log-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                <a href="../master-data/master-grade.html" class="submenu-item">Master Grade</a>
+                <a href="../master-data/master-ukuran.html" class="submenu-item">Master Ukuran</a>
+            </div>
+        </div>
+
+        <a href="../master-data/master-ukuran-sw.html" class="nav-item" data-title="Master Ukuran Sawtimber">
+            <i class="fa-solid fa-ruler-combined w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Master Ukuran Sawtimber</span>
+        </a>
+
+        <a href="../master-data/master-crosscut.html" class="nav-item" data-title="Master Crosscut">
+            <i class="fa-solid fa-list-check w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Master Crosscut</span>
+        </a>
+
+        <!-- Master Kaca Accordion -->
+        <div class="has-submenu-container">
+            <button onclick="toggleMenu('master-kaca')" class="nav-item w-full text-left has-submenu" data-title="Master Kaca">
+                <i class="fa-solid fa-border-all w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+                <span class="sidebar-text">Master Kaca</span>
+                <i id="master-kaca-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
+            </button>
+            <div id="master-kaca-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                <a href="../master-data/master-kaca-tipe-warna.html" class="submenu-item">Tipe / Warna</a>
+                <a href="../master-data/master-kaca-tebal.html" class="submenu-item">Tebal (mm)</a>
+                <a href="../master-data/master-kaca-ukuran.html" class="submenu-item">Ukuran Standard</a>
+                <a href="../master-data/master-kaca-grade.html" class="submenu-item">Grade</a>
+            </div>
+        </div>
+
+        <a href="../master-data/master-bahan-baku.html" class="nav-item" data-title="Master Ukuran Oven (Dry)">
+            <i class="fa-solid fa-fire-burner w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Master Ukuran Oven (Dry)</span>
+        </a>
+
+        <!-- Master Produk Accordion -->
+        <div class="has-submenu-container">
+            <button onclick="toggleMenu('master-produk')" class="nav-item w-full text-left has-submenu" data-title="Master Produk">
+                <i class="fa-solid fa-tags w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+                <span class="sidebar-text">Master Produk</span>
+                <i id="master-produk-chevron" class="fa-solid fa-chevron-down ml-auto text-[10px] chevron text-zinc-400"></i>
+            </button>
+            <div id="master-produk-menu" class="submenu ml-3 pl-3 mt-1 space-y-0.5" style="border-left:2px solid #F0EDE8;">
+                <a href="../master-data/master-produk-detail.html" class="submenu-item">Detail Produk</a>
+                <a href="../master-data/master-produk-kategori.html" class="submenu-item">Kategori Produk</a>
+            </div>
+        </div>
+
+        <a href="../master-data/master-pengguna.html" class="nav-item" data-title="Master Pengguna">
+            <i class="fa-solid fa-users w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">Master Pengguna</span>
+        </a>
+
+        <p class="px-3 pt-4 pb-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Sistem</p>
+
+        <a href="../sistem/system-log.html" class="nav-item" data-title="System Log">
+            <i class="fa-solid fa-file-shield w-4 h-4 flex items-center justify-center text-[15px] flex-shrink-0"></i>
+            <span class="sidebar-text">System Log</span>
+        </a>
+    </nav>
+</aside>

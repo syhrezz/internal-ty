@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Konversi Kiln Dry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+        }
+    </script>
+
+    <!-- Font Awesome 6.7.2 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Shared Global Styles -->
+    <link rel="stylesheet" href="../../../_shared/css/main.css">
+    <link rel="stylesheet" href="../../../_shared/css/components.css">
+    
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <div id="sidebar" class="flex-shrink-0 h-full"></div>
+
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden" data-title="Konversi Kiln Dry" data-subtitle="Operasional">
+        <!-- TOP BAR -->
+        <div id="navbar" class="h-16 flex-shrink-0"></div>
+
+        <!-- PAGE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- ═══════════════════════════ DASHBOARD VIEW ═══════════════════════════ -->
+            <div id="dashboard-view" class="space-y-6">
+                <!-- Stat Cards Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+                    <!-- Stat 1 -->
+                    <div class="hero-stat bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Total Oven Batch</p>
+                                <h3 id="stat-total-batches" class="text-2xl font-extrabold mt-1.5">0</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <i class="fa-solid fa-folder-open text-lg text-zinc-400"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 2 -->
+                    <div class="hero-stat bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-emerald-100 uppercase tracking-wider">Sawtimber Dioven</p>
+                                <h3 id="stat-total-input-sawtimber" class="text-2xl font-extrabold mt-1.5">0 lbr</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <i class="fa-solid fa-book "></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 3 -->
+                    <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Rata-rata Yield Rate</p>
+                                <h3 id="stat-avg-yield-rate" class="text-2xl font-extrabold mt-1.5">0.0%</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <i class="fa-solid fa-chart-column "></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stat 4 -->
+                    <div class="hero-stat bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-md shadow-indigo-500/10">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Bahan Baku Dihasilkan</p>
+                                <h3 id="stat-total-bahan-baku" class="text-2xl font-extrabold mt-1.5">0 lbr</h3>
+                            </div>
+                            <div class="hero-icon">
+                                <i class="fa-solid fa-cubes  text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Data Card -->
+                <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
+                    <!-- Search & Filters Toolbar -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <!-- Date Filter Pills -->
+                            <div class="flex items-center gap-2" id="date-filter-pills">
+                                <span class="filter-pill active" onclick="setDateFilter('All')">Semua</span>
+                                <span class="filter-pill" onclick="setDateFilter('Today')">Hari Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Week')">Minggu Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Month')">Bulan Ini</span>
+                                <span class="filter-pill" onclick="setDateFilter('Custom')">Pilih Tanggal</span>
+                            </div>
+
+                            <!-- Collapsible Custom Date Range Selector -->
+                            <div id="custom-date-container" class="hidden items-center gap-2 transition-all duration-300">
+                                <div class="flex items-center gap-1.5 bg-white border border-zinc-200 rounded-xl p-1 px-2.5 shadow-sm">
+                                    <input type="date" id="filter-start-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                    <span class="text-zinc-400 text-[10px] font-bold uppercase mx-1">s/d</span>
+                                    <input type="date" id="filter-end-date" class="text-xs border-0 outline-none text-zinc-700 bg-transparent py-1 w-[110px]" onchange="applyCustomDateFilter()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="relative w-full sm:w-auto">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-zinc-400 text-xs"></i>
+                                <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari batch, jenis kayu..." class="search-input">
+                            </div>
+                            <button onclick="setView('form')" class="flex items-center justify-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 active:scale-[0.98] transition-all text-white font-bold text-xs rounded-xl shadow-sm shadow-teal-600/20 whitespace-nowrap">
+                                <i class="fa-solid fa-plus  text-[13px]"></i>
+                                Mulai Oven Batch
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table Container -->
+                    <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-zinc-50 border-b border-zinc-100">
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal Mulai</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Batch ID</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Oven Chamber</th>
+
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Input Sawtimber</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Output Bahan Baku</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Yield Qty</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-28">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
+                                <!-- Dynamic -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Table Empty State -->
+                        <div id="table-empty" class="hidden py-12 text-center">
+                            <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-solid fa-folder-open text-lg text-zinc-400"></i>
+                            </div>
+                            <h4 class="font-bold text-zinc-800 text-[14px]">Belum ada batch pengeringan oven (Kiln Dry)</h4>
+                            <p class="text-zinc-400 text-xs mt-1">Silakan klik "Mulai Oven Batch" untuk memulai pengeringan.</p>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between pt-2">
+                        <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
+                        <div class="flex gap-2">
+                            <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <i class="fa-solid fa-chevron-left text-zinc-600 text-xs"></i>
+                            </button>
+                            <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                                <i class="fa-solid fa-chevron-right text-zinc-600 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════ FORM VIEW ═══════════════════════════ -->
+            <div id="form-view" class="hidden space-y-6">
+                <!-- Form Subheader -->
+                <div class="flex items-center gap-4 mb-2">
+                    <button onclick="setView('dashboard')" class="p-2 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 active:scale-[0.98] transition-all">
+                        <i class="fa-solid fa-arrow-left text-zinc-600 text-sm"></i>
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-zinc-900 text-base">Mulai Oven Batch Baru</h2>
+                        <p class="text-[11px] text-zinc-400 mt-0.5">Input detail kadar air (Moisture Content), chamber oven, dan sawtimber yang dikeringkan</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Oven Parameters Card -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm space-y-4">
+                        <h3 class="font-bold text-zinc-800 text-sm">1. Parameter Oven Kiln Dry</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Oven Chamber *</label>
+                                <select id="form-chamber" class="premium-input cursor-pointer">
+                                    <option value="Chamber 1">Chamber 1</option>
+                                    <option value="Chamber 2">Chamber 2</option>
+                                    <option value="Chamber 3">Chamber 3</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Tanggal Mulai *</label>
+                                <input type="date" id="form-tanggal" class="premium-input" onchange="generateBatchId()">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Batch ID</label>
+                                <input type="text" id="form-batch-id" class="premium-input bg-zinc-50 font-mono" readonly>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Durasi Oven (Hari) *</label>
+                                <input type="number" id="form-duration" placeholder="Contoh: 5" min="1" value="5" class="premium-input">
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Catatan Tambahan</label>
+                            <textarea id="form-catatan" rows="2" placeholder="Catatan khusus batch oven (misal: penumpukan spacer, kualitas kayu)..." class="premium-input resize-none h-[64px]"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Sawtimber Input Card -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm space-y-4">
+                        <h3 class="font-bold text-zinc-800 text-sm">2. Pilih Input Sawtimber</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Item Sawtimber & Stok Tersedia *</label>
+                                <select id="form-input-sawtimber-select" onchange="handleSawtimberSelect()" class="premium-input cursor-pointer">
+                                    <option value="" disabled selected>Pilih Sawtimber...</option>
+                                    <!-- Dynamic -->
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Lembar Dioven *</label>
+                                <div class="flex gap-2">
+                                    <input type="number" id="form-input-jumlah" placeholder="Maks: 0" min="1" oninput="calculateVolumesAndRate()" class="premium-input">
+                                    <span id="sawtimber-stock-badge" class="px-3 py-2 bg-zinc-100 text-zinc-700 font-bold text-xs rounded-xl flex items-center justify-center whitespace-nowrap min-w-[70px]">Stok: -</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dried Materials Output Card -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm space-y-4">
+                        <h3 class="font-bold text-zinc-800 text-sm">3. Output Bahan Baku Kering</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Ukuran Hasil Oven (Dry) *</label>
+                                <select id="form-output-size-select" onchange="calculateVolumesAndRate()" class="premium-input cursor-pointer">
+                                    <!-- Dynamic -->
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Jumlah Lembar Hasil Oven *</label>
+                                <input type="number" id="form-output-jumlah" placeholder="Lembar kering" min="1" oninput="calculateVolumesAndRate()" class="premium-input">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Grade Akhir Bahan Baku *</label>
+                                <select id="form-output-grade" class="premium-input cursor-pointer">
+                                    <option value="A">Grade A (Super/Premium)</option>
+                                    <option value="B">Grade B (Standar)</option>
+                                    <option value="C">Grade C (Ekonomis)</option>
+                                    <option value="D">Grade D (Reject/Pecah)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block">Volume Akhir Estimasi</label>
+                                <input type="text" id="form-output-volume-display" class="premium-input bg-zinc-50 font-semibold" value="0.0000 m³" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ringkasan Kiln Dry Card -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm space-y-4">
+                        <h3 class="font-bold text-zinc-800 text-sm border-b border-zinc-100 pb-2">Ringkasan Kiln Dry</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                            <div class="bg-zinc-50/50 p-3.5 rounded-xl border border-zinc-100/80">
+                                <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Volume Input (Wet)</span>
+                                <span id="summary-volume-input" class="text-sm font-extrabold text-zinc-800">0.0000 m³</span>
+                            </div>
+                            <div class="bg-zinc-50/50 p-3.5 rounded-xl border border-zinc-100/80">
+                                <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Volume Output (Dry)</span>
+                                <span id="summary-volume-output" class="text-sm font-extrabold text-zinc-800">0.0000 m³</span>
+                            </div>
+                            <div class="bg-zinc-50/50 p-3.5 rounded-xl border border-zinc-100/80 text-center col-span-1 md:col-span-2 flex flex-col md:flex-row items-center justify-around gap-2">
+                                <div class="text-center md:text-left">
+                                    <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Efisiensi Hasil Oven (Yield Rate)</span>
+                                    <span id="summary-yield-rate" class="text-2xl font-black text-zinc-800">0.0%</span>
+                                </div>
+                                <div>
+                                    <span id="yield-status-badge" class="inline-block px-2.5 py-1 text-[10px] font-bold rounded-lg bg-zinc-100 text-zinc-500">Menunggu Input</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Action Buttons -->
+                    <div class="flex justify-end gap-3 pt-4 border-t border-zinc-200/60">
+                        <button onclick="setView('dashboard')" class="px-6 py-2.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs rounded-xl transition-all">Batal</button>
+                        <button onclick="saveOvenBatch()" class="px-8 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-md shadow-teal-600/10 transition-all active:scale-[0.98]">Proses Oven & Masuk Bahan Baku</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════ DETAIL MODAL ═══════════════════════════ -->
+    <div id="detail-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeDetailModal()"></div>
+        <div class="modal-content wide space-y-4 max-h-[85vh] overflow-y-auto flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base">Detail Batch Oven Kiln Dry</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">Parameter lengkap pengeringan sawtimber menjadi bahan baku</p>
+                </div>
+                <button onclick="closeDetailModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <i class="fa-solid fa-xmark  text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1">
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-zinc-50/50 p-4 rounded-xl border border-zinc-100">
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Tanggal Mulai</span>
+                        <span id="detail-tanggal" class="text-xs font-bold text-zinc-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Batch ID</span>
+                        <span id="detail-batch-id" class="text-xs font-bold text-zinc-800 font-mono"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Oven Chamber</span>
+                        <span id="detail-chamber" class="text-xs font-bold text-zinc-800"></span>
+                    </div>
+                    <div class="md:col-span-3">
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Catatan / Keterangan</span>
+                        <span id="detail-catatan" class="text-xs text-zinc-600 block max-h-[60px] overflow-y-auto"></span>
+                    </div>
+                </div>
+
+                <!-- Input & Output Split -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Wet Input Sawtimber -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">Input Sawtimber (Wet)</h4>
+                        <div class="p-4 border border-zinc-100 bg-teal-50/10 rounded-xl space-y-3">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-semibold">Jenis Kayu:</span>
+                                <span id="detail-input-jenis" class="font-bold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-semibold">Grade Sawtimber:</span>
+                                <span id="detail-input-grade" class="font-bold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-semibold">Ukuran Papan:</span>
+                                <span id="detail-input-size" class="font-bold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs border-t border-zinc-100 pt-2">
+                                <span class="text-zinc-500 font-bold">Total Kuantitas:</span>
+                                <span id="detail-input-jumlah" class="font-extrabold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-bold">Total Volume:</span>
+                                <span id="detail-input-volume" class="font-extrabold text-zinc-800"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dry Output Bahan Baku -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-bold text-zinc-700 uppercase tracking-wider">Output Bahan Baku (Dry)</h4>
+                        <div class="p-4 border border-zinc-100 bg-indigo-50/10 rounded-xl space-y-3">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-semibold">Nama Item:</span>
+                                <span id="detail-output-jenis" class="font-bold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-semibold">Grade Akhir:</span>
+                                <span id="detail-output-grade" class="font-bold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs border-t border-zinc-100 pt-2">
+                                <span class="text-zinc-500 font-bold">Total Kuantitas:</span>
+                                <span id="detail-output-jumlah" class="font-extrabold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-bold">Total Volume:</span>
+                                <span id="detail-output-volume" class="font-extrabold text-zinc-800"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-zinc-500 font-bold">Yield Rate (Efisiensi Qty):</span>
+                                <span id="detail-yield-rate" class="font-extrabold text-teal-600"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-between border-t border-zinc-100 pt-3 flex-shrink-0">
+                <div class="text-[11px] font-semibold text-zinc-500">
+                    Durasi Oven: <span id="detail-duration" class="font-extrabold text-zinc-800">0</span> hari
+                </div>
+                <button onclick="closeDetailModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+
+    <!-- ═══════════════════════════ JAVASCRIPT CODE ═══════════════════════════ -->
+    <script src="konversi-kiln-dry.js"></script>
+
+    <!-- Global Shared Logic -->
+    <script src="../../../_shared/js/main.js"></script>
+    <script src="../../../_shared/js/utils.js"></script>
+</body>
+
+</html>
+

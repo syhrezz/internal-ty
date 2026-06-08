@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Live Stock TV Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome 6.7.2 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Shared Global Styles -->
+    <link rel="stylesheet" href="../../../_shared/css/main.css">
+    <link rel="stylesheet" href="../../../_shared/css/components.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <div id="sidebar" class="flex-shrink-0 h-full"></div>
+
+    <!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative" data-title="Dashboard" data-subtitle="Real-time stock monitoring slideshow board">
+
+        <!-- AUTO-PLAY PROGRESS BAR (Top border in TV mode) -->
+        <div class="progress-bar-container flex-shrink-0">
+            <div id="slide-progress" class="progress-bar-fill"></div>
+        </div>
+
+        <!-- TV MODE HEADER -->
+        <div id="tv-mode-header"
+            class="hidden h-[90px] bg-white items-center justify-between px-8 border-b border-zinc-200 select-none">
+            <div class="flex items-center gap-4">
+                <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-chart-simple text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-3">
+                        REALTIME MONITOR
+                        <span
+                            class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full pulse-live select-none">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                            LIVE SYNC ACTIVE
+                        </span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Slide Indicator HUD -->
+            <div class="flex items-center gap-2 px-5 py-2.5 bg-zinc-100 rounded-2xl border border-zinc-200">
+                <span class="text-xs font-black text-zinc-500 uppercase tracking-widest">Halaman:</span>
+                <span id="tv-slide-indicator" class="text-sm font-black text-amber-700">1 / 6</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Clock -->
+                <div
+                    class="text-sm font-extrabold text-zinc-700 bg-zinc-50 border border-zinc-150 px-4 py-2.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-zinc-400 text-[11px]"></i>
+                    <span id="tv-live-datetime">-</span>
+                </div>
+
+                <!-- Slide Control Panel (TV Mode) -->
+                <div class="flex items-center gap-1 bg-zinc-50 border border-zinc-250 p-1 rounded-xl">
+                    <button onclick="prevSlide()"
+                        class="p-2 hover:bg-zinc-100 rounded-lg text-zinc-600 transition-colors" title="Previous Page">
+                        <i class="fa-solid fa-chevron-left  text-xs"></i>
+                    </button>
+                    <button id="tv-play-btn" onclick="togglePlay()"
+                        class="p-2 hover:bg-zinc-100 rounded-lg text-amber-700 transition-colors"
+                        title="Pause Rotation">
+                        <i class="fa-solid fa-pause  text-xs"></i>
+                    </button>
+                    <button onclick="nextSlide()"
+                        class="p-2 hover:bg-zinc-100 rounded-lg text-zinc-600 transition-colors" title="Next Page">
+                        <i class="fa-solid fa-chevron-right  text-xs"></i>
+                    </button>
+                </div>
+
+                <button onclick="toggleTVMode()"
+                    class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-xmark  text-sm"></i>
+                    EXIT TV MODE
+                </button>
+            </div>
+        </div>
+
+        <!-- STANDARD DESKTOP HEADER -->
+        <div id="navbar" class="h-16 flex-shrink-0"></div>
+
+        <!-- SUB-HEADER FOR TABS & CONTROLS -->
+        <div id="desktop-controls-bar"
+            class="bg-white border-b border-zinc-200 px-4 md:px-7 py-3 flex flex-col md:flex-row md:items-center justify-between z-20 flex-shrink-0 gap-3">
+            <div class="flex items-center gap-3 overflow-x-auto w-full md:w-auto" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider whitespace-nowrap">Pilih Kategori:</span>
+                <!-- Tab Controls (Desktop) -->
+                <div class="flex items-center gap-1.5 p-1 bg-zinc-50 border border-zinc-200 rounded-xl flex-shrink-0"
+                    id="desktop-tabs">
+                    <button onclick="setSlide(1)"
+                        class="tab-btn px-3 py-1.5 text-xs font-extrabold rounded-lg transition-all bg-white shadow-sm text-zinc-900"
+                        data-slide="1">Overview</button>
+                    <button onclick="setSlide(2)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="2">Logs</button>
+                    <button onclick="setSlide(3)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="3">Sawtimber</button>
+                    <button onclick="setSlide(4)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="4">Oven KD</button>
+                    <button onclick="setSlide(5)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="5">Kaca</button>
+                    <button onclick="setSlide(6)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="6">Crosscut</button>
+                    <button onclick="setSlide(7)"
+                        class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-zinc-400 hover:text-zinc-700"
+                        data-slide="7">Produk Jadi</button>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-2">
+                <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Auto Rotate Slideshow:</span>
+                <!-- Play/Pause Controls -->
+                <button id="desktop-play-btn" onclick="togglePlay()"
+                    class="p-2 border border-zinc-200 rounded-xl text-amber-700 hover:bg-zinc-50 transition-colors"
+                    title="Pause Auto Rotation">
+                    <i class="fa-solid fa-play  text-xs"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTAINER FOR SCROLLABLE SLIDESHOW VIEWS -->
+        <div class="flex-1 overflow-y-auto p-7" id="dashboard-content">
+
+            <!-- ================= SLIDE 1: OVERVIEW SUMMARY ================= -->
+            <div id="slide-1" class="slide-container active">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5 flex items-center gap-2">
+                    RINGKASAN TOTAL STOK LAPANGAN
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 tv-zoom-grid tv-grid-cols-3">
+
+                    <!-- Card 1: Logs -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.25);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    LOG KAYU MENTAH</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <i class="fa-solid fa-hashtag text-white text-lg text-white"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-logs-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Volume Tersedia</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume" id="summary-logs-vol">Volume:
+                                0.00 m³</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Sawtimber -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #22C55E 0%, #16A34A 50%, #15803D 100%); box-shadow: 0 8px 30px rgba(22, 163, 74, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    SAWTIMBER PAPAN BASAH</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <i class="fa-solid fa-briefcase text-white"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-saw-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Volume Tersedia</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume" id="summary-saw-vol">Volume:
+                                0.00 m³</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Papan Kering Oven KD -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #0F766E 100%); box-shadow: 0 8px 30px rgba(13, 148, 136, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    PAPAN KERING OVEN KD</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <i class="fa-solid fa-chart-column text-white"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-kd-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Kategori Aktif</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume" id="summary-kd-spec">0
+                                Kategori</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Crosscut -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%); box-shadow: 0 8px 30px rgba(124, 58, 237, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    STOK CROSSCUT</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <i class="fa-solid fa-truck text-white text-lg text-white"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-crosscut-vol">0.00</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Status Stok</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume">Sisa potongan/belahan
+                                m³</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Kaca Lembaran -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #64748B 0%, #475569 50%, #334155 100%); box-shadow: 0 8px 30px rgba(71, 85, 105, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    KACA LEMBARAN</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <i class="fa-solid fa-border-all text-white text-lg text-white"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-glass-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Status Bahan</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume">Bahan baku lembaran</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 6: Produk Jadi -->
+                    <div class="overview-card"
+                        style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%); box-shadow: 0 8px 30px rgba(37, 99, 235, 0.2);">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p
+                                    class="text-[11px] font-bold text-white/70 uppercase tracking-widest tv-card-subtitle">
+                                    PRODUK JADI</p>
+                            </div>
+                            <div class="card-icon-bg">
+                                <i class="fa-solid fa-cart-shopping text-white text-lg text-white"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-black text-white tv-card-count" id="summary-product-qty">0</h3>
+                        <div class="mt-4 pt-3 flex items-center justify-between"
+                            style="border-top:1px solid rgba(255,255,255,0.2);">
+                            <span class="text-[11px] text-white/60">Status Unit</span>
+                            <span class="text-[11px] font-bold text-white tv-card-volume">Unit siap dijual</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 2: LOG DETAILS FOCUS ================= -->
+            <div id="slide-2" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Log Kayu Mentah
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-logs-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 3: SAWTIMBER DETAILS FOCUS ================= -->
+            <div id="slide-3" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Sawtimber Papan Basah
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-saw-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 4: BAHAN BAKU FOCUS ================= -->
+            <div id="slide-4" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Bahan Baku Oven KD
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-kd-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 5: KACA FOCUS ================= -->
+            <div id="slide-5" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Kaca Lembaran
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-kaca-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 6: CROSSCUT FOCUS ================= -->
+            <div id="slide-6" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Potongan Crosscut
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-crosscut-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 7: PRODUK JADI FOCUS ================= -->
+            <div id="slide-7" class="slide-container">
+                <h2 class="text-lg font-black text-zinc-900 uppercase tracking-wide mb-5">
+                    Live Stock: Produk Jadi Siap Dijual
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3.5 tv-grid-cols-4" id="grid-products-focus">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+        </div><!-- /scrollable -->
+    </main>
+
+    <!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+    <script src="index.js"></script>
+
+    <!-- Global Shared Logic -->
+    <script src="../../../_shared/js/main.js"></script>
+    <script src="../../../_shared/js/utils.js"></script>
+</body>
+
+</html>

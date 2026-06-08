@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoodTrack Pro — Stok Bahan Baku</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } }
+        }
+    </script>
+
+    <!-- Font Awesome 6.7.2 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- Shared Global Styles -->
+    <link rel="stylesheet" href="../../../_shared/css/main.css">
+    <link rel="stylesheet" href="../../../_shared/css/components.css">
+    
+</head>
+
+<body class="flex h-screen overflow-hidden bg-[#F5F3EF] font-sans">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <div id="sidebar" class="flex-shrink-0 h-full"></div>
+
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden" data-title="Stok Bahan Baku" data-subtitle="Stok">
+        <!-- TOP BAR -->
+        <div id="navbar" class="h-16 flex-shrink-0"></div>
+
+        <!-- PAGE CONTENT -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- Stat Cards Row -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim d1">
+                <!-- Stat 1 -->
+                <div class="hero-stat bg-gradient-to-br from-teal-500 to-teal-600 text-white shadow-md shadow-teal-500/10">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Total Papan Oven KD</p>
+                            <h3 id="stat-total-boards" class="text-2xl font-extrabold mt-1.5">0 pcs</h3>
+                        </div>
+                        <div class="hero-icon">
+                            <i class="fa-solid fa-tree  text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="hero-stat bg-gradient-to-br from-indigo-500 to-indigo-600 text-white shadow-md shadow-indigo-500/10">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wider">Total Lembar Kaca</p>
+                            <h3 id="stat-total-glass" class="text-2xl font-extrabold mt-1.5">0 lembar</h3>
+                        </div>
+                        <div class="hero-icon">
+                            <i class="fa-solid fa-play  text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="hero-stat bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-md shadow-amber-500/10">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-amber-100 uppercase tracking-wider">Total Item Bahan Baku</p>
+                            <h3 id="stat-total-types" class="text-2xl font-extrabold mt-1.5">0 Spesifikasi</h3>
+                        </div>
+                        <div class="hero-icon">
+                            <i class="fa-solid fa-tags  text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="hero-stat bg-gradient-to-br from-zinc-800 to-zinc-900 text-white shadow-md shadow-zinc-800/10">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-zinc-300 uppercase tracking-wider">Kategori Kritis (<= 5)</p>
+                            <h3 id="stat-alerts" class="text-2xl font-extrabold mt-1.5">0 Item</h3>
+                        </div>
+                        <div class="hero-icon bg-zinc-700/50">
+                            <i class="fa-solid fa-triangle-exclamation  text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Data Table Card -->
+            <div class="glass-card rounded-2xl shadow-sm p-6 space-y-4 anim d2">
+                <!-- Search & Filters Toolbar -->
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                        <!-- Dropdown Filters -->
+                        <select id="category-filter" onchange="handleCategoryFilter(this.value)" class="premium-select w-full sm:w-[220px]">
+                            <option value="All">Semua Kategori</option>
+                            <option value="Sawtimber">Papan Kering (Sawtimber KD)</option>
+                            <option value="Glass">Kaca Lembaran</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <div class="relative w-full md:w-auto">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-zinc-400 text-xs"></i>
+                            <input type="text" id="table-search" oninput="handleSearch(this.value)" placeholder="Cari bahan baku, kaca, grade..." class="search-input w-full md:w-[260px]">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="overflow-x-auto border border-zinc-100 rounded-xl bg-white">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-zinc-50 border-b border-zinc-100">
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider w-12 text-center">No</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Kategori</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Spesifikasi Material</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah Masuk</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah Keluar (Produksi)</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-right">Sisa Stok</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center">Status</th>
+                                <th class="py-3 px-4 text-[11px] font-bold text-zinc-400 uppercase tracking-wider text-center w-24">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="divide-y divide-zinc-50 text-[13px] text-zinc-700">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                    
+                    <!-- Table Empty State -->
+                    <div id="table-empty" class="hidden py-12 text-center">
+                        <div class="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-folder-open text-lg text-zinc-400"></i>
+                        </div>
+                        <h4 class="font-bold text-zinc-800 text-[14px]">Stok bahan baku kosong</h4>
+                        <p class="text-zinc-400 text-xs mt-1">Belum ada mutasi bahan baku terdaftar di sistem.</p>
+                    </div>
+                </div>
+
+                <!-- Table Footer Pagination -->
+                <div class="flex items-center justify-between pt-2">
+                    <p id="table-pagination-info" class="text-xs text-zinc-400">Menampilkan 0-0 dari 0 entries</p>
+                    <div class="flex gap-2">
+                        <button onclick="prevPage()" id="btn-prev" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                            <i class="fa-solid fa-chevron-left text-zinc-600 text-xs"></i>
+                        </button>
+                        <button onclick="nextPage()" id="btn-next" class="p-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all">
+                            <i class="fa-solid fa-chevron-right text-zinc-600 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════ HISTORY MODAL ═══════════════════════════ -->
+    <div id="history-modal" class="modal-container">
+        <div class="modal-backdrop" onclick="closeHistoryModal()"></div>
+        <div class="modal-content space-y-4 max-h-[85vh] overflow-y-auto flex flex-col" style="width: 780px; max-width: 95%;">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-zinc-100 pb-3 flex-shrink-0">
+                <div>
+                    <h3 class="font-extrabold text-zinc-900 text-base" id="modal-title">Riwayat Mutasi Bahan Baku</h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5" id="modal-subtitle">Log aktivitas transaksi keluar masuk stok bahan baku</p>
+                </div>
+                <button onclick="closeHistoryModal()" class="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-lg hover:bg-zinc-50 transition-colors">
+                    <i class="fa-solid fa-xmark  text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="space-y-4 flex-1 overflow-y-auto pr-1">
+                <!-- Info cards summary -->
+                <div class="grid grid-cols-3 gap-3 bg-zinc-50 p-4 rounded-xl border border-zinc-100">
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Masuk</span>
+                        <span id="hist-total-received" class="text-sm font-extrabold text-zinc-800">0 unit</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Keluar (Produksi)</span>
+                        <span id="hist-total-consumed" class="text-sm font-extrabold text-zinc-800">0 unit</span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Stok Saat Ini</span>
+                        <span id="hist-current-stock" class="text-sm font-extrabold text-emerald-700">0 unit</span>
+                    </div>
+                </div>
+
+                <!-- History Table -->
+                <div class="border border-zinc-100 rounded-xl overflow-hidden bg-white">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-zinc-50 border-b border-zinc-100">
+                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Tanggal</th>
+                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-center">Aktivitas</th>
+                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Referensi / ID</th>
+                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider text-right">Jumlah</th>
+                                <th class="py-2.5 px-3 font-bold text-zinc-400 uppercase tracking-wider">Keterangan / Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body" class="divide-y divide-zinc-50 text-zinc-700">
+                            <!-- Dynamic history items -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end border-t border-zinc-100 pt-3 flex-shrink-0">
+                <button onclick="closeHistoryModal()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-900 active:scale-[0.98] text-white font-bold text-xs rounded-xl transition-all">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="stok-bahan-baku.js"></script>
+
+    <!-- Global Shared Logic -->
+    <script src="../../../_shared/js/main.js"></script>
+    <script src="../../../_shared/js/utils.js"></script>
+</body>
+
+</html>
